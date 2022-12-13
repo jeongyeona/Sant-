@@ -46,7 +46,7 @@ def loginok(request):
             
             wine_user = WineUser.objects.get(id=login_id)
             # if wine_user == 0:
-            #     return render(request, "err.html")
+            # return render(request, "err.html")
             if check_password(login_pwd, wine_user.pwd): # 비번이 일치하면
                 request.session['WineUser'] = wine_user.id
                 return redirect('/')
@@ -56,7 +56,7 @@ def loginok(request):
                 
                 
     return render(request, "err.html")
-                
+    
 def err(request):
     return render(request, 'err.html')
     
@@ -78,12 +78,12 @@ def grade(request):
         print(id)
         print(grade)
         userid = WineUser.objects.get(id=id)
-        wineid = Wine.objects.get(id=137203)
+        wineid = Wine.objects.get(id=137622)
         WineGrade(
-            wu = userid,
-            wine = wineid,
+            userid = userid,
+            wineid = wineid,
             grade = grade
                 ).save()
-        redirect('/')
+        redirect('main.html')
     
-    return render(request, 'grade.html', {'grade':grade})
+    return render(request, 'main.html', {'grade':grade})

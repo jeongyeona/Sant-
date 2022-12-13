@@ -1,16 +1,17 @@
 from django.db import models
 
 class WineUser(models.Model):
-    id = models.CharField(unique=True, max_length=30)
-    pwd = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=30)
-    email = models.CharField(max_length=30)
+    id = models.CharField(unique=True, max_length=30, blank=True, null=True)
+    pwd = models.CharField(max_length=100, blank=True, null=True)
+    nickname = models.CharField(max_length=30, blank=True, null=True)
+    email = models.CharField(max_length=30, blank=True, null=True)
     regdate = models.DateTimeField()
     pid = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'wine_user'
+
         
         
 class Wine(models.Model):
@@ -39,11 +40,11 @@ class Wine(models.Model):
         
         
 class WineGrade(models.Model):
-    wu = models.OneToOneField('WineUser', models.DO_NOTHING, db_column='wu', primary_key=True)
-    wine = models.ForeignKey(Wine, models.DO_NOTHING, db_column='wine')
+    userid = models.OneToOneField('WineUser', models.DO_NOTHING, db_column='userid', primary_key=True)
+    wineid = models.ForeignKey(Wine, models.DO_NOTHING, db_column='wineid')
     grade = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'wine_grade'
-        unique_together = (('wu', 'wine'),)
+        unique_together = (('userid', 'wineid'),)
