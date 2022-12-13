@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>로그인</h1>
+<a href="/">돌아가기</a>
+{{error}}
+<!-- <p style="color:red">*{{error}}*</p> -->
+<form action="loginok" method="post">{% csrf_token %}
+아이디<input type="text" placeholder="아이디" name="lo_id"/>
+<br />
+패스워드<input type="text" placeholder="패스워드" name="lo_pwd"/>
+<br />
+<input type="submit" value="로그인"/>
+</form>
+</body>
+</html>

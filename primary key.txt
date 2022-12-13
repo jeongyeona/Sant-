@@ -1,0 +1,33 @@
+create table wine_grade(
+wu_id  varchar(30),
+wine_id  varchar(30),
+grade int(5),
+primary key (wu_id, wine_id)
+);
+
+
+ALTER TABLE wine_grade ADD CONSTRAINT id FOREIGN KEY (wine_id)
+REFERENCES wine_user (id);
+
+
+ALTER TABLE create tab
+ADD CONSTRAINT user
+FOREIGN KEY (wu_id)
+REFERENCES wine_user (id);
+
+ALTER TABLE wine_grade ADD FOREIGN KEY(ID) REFERENCES 참조할테이블;
+
+create table employee (
+  	id int auto_increment primary key,
+	name varchar(20) not null,
+	code char(13) not null unique key,
+	dept_id int,
+	foreign key (dept_id) references department(id)
+);
+
+alter table wine_grade add foreign key (wu_id) REFERENCES wine_user(id);
+
+ALTER TABLE `wine_user`.`COMMENT` ADD PRIMARY KEY('p_id') AUTO_INCREMENT;
+
+
+ALTER TABLE wine_grade ADD UNIQUE p_id (column1);
