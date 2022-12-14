@@ -22,7 +22,7 @@ def signupok(request):
         if not(id and name and pwd and pwdok):
             err_data['error'] = "모든 값을 입력해야 합니다."
         elif pwd != pwdok:
-            err_data['error'] = "비밀번호가 틀립니다."
+            err_data['error'] = "비밀번호가 틀립니다."   # 냠냠 배고파 ..ㅎㅎ 쉬는시간 쉬는시간 쉬는시간 쉬는시간
         else:
             WineUser(
                 id=id,
@@ -87,3 +87,52 @@ def grade(request):
         redirect('main.html')
     
     return render(request, 'main.html', {'grade':grade})
+
+def pwdok(request):
+    
+    return render(request, "pwdok.html")
+
+def pwdreset(request):
+    lo_error = {}
+    if request.method == "POST":
+        name = request.POST.get('name')
+        id = request.POST.get('id')
+        email = request.POST.get('email')
+        # if (WineUser.objects.get(id=id)):
+        #     lo_error['err']="없는 아이디입니다."
+        
+        if not(id and name and email):
+            lo_error['err']="정보를 모두 입력해주세요"
+        else:
+            if WineUser.objects.filter(nickname=name,
+                                             id=id, email=email).exists():
+                print(WineUser.objects.filter(nickname=name,
+                                             id=id, email=email).exists())
+                print('존재하는 회원입니다') # 무ㅏㅓ 된거겠지 뭐
+                # if wine_user == 0:
+                #     return render(request, "err.html")
+                return render(request, "pwdreset.html", {'id':id})
+            else:
+                print('false')
+                lo_error['err'] = "비밀번호를 틀렸습니다."
+                return render(request, "err.html")
+    
+
+def pwdsuc(request):
+    err_data = {}
+    id=request.POST.get('id')
+    print(id)
+    if request.method == "POST":
+        new = request.POST.get('new')
+        newok = request.POST.get('newok')
+    
+        if new != newok:
+            err_data['error'] = "비밀번호가 틀립니다."
+    
+        else:
+            wine_user = WineUser.objects.get(id=request.POST.get('id'))
+            wine_user.pwd=make_password(new)
+            wine_user.save()
+            print(wine_user)
+            return redirect("/")
+    return render(request, 'err.html')
