@@ -3,19 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+	crossorigin="anonymous">
 </head>
 <body>
-<h3>비밀번호 변경</h3>
-<form action="pwdsuc" method="post">{% csrf_token %}
-{% if user %}
-<input type="hidden" name="id" value="{{id}}"/>
-{% endif %}
-새비번<input type="text" placeholder="새비번" name="new"/>
-<br />
-새비번확인<input type="text" placeholder="새비번확인" name="newok"/>
-<br />
-<input type="submit" value="비번변경"/>
-<br />
-</form>
+	<h3>비밀번호 변경</h3>
+	<form action="pwdsuc" method="post" id="pwdreset">
+		{% csrf_token %} 
+		{% if user %} 
+		<input type="hidden" name="id" value="{{id}}" />  
+		새비번<input  class="form-control" type="password" placeholder="새비번"
+			name="new" id="Userpwd" />
+		<div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고 
+			8글자~13글자 이내로 입력해주세요.</div>
+		{% endif %}<br /> 
+		새비번확인<input class="form-control" type="password" 
+		placeholder="새비번확인" name="newok" id="Userpwdok" /> 
+			<div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
+			<br /> <input
+			type="submit" value="비번변경" /> <br />
+	</form>
 </body>
+<script>
+	function checkPwd() {
+		document.querySelector("#Userpwd").classList.remove("is-valid");
+		document.querySelector("#Userpwd").classList.remove("is-invalid");
+		document.querySelector("#Userpwdok").classList.remove("is-valid");
+		document.querySelector("#Userpwdok").classList.remove("is-invalid");
+
+		const User_pwd = document.querySelector("#Userpwd").value;
+		const User_pwdok = document.querySelector("#Userpwdok").value;
+		const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,13}$/;
+		if (!reg.test(User_pwd)) {
+			document.querySelector("#Userpwd").classList.add("is-invalid");
+			isPwdValid = false;
+			return;
+		} else {
+			document.querySelector("#Userpwd").classList.add("is-valid");
+		}
+		// 비밀번호 다르면 발생
+		if (User_pwd != User_pwdok) {
+			document.querySelector("#Userpwdok").classList.add("is-invalid");
+			isPwdValid = false;
+		} else {
+			document.querySelector("#Userpwdok").classList.add("is-valid");
+			isPwdValid = true;
+		}
+	}
+
+	//비밀번호를 검증하는 함수
+	document.querySelector("#Userpwd").addEventListener("input", function() {
+		checkPwd();
+	});
+	document.querySelector("#Userpwdok").addEventListener("input", function() {
+		checkPwd();
+	});
+
+	document.querySelector("#pwdreset").addEventListener("submit",
+			function(event) {
+				if (document.querySelector("#Userpwd").value === "") {
+					event.preventDefault()
+					alert('비밀번호를 입력해주세요');
+				}
+			});
+</script>
 </html>

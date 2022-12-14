@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h3>정보 확인</h3>
-	<form action="pwdreset" method="post">
+	<form action="pwdreset" method="post" id="pwdok">
 		{% csrf_token %} 
 		닉네임<input type="text" placeholder="닉네임" name="name"
 			id="i_name" /> <br /> 
@@ -20,4 +20,18 @@
 			type="submit" id="btnOk" value="냠냠" /> <br />
 	</form>
 </body>
+<script>
+document.querySelector("#pwdok").addEventListener("submit", function (event) {
+    if (document.querySelector("#i_name").value === "") {
+      event.preventDefault()
+      alert('닉네임을 입력해주세요');
+    } else if (document.querySelector("#i_id").value === "") {
+      event.preventDefault()
+      alert('아이디를 입력해주세요');
+    } else if (document.querySelector("#i_email").value === "") {
+        event.preventDefault()
+        alert('이메일을 입력해주세요');
+      }
+    });
+</script>
 </html>
