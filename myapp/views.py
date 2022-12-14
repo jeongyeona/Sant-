@@ -144,3 +144,9 @@ def pwdsuc(request):
             print(wine_user)
             return redirect("/")
     return render(request, 'err.html')
+
+def addinfo(request):
+    wine_user = WineUser.objects.all()
+    wine = Wine.objects.all()
+    wine_grade = WineGrade.objects.all()
+    return render(request, 'addinfo.html', {'user':wine_user, 'wine':wine, 'grade':wine_grade})

@@ -28,5 +28,6 @@ urlpatterns = [
     path('grade', views.grade), 
     path('pwdok', views.pwdok),  
     path('pwdreset', views.pwdreset), 
-    path('pwdsuc', views.pwdsuc) 
+    path('pwdsuc', views.pwdsuc), 
+    path('addinfo', views.addinfo)  
 ]
