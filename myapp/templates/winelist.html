@@ -13,6 +13,8 @@
 	rel="stylesheet"
 	integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
 	crossorigin="anonymous">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>Document</title>
 </head>
 <!-- wine list css -->
@@ -42,12 +44,16 @@ li {
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 #wineListBox_li {
 	background-color: #F9F1DF;
 	width: 30%;
-	height: 100%;
+	flex-direction: column;
+	margin-top: 40px;
+	text-decoration: none;
+	color: black;
 }
 
 #listwinetest {
@@ -55,8 +61,17 @@ li {
 	margin: 30px 0px;
 }
 
+#winelistimg svg {
+	display: none
+}
+
+#wineListBox_div:hover {
+	filter: brightness(75%);
+}
+
 #winelistimg {
 	box-shadow: 0 0 1em white;
+	background-color: white;
 }
 
 #wineListBoxInf {
@@ -68,14 +83,87 @@ li {
 	display: flex;
 	justify-content: flex-start;
 	margin-left: 10px;
+	text-decoration: none;
 }
 
 #winenameKo, #winenameEn {
 	font-size: 1.2rem;
+	width: 90%;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	white-space: nowrap;
+}
+
+#winenameKo::-webkit-scrollbar, #winenameEn::-webkit-scrollbar {
+	display: none;
+}
+
+#listfilterBox {
+	background-color: white;
+	margin-top: 40px;
 }
 
 #wineType {
 	margin-left: 5px;
+}
+
+#listfiltertypes {
+	width: 100%;
+}
+
+#listfiltertypebutton input {
+	margin-top: 10px;
+	width: 30%;
+	border-radius: 20px;
+}
+
+#listfiltercountry {
+	width: 100%;
+}
+
+#listfiltercountrybutton input {
+	margin-top: 10px;
+	border-radius: 14px;
+}
+
+#listfilterpriceheaderno {
+	display: flex;
+	width: 100%;
+}
+
+#waa1239, #listfilterpriceheaderno {
+	display: flex;
+	justify-content: start;
+	margin-left: 10px;
+}
+
+
+/* 별점 코드 */
+#starform fieldset{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+}
+#starform fieldset legend{
+    font-size:12px;
+    text-align: center;
+}
+#starform input[type=radio]{
+    display: none;
+}
+#starform label{
+    font-size: 1em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+}
+#starform label:hover{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#starform label:hover ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#starform input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
 </style>
 <body id="wineListback">
@@ -86,33 +174,147 @@ li {
 	<main>
 		<div class="container text-center">
 			<div class="row">
-				<div class="col-sm-4"></div>
+				<div class="col-sm-4">
+					<div id="listfilterBox">
+						<form>
+							<h4 id="waa1239">Search</h4>
+							<input type="text" placeholder="Search" id="wineSearch"
+								onkeyup="search(this)">
+						</form>
+						<div id="listfiltertypes">
+							<h4 id="waa1239">Wine Types</h4>
+							<form id="listfiltertypebutton">
+								<input type="button" value="레드" name="red"> <input
+									type="button" value="화이트" name="white"> <input
+									type="button" value="스파클링" name="sparkling">
+							</form>
+							<form id="listfiltertypebutton">
+								<input type="button" value="로제" name="rose"> <input
+									type="button" value="주정강화" name="fort"> <input
+									type="button" value="기타" name="exception">
+							</form>
+						</div>
+						<!-- 너무 어려움 마지막에 할 예정 -->
+						<div id="listfilterprice">
+							<div id="listfilterpriceheader">
+								<div id="listfilterpriceheaderno">
+									<h4>Price Range</h4>
+									<input type="checkbox">
+									<h4>가격정보 없음</h4>
+								</div>
+								<form>
+									<!-- <input type="range"> -->
+								</form>
+							</div>
+						</div>
+						<div id="listfiltercountry">
+							<form id="listfiltercountrybutton">
+								<input type="button" value="프랑스" name="france"> <input
+									type="button" value="이탈리아" name="italy"> <input
+									type="button" value="스페인" name="spain"> <input
+									type="button" value="포르투갈" name="Portugal"> <input
+									type="button" value="미국" name="usa">
+							</form>
+							<form id="listfiltercountrybutton">
+								<input type="button" value="아르헨티나" name="argentina"> <input
+									type="button" value="뉴질랜드" name="NewZealand"> <input
+									type="button" value="독일" name="Germany"> <input
+									type="button" value="호주" name="australia"> <input
+									type="button" value="칠레" name="Chile">
+							</form>
+							<form id="listfiltercountrybutton">
+								<input type="button" value="남아프리카 공화국"
+									name="RepublicofSouthAfrica"> <input type="button"
+									value="기타국가" name="otherCountries">
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- 와인 리스트 출력 -->
 				<div class="col-sm-8">
 					<ul id="wineListBox_ul">
-						<li id="wineListBox_li">
+						{% for w in question_list %}
+						<a id="wineListBox_li" href="/">
 							<div id="wineListBox_div">
 								<div id="winelistimg">
 									<!-- 와인 종류에 맞게 뒷 배경색 바꿀까? 참고 wine 1987 -->
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+										fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+										<path
+											d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /></svg>
+
 									<img src="static/images/listwinetest.png" alt=""
 										id="listwinetest">
 								</div>
 							</div>
-							<div>
-							{% for w in winedata %}
-								<ul id="wineListBoxInf">
-									<li id="winenameKo">{{w.name_kr}}</li>
-									<li id="winenameEn">{{w.name_en}}</li>
-									<br>
-									<li id="wineRegion">{{rs}}</li>
-									<li id="wineType">{{w.type}}</li>
-									<li id="winePrice">{{w.price}}</</li>
-									<li>&#9829;&#9829;&#9829;&#9829;&#9829;</li>
-								</ul>
-							{% endfor %}
-							</div>
-						</li>
+							<ul id="wineListBoxInf">
+								<li id="winenameKo">{{w.name_kr}}</li>
+								<li id="winenameEn">{{w.name_en}}</li>
+								<br>
+								<li id="wineRegion">{{rs}}</li>
+								<li id="wineType">{{w.type}}</li> {% if w.price == 0 %}
+								<li id="winePrice">가격정보 없음</</li> {% else %}
+								<li id="winePrice">{{w.price}}</</li> {% endif %}
+								<!-- 별점 코드(나중에 상세페이지로), 여기는 예상별점 -->
+								<li>
+									<form name="starform" id="starform" method="post" action="grade">{% csrf_token %}
+										<fieldset>
+										    <button class="btn btn-primary" type="submit">평가하기</button>
+											<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" >⭐</label>
+					                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2" >⭐</label>
+					                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3" >⭐</label>
+					                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4" >⭐</label>
+					                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5" >⭐</label>
+					                        <input type="hidden" name="id" id="id" value="{{request.session.WineUser}}"/>
+					                	</fieldset>
+									</form>
+								</li>
+							</ul>
+						</a> 
+						{% endfor %}
 					</ul>
 				</div>
+				<tr>
+					<!-- 페이징처리 시작 -->
+				    <ul class="pagination justify-content-center">
+				        <!-- 이전페이지 -->
+				        {% if question_list.has_previous %}
+				        <li class="page-item">
+				            <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
+						</li>
+						{% else %}
+				        <li class="page-item disabled">
+				            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+				        </li>
+				        {% endif %}
+				        <!-- 페이지리스트 -->
+				        {% for page_number in question_list.paginator.page_range %}
+				        {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+				        {% if page_number == question_list.number %}
+				        <li class="page-item active" aria-current="page">
+				            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+				        </li>
+				        {% else %}
+				        <li class="page-item">
+				            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+				        </li>
+				        {% endif %}
+				        {% endif %}
+				        {% endfor %}
+				        <!-- 다음페이지 -->
+				        {% if question_list.has_next %}
+				        <li class="page-item">
+				            <a class="page-link" href="?page={{ question_list.next_page_number }}">다음</a>
+				        </li>
+				        {% else %}
+				        <li class="page-item disabled">
+				            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+				        </li>
+				        {% endif %}
+				    </ul>
+				    <!-- 페이징처리 끝 -->
+					</td>
+				</tr>
 			</div>
 		</div>
 	</main>

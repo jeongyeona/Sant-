@@ -125,35 +125,14 @@
 	justify-content: center;
 	width: 100%;
 }
-
-
-#starform fieldset{
-    display: inline-block;
-    direction: rtl;
-    border:0;
+#listBtn{
+	background-color: #F9F1DF;
+	border-color: #F9F1DF;
+	color: black;
+	font-weight: 700;
+	float: right;
+	margin-bottom: 50;
 }
-#starform fieldset legend{
-    font-size:12px;
-    text-align: center;
-}
-#starform input[type=radio]{
-    display: none;
-}
-#starform label{
-    font-size: 1em;
-    color: transparent;
-    text-shadow: 0 0 0 #f0f0f0;
-}
-#starform label:hover{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-#starform label:hover ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-#starform input[type=radio]:checked ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-
-
 
 </style>
 <body id="main_backcolor">
@@ -163,19 +142,7 @@
 				<a href="/">
 					<img src="static/images/logo2.png" alt="logoimg" id="mainLogo_img">
 				</a>
-				<a href="winelist">list</a>
-				<form name="starform" id="starform" method="post" action="grade"> {% csrf_token %}
-					<fieldset>
-					    <button class="btn btn-primary" type="submit">평가하기</button>
-						<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" >⭐</label>
-                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2" >⭐</label>
-                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3" >⭐</label>
-                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4" >⭐</label>
-                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5" >⭐</label>
-                        <input type="hidden" name="id" id="id" value="{{request.session.WineUser}}"/>
-          
-                	</fieldset>
-				</form>
+			
 				
 				{% if request.session.WineUser %}
 				<!-- 프로필 폼 -->
@@ -239,7 +206,7 @@
 							</form>
 							<div id="mainLink" class="mt-3">
 								<a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
-		                           data-bs-target="#newuserlogin">SIGN UP</a> <a href=""
+		                           data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
 		                           id="mainSignForgot">FORGOT PASSWORD
 		                        </a>
 							</div>
@@ -247,6 +214,9 @@
 					</div>
 				</div>
 				{% endif %}
+				
+				<button id="listBtn" type="button" class="btn btn-primary" onClick="location.href='winelist'">LIST</button>
+				
 				<!-- 회원가입 폼  -->
 				<div class=anhsdjw123>
 					<div class="offcanvas offcanvas-end" tabindex="-1"
