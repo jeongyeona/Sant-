@@ -3,6 +3,7 @@ from myapp.models import WineUser, WineGrade, Wine
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 
 
 # Create your views here.
@@ -66,10 +67,17 @@ def logout(request):
 
 def winelist(request):
     winedata = Wine.objects.all()
+    winedataall=Wine.objects.all().order_by("-id")
+
+    page=request.GET.get("page", 1) # 페이지
+    paginator=Paginator(winedataall, 6) # 페이지당 6개씩 보여주기
+    page_obj = paginator.get_page(page)
+    
     for w in winedata:
         rs = w.nation.split(sep='-')
-        print(rs[0])
-    return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0]})
+        # print(rs[0])
+    return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0], 'question_list':page_obj})
+
 
 def grade(request):
     if request.method == "POST":
@@ -78,12 +86,61 @@ def grade(request):
         print(id)
         print(grade)
         userid = WineUser.objects.get(id=id)
-        wineid = Wine.objects.get(id=137622)
+        wineid = Wine.objects.get(id=137208)
         WineGrade(
             userid = userid,
             wineid = wineid,
             grade = grade
                 ).save()
-        redirect('main.html')
+        return redirect('/')
     
-    return render(request, 'main.html', {'grade':grade})
+    return render(request, 'winelist.html', {'grade':grade})
+
+def pwdok(request):
+    
+    return render(request, "pwdok.html")
+
+def pwdreset(request):
+    lo_error = {}
+    if request.method == "POST":
+        name = request.POST.get('name')
+        id = request.POST.get('id')
+        email = request.POST.get('email')
+        # if (WineUser.objects.get(id=id)):
+        #     lo_error['err']="없는 아이디입니다."
+        
+        if not(id and name and email):
+            lo_error['err']="정보를 모두 입력해주세요"
+        else:
+            if WineUser.objects.filter(nickname=name,
+                                             id=id, email=email).exists():
+                print(WineUser.objects.filter(nickname=name,
+                                             id=id, email=email).exists())
+                print('존재하는 회원입니다')
+                # if wine_user == 0:
+                #     return render(request, "err.html")
+                return render(request, "pwdreset.html", {'id':id})
+            else:
+                print('false')
+                lo_error['err'] = "비밀번호를 틀렸습니다."
+                return render(request, "err.html")
+    
+
+def pwdsuc(request):
+    err_data = {}
+    id=request.POST.get('id')
+    print(id)
+    if request.method == "POST":
+        new = request.POST.get('new')
+        newok = request.POST.get('newok')
+    
+        if new != newok:
+            err_data['error'] = "비밀번호가 틀립니다."
+    
+        else:
+            wine_user = WineUser.objects.get(id=request.POST.get('id'))
+            wine_user.pwd=make_password(new)
+            wine_user.save()
+            print(wine_user)
+            return redirect("/")
+    return render(request, 'err.html')

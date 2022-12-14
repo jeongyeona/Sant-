@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>비밀번호 변경</h3>
+<form action="pwdsuc" method="post">{% csrf_token %}
+{% if user %}
+<input type="hidden" name="id" value="{{id}}"/>
+{% endif %}
+새비번<input type="text" placeholder="새비번" name="new"/>
+<br />
+새비번확인<input type="text" placeholder="새비번확인" name="newok"/>
+<br />
+<input type="submit" value="비번변경"/>
+<br />
+</form>
+</body>
+</html>

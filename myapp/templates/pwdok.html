@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+	<h3>정보 확인</h3>
+	<form action="pwdreset" method="post">
+		{% csrf_token %} 
+		닉네임<input type="text" placeholder="닉네임" name="name"
+			id="i_name" /> <br /> 
+		아이디<input type="text" placeholder="아이디"
+			name="id" id="i_id" /> <br /> 
+		이메일<input type="text"
+			placeholder="이메일" name="email" id="i_email" /> <br /> 
+			<input
+			type="submit" id="btnOk" value="냠냠" /> <br />
+	</form>
+</body>
+</html>
