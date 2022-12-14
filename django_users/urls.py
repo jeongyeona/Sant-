@@ -29,5 +29,6 @@ urlpatterns = [
     path('pwdok', views.pwdok),  
     path('pwdreset', views.pwdreset), 
     path('pwdsuc', views.pwdsuc), 
-    path('addinfo', views.addinfo)  
+    path('addinfo', views.addinfo),
+    path('winedetail', views.winedetail), 
 ]

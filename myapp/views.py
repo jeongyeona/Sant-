@@ -81,20 +81,22 @@ def winelist(request):
 
 def grade(request):
     if request.method == "POST":
+        wine = request.POST.get('wineid')
         grade = request.POST.get('rating')
         id = request.POST.get('id')
+        print(wine)
         print(id)
         print(grade)
         userid = WineUser.objects.get(id=id)
-        wineid = Wine.objects.get(id=137208)
+        wineid = Wine.objects.get(id=wine)
         WineGrade(
             userid = userid,
             wineid = wineid,
             grade = grade
                 ).save()
-        return redirect('/')
+        return redirect('/winelist', {'grade':grade})
     
-    return render(request, 'winelist.html', {'grade':grade})
+    return render(request, 'grade.html')
 
 def pwdok(request):
     
@@ -150,3 +152,7 @@ def addinfo(request):
     wine = Wine.objects.all()
     wine_grade = WineGrade.objects.all()
     return render(request, 'addinfo.html', {'user':wine_user, 'wine':wine, 'grade':wine_grade})
+
+def winedetail(request):
+    wineid = request.GET.get('wineid')
+    return render(request, 'winedetail.html', {'wineid':wineid})

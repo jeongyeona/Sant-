@@ -138,34 +138,6 @@ li {
 }
 
 
-/* 별점 코드 */
-#starform fieldset{
-    display: inline-block;
-    direction: rtl;
-    border:0;
-}
-#starform fieldset legend{
-    font-size:12px;
-    text-align: center;
-}
-#starform input[type=radio]{
-    display: none;
-}
-#starform label{
-    font-size: 1em;
-    color: transparent;
-    text-shadow: 0 0 0 #f0f0f0;
-}
-#starform label:hover{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-#starform label:hover ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-#starform input[type=radio]:checked ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-
 /* 페이지 링크 */
 .page-link{
 	background-color: #F9F1DF;
@@ -173,11 +145,6 @@ li {
 	color : black;
 }
 
-.page-item active{
-	background-color: #F9F1DF;
-	border : none;
-	color : black;
-}
 
 </style>
 <body id="wineListback">
@@ -248,7 +215,7 @@ li {
 				<div class="col-sm-8">
 					<ul id="wineListBox_ul">
 						{% for w in question_list %}
-						<a id="wineListBox_li" href="/">
+						<a id="wineListBox_li" href="winedetail?wineid={{w.id}}">
 							<div id="wineListBox_div">
 								<div id="winelistimg">
 									<!-- 와인 종류에 맞게 뒷 배경색 바꿀까? 참고 wine 1987 -->
@@ -270,19 +237,7 @@ li {
 								<li id="winePrice">가격정보 없음</</li> {% else %}
 								<li id="winePrice">{{w.price}}</</li> {% endif %}
 								<!-- 별점 코드(나중에 상세페이지로), 여기는 예상별점 -->
-								<li>
-									<form name="starform" id="starform" method="post" action="grade">{% csrf_token %}
-										<fieldset>
-										    <button class="btn btn-primary" type="submit">평가하기</button>
-											<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" >⭐</label>
-					                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2" >⭐</label>
-					                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3" >⭐</label>
-					                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4" >⭐</label>
-					                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5" >⭐</label>
-					                        <input type="hidden" name="id" id="id" value="{{request.session.WineUser}}"/>
-					                	</fieldset>
-									</form>
-								</li>
+								<li></li>
 							</ul>
 						</a> 
 						{% endfor %}

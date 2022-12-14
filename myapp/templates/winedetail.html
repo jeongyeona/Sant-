@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<title>Document</title>
+</head>
+<style>
+/* 별점 코드 */
+#starform fieldset{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+}
+#starform fieldset legend{
+    font-size:12px;
+    text-align: center;
+}
+#starform input[type=radio]{
+    display: none;
+}
+#starform label{
+    font-size: 1em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+}
+#starform label:hover{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#starform label:hover ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#starform input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+</style>
+<body>
+	<main>
+		<div class="container">
+			<!-- 와인 디테일 와인 이미지랑 부가적인 설명 -->
+			<div id="WineDetailInfBox">
+				<!-- 와인 이미지 -->
+				<div id="WineDetailimg">
+					<img src="" alt="">
+				</div>
+				<!-- 와인 이름이랑 당도 냄새  -->
+				<div id="WineDetailInf">
+					<!-- 지역 이름 가격 -->
+					<ul>
+						<li id="WineDetailInfLocal"></li>
+						<li id="WineDetailInfName"></li>
+						<li id="WineDetailInfPrice"></li>
+					</ul>
+					<!-- 당도 산도 바디 -->
+					<ul>
+						<li id="WineDetailInfSweet"></li>
+						<li id="WineDetailInfacidity"></li>
+						<li id="WineDetailInfAlcohol"></li>
+					</ul>
+					<!-- 아로마 -->
+					<ul>
+						<h4>아로마</h4>
+						<li></li>
+					</ul>
+				</div>
+				<!-- 평점 -->
+				<div id="WineDetailGrade">
+					<ul>
+						<!-- 다른 사람드 평점 -->
+						<li id="WineDetailGradeAverage"></li>
+						<li id="WineDetailGradeMyAverage">	
+							<form name="starform" id="starform" method="post" action="grade">{% csrf_token %}
+								<fieldset>
+								    <button class="btn btn-primary" type="submit">평가하기</button>
+									<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" >⭐</label>
+			                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2" >⭐</label>
+			                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3" >⭐</label>
+			                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4" >⭐</label>
+			                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5" >⭐</label>
+			                        <input type="hidden" name="id" id="id" value="{{request.session.WineUser}}"/>
+			                		<input type="hidden" name="wineid" id="wineid" value="{{wineid}}" />
+			                	</fieldset>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 비슷 재품 -->
+			<div></div>
+		</div>
+	</main>
+</body>
+</html>
