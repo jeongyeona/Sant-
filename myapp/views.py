@@ -41,10 +41,9 @@ def loginok(request):
         login_id = request.POST.get('lo_id')
         login_pwd = request.POST.get('lo_pwd')
         
-        if not(login_id and login_pwd):
+        if not(login_id):
             lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
         else:
-            
             wine_user = WineUser.objects.get(id=login_id)
             # if wine_user == 0:
             # return render(request, "err.html")
@@ -52,10 +51,8 @@ def loginok(request):
                 request.session['WineUser'] = wine_user.id
                 return redirect('/')
             else:   # 비번이 일치하지 않으면
-                lo_error['err'] = "비밀번호를 틀렸습니다."
-                
-                
-                
+                return render(request, 'pwderr.html')
+           
     return render(request, "err.html")
     
 def err(request):
@@ -160,3 +157,9 @@ def winedetail(request):
         winedataid = Wine.objects.get(id=wineid)
         
     return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid})
+
+def pwderr(request):
+    return render(request, 'pwderr.html')
+
+def iderr(request):
+    return render(request, 'iderr.html')

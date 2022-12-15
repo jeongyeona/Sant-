@@ -31,4 +31,6 @@ urlpatterns = [
     path('pwdsuc', views.pwdsuc), 
     path('addinfo', views.addinfo),
     path('winedetail', views.winedetail), 
+    path('pwderr', views.pwderr),
+    path('iderr', views.pwderr),
 ]

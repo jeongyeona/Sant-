@@ -192,7 +192,7 @@
 						</div>
 
 						<div class="offcanvas-body">
-							<form action="loginok" method="post" autocomplete="off"> {% csrf_token %}
+							<form action="loginok" method="post" autocomplete="off" id="loginform"> {% csrf_token %}
 								<div class="mb-1">
 									<input class="form-control " type="text" placeholder="ID"
 										name="lo_id" id="loginMainForm" />
@@ -200,7 +200,7 @@
 								<br />
 								<div class="mb-1">
 									<input class="form-control " type="password"
-										placeholder="PASSWORD" name="lo_pwd" id="loginMainForm" />
+										placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
 								</div>
 								<br /> <input type="submit" id="signupBtna" value="SIGN IN" />
 							</form>
@@ -380,6 +380,16 @@
       alert('이메일을 입력해주세요');
     }
   });
+  
+  document.querySelector("#loginform").addEventListener("submit", function (event) {
+	    if (document.querySelector("#loginMainForm").value === "") {
+	      event.preventDefault()
+	      alert('아이디를 입력해주세요');
+	    } else if (document.querySelector("#loginpasswordForm").value === "") {
+	      event.preventDefault()
+	      alert('비밀번호를 입력해주세요');
+	    }
+	  });
 
 </script>
 </html>
