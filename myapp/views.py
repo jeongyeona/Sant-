@@ -94,8 +94,8 @@ def grade(request):
             wineid = wineid,
             grade = grade
                 ).save()
+                
         return redirect('/winelist', {'grade':grade})
-    
     return render(request, 'grade.html')
 
 def pwdok(request):
@@ -154,5 +154,9 @@ def addinfo(request):
     return render(request, 'addinfo.html', {'user':wine_user, 'wine':wine, 'grade':wine_grade})
 
 def winedetail(request):
-    wineid = request.GET.get('wineid')
-    return render(request, 'winedetail.html', {'wineid':wineid})
+    if request.method == "GET":
+        winedata = Wine.objects.all()
+        wineid = request.GET.get('wineid')
+        winedataid = Wine.objects.get(id=wineid)
+        
+    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid})
