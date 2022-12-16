@@ -73,6 +73,24 @@ def winelist(request):
     for w in winedata:
         rs = w.nation.split(sep='-')
         # print(rs[0])
+        
+    if request.GET.get('search_key'):
+        sk = 'search_key='
+        search_key = request.GET.get('search_key')
+        print(search_key)
+        datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+        print(datas_search)
+        
+        page=request.GET.get("page", 1) # 페이지
+        paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+        page_obj = paginator.get_page(page)
+        
+        for w in datas_search:
+            rs = w.nation.split(sep='-')
+            # print(rs[0])
+                
+        return render(request, 'winelist.html', {'question_list':page_obj, 'rs': rs[0], 'sk':sk, 'search_key':search_key})
+    
     return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0], 'question_list':page_obj})
 
 def grade(request):
@@ -162,11 +180,3 @@ def pwderr(request):
 
 def iderr(request):
     return render(request, 'iderr.html')
-
-def search_key(request):
-    if request.method == 'POST':
-        search_key = request.POST.get('search_key')
-        print(search_key)
-        datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-        print(datas_search)
-        return redirect('/winelist', {'question_list':datas_search})
