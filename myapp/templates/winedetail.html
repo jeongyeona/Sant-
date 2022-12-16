@@ -55,12 +55,13 @@
 }
 
 #WineDetailimgbox {
-	background-color: #F9F1DF;
+	background-color: #fff;
 	border-radius: 10px;
+	width: 90%
 }
 
 #WineDetailimg {
-	width: 40%;
+	width: 100%;
 	margin: 30px 0px;
 }
 
@@ -74,11 +75,18 @@ ul {
 	justify-content: start;
 	margin-left: 10px;
 }
-
+#mon123 h4{
+	display: flex;
+	justify-content: start;
+	margin-left: 10px;
+}
 #WineDetailInfLocal, #WineDetailInfPriceMl {
 	display: flex;
 }
-
+#WineDetailInfLocal li{
+	font-weight: 700;
+	font-size:1.1rem;
+}
 #WineDetailInfPriceMl {
 	font-size: 1.3rem;
 }
@@ -117,7 +125,7 @@ ul {
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background-color: #EEEEEE;
+	background-color: #dbdbdb;
 	margin-left: 5px;
 }
 
@@ -148,15 +156,49 @@ ul {
 #WineDetailInfcountry {
 	display: none;
 }
+#winedetailback{
+	background-color:#F9F1DF; 
+}
+
+/* 평점 칸 css*/
+#WineDetailGrade{
+	display: flex;
+	width: 100%
+}
+#WineDetailGradeUl{
+	display: flex;
+	align-items: flex-end;
+	width: 80%;
+
+}
+
+#WineDetailGradeUl div{
+	background-color: white;
+	border-radius:10px;
+	width: 100%;
+	padding: 10px 0px;
+}
+.wineDetailGradeAvbtn{
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  background-color:#F8CFB9;
+  color: white;
+}
 </style>
-<body>
+<body id="winedetailback">
 	<main>
 		<div class="container text-center">
 			<!-- 와인 디테일 와인 이미지랑 부가적인 설명 -->
 			<div id="WineDetailInfBox" class="row">
 				<!-- 와인 이미지 -->
 				<div id="WineDetailimgbox" class="col">
-					<img src="static/images/listwinetest.png" id="WineDetailimg">
+					<img src="{{winedataid.url}}" id="WineDetailimg">
 				</div>
 				<!-- 와인 이름이랑 당도 냄새  -->
 				<div id="WineDetailInf" class="col-5">
@@ -189,60 +231,61 @@ ul {
 					<!-- 당도 산도 바디 -->
 					<ul id="mon123">
 						<ul id="WineDetailInftaste">
-							<div id="WineDetailInftastebox">
+							<li id="WineDetailInftastebox">
 								<p>당도</p>
 								<li id="WineDetailInfSweet" class="WineDetail1283">{{winedataid.sweet}}</li>
-							</div>
-							<div id="WineDetailInftastebox">
+							</li>
+							<li id="WineDetailInftastebox">
 								<p>산도</p>
 								<li id="WineDetailInfacidity" class="WineDetail1283">{{winedataid.acidity}}</li>
-							</div>
+							</li>
 						</ul>
 						<ul id="WineDetailInftaste">
-							<div id="WineDetailInftastebox">
+							<li id="WineDetailInftastebox">
 								<p>당도</p>
 								<li id="WineDetailInfbody" class="WineDetail1283">{{winedataid.body}}</li>
-							</div>
-							<div id="WineDetailInftastebox">
+							</li>
+							<li id="WineDetailInftastebox">
 								<p>탄닌</p>
 								<li id="WineDetailInftainnin" class="WineDetail1283">{{winedataid.tannin}}</li>
-							</div>
+							</li>
 						</ul>
 					</ul>
 					<!-- 아로마 -->
-					<ul id="mon123">
-						<ul>
-							<h4>아로마</h4>
-							<li></li>
-						</ul>
-						<ul>
-							<h4>음식매칭</h4>
-							<li></li>
-						</ul>
-					</ul>
+			    <ul id="mon123">
+			        <ul>
+			            <h4>어울리는 음식</h4>
+			            <li id="wineDrtailInffoods">{{winedataid.food}}</li>
+			        </ul>
+			    </ul>
 				</div>
 				<!-- 평점 -->
 				<div id="WineDetailGrade" class="col">
-					<ul>
+					<ul id="WineDetailGradeUl">
 						<!-- 다른 사람드 평점 -->
-						<li id="WineDetailGradeAverage"></li>
-						<li id="WineDetailGradeMyAverage">
-							<form name="starform" id="starform" method="post" action="grade"> {% csrf_token %}
-								<fieldset>
-									<button class="btn btn-primary" type="submit">평가하기</button>
-									<input type="radio" name="rating" value="5" id="rate1"><label
-										for="rate1">⭐</label> <input type="radio" name="rating"
-										value="4" id="rate2"><label for="rate2">⭐</label> <input
-										type="radio" name="rating" value="3" id="rate3"><label
-										for="rate3">⭐</label> <input type="radio" name="rating"
-										value="2" id="rate4"><label for="rate4">⭐</label> <input
-										type="radio" name="rating" value="1" id="rate5"><label
-										for="rate5">⭐</label> <input type="hidden" name="id" id="id"
-										value="{{request.session.WineUser}}" /> <input type="hidden"
-										name="wineid" id="wineid" value="{{wineid}}" />
-								</fieldset>
-							</form>
-						</li>
+						<div>
+							<li id="WineDetailGradeAverage">
+								<h6>소비자 평점</h6>
+							</li>
+							<li id="WineDetailGradeMyAverage">
+								<h6>내 평점</h6>
+								<form name="starform" id="starform" method="post" action="grade"> {% csrf_token %}
+									<fieldset>
+										<button class="wineDetailGradeAvbtn" atype="submit">평가</button>
+										<input type="radio" name="rating" value="5" id="rate1"><label
+											for="rate1">⭐</label> <input type="radio" name="rating"
+											value="4" id="rate2"><label for="rate2">⭐</label> <input
+											type="radio" name="rating" value="3" id="rate3"><label
+											for="rate3">⭐</label> <input type="radio" name="rating"
+											value="2" id="rate4"><label for="rate4">⭐</label> <input
+											type="radio" name="rating" value="1" id="rate5"><label
+											for="rate5">⭐</label> <input type="hidden" name="id" id="id"
+											value="{{request.session.WineUser}}" /> <input type="hidden"
+											name="wineid" id="wineid" value="{{wineid}}" />
+									</fieldset>
+								</form>
+							</li>
+						</div>
 					</ul>
 				</div>
 			</div>
@@ -252,15 +295,16 @@ ul {
 	</main>
 </body>
 <script>
+		// DB에서 당도,산미,바디,탄닌을 받아서 시각화
     let sweet=document.querySelector("#WineDetailInfSweet")
     let acidity=document.querySelector("#WineDetailInfacidity")
     let body=document.querySelector("#WineDetailInfbody")
     let tainnin=document.querySelector("#WineDetailInftainnin")
     
     let oneicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
-      let twoicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
+    let twoicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
     let threeicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon" id="winedetailiconid3" ></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
-      let fouricon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon" id="winedetailiconid3"></div><div class="winedetailicon4" id="winedetailiconid"></div><div class="winedetailicon"></div></div>'
+    let fouricon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon" id="winedetailiconid3"></div><div class="winedetailicon4" id="winedetailiconid"></div><div class="winedetailicon"></div></div>'
     let fiveicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon" id="winedetailiconid3"></div><div class="winedetailicon4" id="winedetailiconid"></div><div class="winedetailicon" id="winedetailiconid5"></div></div>'
       
     if(sweet.innerText == 1){
@@ -311,6 +355,7 @@ ul {
        tainnin.innerHTML=fiveicon;
     }
     
+    // 와인에 지역 상세주소 잘라서 출력
     let country=document.querySelector("#WineDetailInfcountry")
     let regions=document.querySelector("#WineDetailInfregions")
     let region=document.querySelector("#WineDetailInfregion")
@@ -322,7 +367,8 @@ ul {
         region.innerText=date[1]
         country.style.display = 'none';
     }
-
+		// 음식 이름 자르기
+		let foods=document.querySelector("#wineDrtailInffoods")
     
 </script>
 </html>

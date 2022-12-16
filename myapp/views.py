@@ -67,7 +67,7 @@ def logout(request):
 
 def winelist(request):
     winedata = Wine.objects.all()
-    winedataall=Wine.objects.all().order_by("-id")
+    winedataall=Wine.objects.all().order_by("id")
 
     page=request.GET.get("page", 1) # 페이지
     paginator=Paginator(winedataall, 6) # 페이지당 6개씩 보여주기

@@ -57,8 +57,7 @@ li {
 }
 
 #listwinetest {
-	width: 30%;
-	margin: 30px 0px;
+	width: 100%;
 }
 
 #winelistimg svg {
@@ -71,7 +70,7 @@ li {
 
 #winelistimg {
 	box-shadow: 0 0 1em white;
-	background-color: white;
+	width: 100%
 }
 
 #wineListBoxInf {
@@ -224,8 +223,7 @@ li {
 										<path
 											d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /></svg>
 
-									<img src="static/images/listwinetest.png" alt=""
-										id="listwinetest">
+									<img src="{{w.url}}" alt="" id="listwinetest">
 								</div>
 							</div> 
 							<ul id="wineListBoxInf">
@@ -237,7 +235,7 @@ li {
 								<li id="winePrice">가격정보 없음</</li> {% else %}
 								<li id="winePrice">{{w.price}}</</li> {% endif %}
 								<!-- 별점 코드(나중에 상세페이지로), 여기는 예상별점 -->
-								<li></li>
+								<li>{{w.id}}</li>
 							</ul>
 						</a> 
 						{% endfor %}

@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
 
 </head>
 <style>
@@ -12,20 +16,63 @@
 	width: 200px;
 }
 
-#main_backcolor {
+#addinfoback {
 	height: 100%;
 	margin: 20px;
-	background-color: #F9F1DF;
+	background-color: #F8F8F8;
 }
 
-.css-111 {
-	display: flex;
-	justify-content: center;
-	background-color: #FFFFFF;
+.addinfocss-111 {
+	background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);;
 	width: 100%;
+	height: 250px;
+	border-radius: 10px;
+}
+
+#addinfobacklogo {
+	width: 200px;
+	margin: 10px 0px 5px 10px;
+}
+
+#addinfobacklogotext {
+	color: white;
+	margin: 0px 0px 0px 15px;
+	font-weight: 700;
+}
+
+#addinfobackpro {
+	width: 40px;
+	margin-left: 10px;
+}
+
+.jkhn2314 {
+	display: flex;
+	flex-direction: column;
+}
+
+.njo12 {
+	display: flex;
+	margin-top: 130px;
+}
+
+#addinfobackprotext {
+	font-size: 1.3rem;
+	margin-bottom: 0;
+}
+
+.addinfocss222{
+	margin-top:20px;
+	height: 400px;
+	width:100%;
+	background-color: white;
+	border-radius: 10px;
+	border: 0.5px solid #939393; 
+}
+.addinfocss222 h3{
+	margin: 10px 0px 0px 15px;
 }
 </style>
-<body id="main_backcolor">
+<body id="addinfoback">
 	<div>
 		<header>
 			<nav class='naver'>
@@ -35,13 +82,21 @@
 			</nav>
 		</header>
 		<div class="container">
-			<div class="css-111">
-				<h2>siasia</h2>
-				<h2>siasia</h2>
-				<h2>siasia</h2>
-				<h2>siasia</h2>
+			<!-- 1번째 칸 -->
+			<div class="addinfocss-111">
+				<div class="jkhn2314">
+					<img src="static/images/logo2.png" alt="" id="addinfobacklogo" />
+					<p id="addinfobacklogotext">취향분석</p>
+				</div>
+				<div class="njo12">
+					<img src="static/images/proflieimg.png" alt="" id="addinfobackpro" />
+					<p id="addinfobackprotext">nickname</p>
+				</div>
+			</div>
+			<!--  2번째 칸 -->
+			<div class="addinfocss222">
+				<h3>평가수</h3>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
