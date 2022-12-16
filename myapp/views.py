@@ -162,3 +162,11 @@ def pwderr(request):
 
 def iderr(request):
     return render(request, 'iderr.html')
+
+def search_key(request):
+    if request.method == 'POST':
+        search_key = request.POST.get('search_key')
+        print(search_key)
+        datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+        print(datas_search)
+        return redirect('/winelist', {'question_list':datas_search})

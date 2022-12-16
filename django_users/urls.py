@@ -33,4 +33,5 @@ urlpatterns = [
     path('winedetail', views.winedetail), 
     path('pwderr', views.pwderr),
     path('iderr', views.iderr),
+    path('search_key', views.search_key),
 ]

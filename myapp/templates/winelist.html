@@ -166,17 +166,18 @@ li {
 			<div class="row">
 				<div class="col-sm-4">
 					<div id="listfilterBox">
-						<form>
-							<h4 id="waa1239">Search</h4>
-							<input type="text" placeholder="Search" id="wineSearch"
-								onkeyup="search(this)">
+						<!-- 검색 기능 -->
+						<form action="search_key" name="starform" method="post">{% csrf_token %}
+							<h4 id="waa1239">와인 검색</h4>
+							<input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key">
+							<input type="submit" id="signupBtna" value="검색" />
 						</form>
 						<div id="listfiltertypes">
 							<h4 id="waa1239">Wine Types</h4>
 							<form id="listfiltertypebutton">
-								<input type="button" value="레드" name="red"> <input
-									type="button" value="화이트" name="white"> <input
-									type="button" value="스파클링" name="sparkling">
+								<input type="button" value="레드" name="red">
+								<input type="button" value="화이트" name="white">
+								<input type="button" value="스파클링" name="sparkling">
 							</form>
 							<form id="listfiltertypebutton">
 								<input type="button" value="로제" name="rose"> <input
