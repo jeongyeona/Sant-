@@ -43,17 +43,17 @@ def loginok(request):
         
         if not(login_id):
             lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
-        else:
+        if(login_id):
             wine_user = WineUser.objects.get(id=login_id)
             # if wine_user == 0:
             # return render(request, "err.html")
             if check_password(login_pwd, wine_user.pwd): # 비번이 일치하면
                 request.session['WineUser'] = wine_user.id
                 return redirect('/')
-            else:   # 비번이 일치하지 않으면
+            else: # 비번이 일치하지 않으면
                 return render(request, 'pwderr.html')
-           
-    return render(request, "err.html")
+
+    return render(request, "iderr.html")
     
 def err(request):
     return render(request, 'err.html')
@@ -64,7 +64,7 @@ def logout(request):
 
 def winelist(request):
     winedata = Wine.objects.all()
-    winedataall=Wine.objects.all().order_by("-id")
+    winedataall=Wine.objects.all().order_by("id")
 
     page=request.GET.get("page", 1) # 페이지
     paginator=Paginator(winedataall, 6) # 페이지당 6개씩 보여주기
@@ -74,7 +74,6 @@ def winelist(request):
         rs = w.nation.split(sep='-')
         # print(rs[0])
     return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0], 'question_list':page_obj})
-
 
 def grade(request):
     if request.method == "POST":

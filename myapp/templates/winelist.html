@@ -144,7 +144,16 @@ li {
 	border : none;
 	color : black;
 }
-
+#page-form{
+	background-color: #F9F1DF;
+	border : none;
+	color : black;
+}
+.pagination{
+	--bs-pagination-disabled-bg : #F9F1DF;
+	margin-left: 200px;
+	margin-top : 50px;
+}
 
 </style>
 <body id="wineListback">
@@ -248,7 +257,7 @@ li {
 				    <ul class="pagination justify-content-center">
 				        <!-- 이전페이지 -->
 				        {% if question_list.has_previous %}
-				        <li class="page-item">
+				        <li class="page-item" id="page-form">
 				            <a class="page-link" href="?page={{ question_list.previous_page_number }}">
 				            	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
 							    <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
@@ -256,7 +265,7 @@ li {
 							</a>
 						</li>
 						{% else %}
-				        <li class="page-item disabled">
+				        <li class="page-item disabled" id="page-form">
 				            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
 							    <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
