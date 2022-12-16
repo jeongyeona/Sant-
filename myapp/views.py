@@ -172,8 +172,10 @@ def winedetail(request):
         winedata = Wine.objects.all()
         wineid = request.GET.get('wineid')
         winedataid = Wine.objects.get(id=wineid)
-        
-    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid})
+        meangrade = WineGrade.objects.get(wineid=wineid)
+        print(meangrade.grade)
+    
+    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid, 'meangrade':meangrade})
 
 def pwderr(request):
     return render(request, 'pwderr.html')
