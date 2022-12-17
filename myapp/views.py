@@ -94,23 +94,25 @@ def winelist(request):
     return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0], 'question_list':page_obj})
 
 def grade(request):
-    if request.method == "POST":
-        wine = request.POST.get('wineid')
-        grade = request.POST.get('rating')
-        id = request.POST.get('id')
+    if request.method == "GET":
+        wine = request.GET.get('wineid')
+        grade = request.GET.get('rating')
+        id = request.GET.get('id')
         print(wine)
         print(id)
         print(grade)
         userid = WineUser.objects.get(id=id)
         wineid = Wine.objects.get(id=wine)
         WineGrade(
-            userid = userid,
-            wineid = wineid,
+            iuser = userid,
+            iwine = wineid,
             grade = grade
                 ).save()
-                
-        return redirect('/winelist', {'grade':grade})
+        return render(request, 'gradestar.html')
     return render(request, 'grade.html')
+
+def gradestar(request):
+    return render(request, 'winelist.html')
 
 def pwdok(request):
     
@@ -172,10 +174,8 @@ def winedetail(request):
         winedata = Wine.objects.all()
         wineid = request.GET.get('wineid')
         winedataid = Wine.objects.get(id=wineid)
-        meangrade = WineGrade.objects.get(wineid=wineid)
-        print(meangrade.grade)
     
-    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid, 'meangrade':meangrade})
+    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid})
 
 def pwderr(request):
     return render(request, 'pwderr.html')

@@ -26,22 +26,22 @@ class Wine(models.Model):
 
 
 class WineGrade(models.Model):
-    userid = models.ForeignKey('WineUser', models.DO_NOTHING, db_column='userid')
-    wineid = models.OneToOneField(Wine, models.DO_NOTHING, db_column='wineid', primary_key=True)
-    grade = models.PositiveIntegerField()
+    iuser = models.ForeignKey('WineUser', models.DO_NOTHING, db_column='iuser')
+    iwine = models.OneToOneField(Wine, models.DO_NOTHING, db_column='iwine', primary_key=True)
+    grade = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'wine_grade'
-        unique_together = (('wineid', 'userid'),)
+        unique_together = (('iwine', 'iuser'),)
 
 
 class WineUser(models.Model):
-    id = models.CharField(unique=True, max_length=30, blank=True, null=True)
-    pwd = models.CharField(max_length=100, blank=True, null=True)
-    nickname = models.CharField(max_length=30, blank=True, null=True)
-    email = models.CharField(max_length=30, blank=True, null=True)
-    regdate = models.DateTimeField()
+    id = models.CharField(unique=True, max_length=30)
+    pwd = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=30)
+    email = models.CharField(max_length=30)
+    regdate = models.DateTimeField(blank=True, null=True)
     pid = models.AutoField(primary_key=True)
 
     class Meta:

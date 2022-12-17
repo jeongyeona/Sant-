@@ -266,15 +266,11 @@ ul {
                   <div>
                      <li id="WineDetailGradeAverage">
                         <h6>소비자 평점</h6>
-                        {% if WineGrade %}
-                        {% for i in meangrade }}
-                        {{i}}
-                        {% endfor %}
-                        {% endif %}
+ 
                      </li>
                      <li id="WineDetailGradeMyAverage">
                         <h6>내 평점</h6>
-                        <form name="starform" id="starform" method="post" action="grade"> {% csrf_token %}
+                        <form name="starform" id="starform" method="get" action="grade">
                            <fieldset>
                               <button class="wineDetailGradeAvbtn" atype="submit">평가</button>
                               <input type="radio" name="rating" value="5" id="rate1"><label
