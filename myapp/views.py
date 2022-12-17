@@ -90,8 +90,26 @@ def winelist(request):
             # print(rs[0])
                 
         return render(request, 'winelist.html', {'question_list':page_obj, 'rs': rs[0], 'sk':sk, 'search_key':search_key})
-    
+    elif request.GET.get('filterBtn'):
+        list_check = request.GET.get('filterBtn')
+        # print(list_check)
+        for l in list_check:
+            print(l)
+            check_filter = Wine.objects.filter(type__icontains=l).order_by('id')  # , nation__icontains='공무원')
+            
+        page=request.GET.get("page", 1) # 페이지
+        paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+        page_obj = paginator.get_page(page)
+        
+        cb = '&filterBtn='
+        
+        for w in check_filter:
+            rs = w.nation.split(sep='-')
+            # print(rs[0])
+        
+            return render(request, 'winelist.html', {'question_list':page_obj, 'rs': rs[0], 'cb':cb, 'list_check':list_check})
     return render(request, 'winelist.html', {'winedata':winedata, 'rs': rs[0], 'question_list':page_obj})
+
 
 def grade(request):
     if request.method == "GET":
