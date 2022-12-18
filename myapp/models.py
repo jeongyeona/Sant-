@@ -33,7 +33,7 @@ class WineGrade(models.Model):
     class Meta:
         managed = False
         db_table = 'wine_grade'
-        unique_together = (('iwine', 'iuser'))
+        unique_together = [('iwine', 'iuser'),]
 
 
 class WineUser(models.Model):

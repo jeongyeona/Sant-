@@ -116,18 +116,39 @@ def grade(request):
         wine = request.GET.get('wineid')
         grade = request.GET.get('rating')
         id = request.GET.get('id')
-        print(wine)
+        wine_user = WineUser.objects.get(id=id)
+        print(wine_user.pid)
         print(id)
+        print(wine)
         print(grade)
-        userid = WineUser.objects.get(id=id)
-        wineid = Wine.objects.get(id=wine)
-        WineGrade(
-            iuser = userid,
-            iwine = wineid,
-            grade = grade
-                ).save()
-        return render(request, 'gradestar.html')
-    return render(request, 'grade.html')
+                
+        import pickle
+        import MySQLdb
+        with open('C:/Users/JEONGYEON/Desktop/wine 프로젝트/Sant-/myapp/mydb.dat', mode='rb') as obj:
+            config = pickle.load(obj)
+        
+        if WineGrade.iuser != wine_user.pid and WineGrade.iwine != wine:
+            try: 
+                conn = MySQLdb.connect(**config)
+                cursor = conn.cursor()
+                sql = "INSERT INTO wine_grade(iuser, iwine, grade) VALUES({},{},{})".format(wine_user.pid, wine, grade)
+                count = cursor.execute(sql)
+                print(count)
+                conn.commit()
+    
+                return render(request, 'gradestar.html')
+            except:
+                sql = "UPDATE wine_grade SET grade={} WHERE iwine={} AND iuser={}".format(grade, wine, wine_user.pid)
+                count = cursor.execute(sql)
+                print(count)
+                conn.commit()
+    
+                return render(request, 'gradestar.html')
+            finally:
+                cursor.close()
+                conn.close()
+     
+        return render(request, 'err.html')
 
 def gradestar(request):
     return render(request, 'winelist.html')
