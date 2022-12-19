@@ -21,6 +21,7 @@
    display: inline-block;
    direction: rtl;
    border: 0;
+   margin-left: -45px;
 }
 
 #starform fieldset legend {
@@ -157,17 +158,16 @@ ul {
    display: none;
 }
 #winedetailback{
-   background-color:#F9F1DF; 
+   background-color:#fff; 
 }
 
 /* 평점 칸 css*/
 #WineDetailGrade{
    display: flex;
-   width: 100%
+   width: 100%;
 }
 #WineDetailGradeUl{
    display: flex;
-   align-items: flex-end;
    width: 80%;
 
 }
@@ -175,8 +175,12 @@ ul {
 #WineDetailGradeUl div{
    background-color: white;
    border-radius:10px;
-   width: 100%;
+   width: 80%;
    padding: 10px 0px;
+   border: solid 1px;
+   height: 120px;
+   border-color: #fff;
+   margin-top: 13px;
 }
 .wineDetailGradeAvbtn{
   position: relative;
@@ -187,13 +191,300 @@ ul {
   text-decoration: none;
   font-weight: 600;
   transition: 0.25s;
-  background-color:#F8CFB9;
+  background-color:#CD6666;
   color: white;
+  width: 150px;
+  margin-top: 20px;
+  height: 54px;
 }
+
+/* nav */
+#mainLogo_img {
+   width: 200px;
+   margin-left: 20px;
+   color: black;
+}
+
+#mainbox {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+}
+
+#main_backcolor {
+   height: 100%;
+   margin: 20px;
+   background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);
+}
+
+#mainPage_img {
+   max-width: 70%;
+}
+
+.anhsdjw123 {
+   float: right;
+   margin-bottom: 50;
+}
+
+#slidebtn {
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+}
+
+#slidebtn.hover {
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+}
+
+#navIconColor {
+   color: black;
+}
+
+#loginlogo {
+   width: 200px;
+}
+
+.loginImgBox {
+   display: flex;
+   justify-content: center;
+   margin: 50px 0px;
+}
+
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
+   #signupBtna, #loginMainForm {
+   border-radius: 5px;
+   border: solid 3px #7E181A;
+   box-shadow: none;
+}
+
+.btn-close:focus {
+   box-shadow: none;
+}
+
+.form-control {
+   height: 45px;
+   font-size: 16px;
+}
+
+#signupBtn, #signupBtna {
+   width: 100%;
+   height: 50px;
+   background-color: #fff;
+   color: white;
+   font-size: 16px;
+}
+#slidebtn{
+   margin-right: 19px;
+}
+
+#mainSignForgot, #mainSignForgotProfile {
+   text-decoration: none;
+   color: black;
+}
+
+#mainSignForgotProfile {
+   display: flex;
+   justify-content: end;
+   width: 100%;
+}
+
+#mainLink {
+   display: flex;
+   justify-content: space-between;
+   opacity: 0.6;
+   width: 100%;
+}
+
+.offcanvas {
+   border-top-left-radius: 15px;
+}
+
+#proflieImg {
+   width: 150px;
+   margin: 100px 0px;
+}
+
+.proflieImgBox {
+   display: flex;
+   justify-content: center;
+   width: 100%;
+}
+#listBtn{
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+   float: right;
+   margin-bottom: 50;
+}
+#nav3{
+   margin-top : 20px;
+}
+
+/* 배너 css */
+
+#tkwls{
+	margin-top: 100px;
+	text-align: center;
+}
+#tkwls2{
+	width: 80%;
+	height: 250px;
+	text-align: center;
+}
+h5{
+	text-align: left;
+	margin-left: 20px;
+}
+
 </style>
 <body id="winedetailback">
    <main>
-      <div class="container text-center">
+		<nav id="nav3">
+			<a href="/"> <img src="static/images/bysante.png" alt="logoimg"
+				id="mainLogo_img">
+			</a> {% if request.session.WineUser %}
+			<!-- 프로필 폼 -->
+
+			<div class=anhsdjw123>
+				<button id="slidebtn" class="btn btn-primary" type="button"
+					data-bs-toggle="offcanvas" data-bs-target="#userprofile"
+					aria-controls="offcanvasRight">PROFILE</button>
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile"
+					aria-labelledby="offcanvasRightLabel">
+					<div class="offcanvas-header">
+						<button type="button" class="btn-close"
+							data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="loginImgBox">
+						<img src="static/images/profilelogo.png" alt="loginlogo"
+							id="loginlogo">
+					</div>
+					<div class="proflieImgBox">
+						<img src="static/images/proflieimg.png" alt="proflieimg"
+							id="proflieImg">
+					</div>
+
+					<div class="offcanvas-body">
+						<div id="mainLink" class="mt-3">
+							<a href="addinfo" id="mainSignForgotProfile">ADD INFORMATION</a>
+						</div>
+						<form action="logout" method="post" autocomplete="off">
+							{% csrf_token %}
+							<!-- 로그 아웃시 연결 views 연결 만들기 -->
+							<br /> <input type="submit" id="signupBtna" value="LOG OUT" />
+						</form>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<!-- 로그인 폼 -->
+			<div class=anhsdjw123>
+				<button id="slidebtn" class="btn btn-primary" type="button"
+					data-bs-toggle="offcanvas" data-bs-target="#logintarget"
+					aria-controls="offcanvasRight">LOGIN</button>
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget"
+					aria-labelledby="offcanvasRightLabel">
+					<div class="offcanvas-header">
+						<button type="button" class="btn-close"
+							data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="loginImgBox">
+						<img src="static/images/loginimg.png" alt="loginlogo"
+							id="loginlogo">
+					</div>
+
+					<div class="offcanvas-body">
+						<form action="loginok" method="post" autocomplete="off"
+							id="loginform">
+							{% csrf_token %}
+							<div class="mb-1">
+								<input class="form-control " type="text" placeholder="ID"
+									name="lo_id" id="loginMainForm" />
+							</div>
+							<br />
+							<div class="mb-1">
+								<input class="form-control " type="password"
+									placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
+							</div>
+							<br /> <input type="submit" id="signupBtna" value="SIGN IN" />
+						</form>
+						<div id="mainLink" class="mt-3">
+							<a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
+								data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
+								id="mainSignForgot">FORGOT PASSWORD </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
+			<button id="listBtn" type="button" class="btn btn-primary"
+				onClick="location.href='winelist'">LIST</button>
+
+			<!-- 회원가입 폼  -->
+			<div class=anhsdjw123>
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="newuserlogin"
+					aria-labelledby="offcanvasRightLabel">
+
+					<div class="offcanvas-header">
+						<button type="button" class="btn-close"
+							data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="loginImgBox">
+						<img src="static/images/loginimg.png" alt="loginlogo"
+							id="loginlogo">
+					</div>
+
+					<div class="offcanvas-body">
+						<form action="signupok" method="post" id="signupForm"
+							autocomplete="off">
+							{% csrf_token %}
+							<div class="mb-2">
+								<input class="form-control " type="text" placeholder="NICKNAME"
+									name="User_name" id="Username" />
+								<div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며 2-10자리
+									가능합니다.</div>
+							</div>
+							<br />
+							<div class="mb-2">
+								<input class="form-control " type="text" placeholder="ID"
+									name="User_id" id="Userid" />
+								<div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
+							</div>
+							<br />
+							<div class="mb-2">
+								<input class="form-control " type="password"
+									placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
+								<div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
+									8글자~13글자 이내로 입력해주세요.</div>
+							</div>
+							<br />
+							<div class="mb-2">
+								<input class="form-control " type="password"
+									placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
+								<div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
+							</div>
+							<br />
+							<div class="mb-2">
+								<input class="form-control " type="text" placeholder="E_MAIL"
+									name="User_email" id="Useremail" />
+								<div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
+							</div>
+							<br> <input type="submit" id="signupBtn" value="SIGN UP" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="tkwls" id="tkwls">
+			<img src="static/images/wine2.png" id="tkwls2"/>
+		</div>
+		<div class="container text-center">
          <!-- 와인 디테일 와인 이미지랑 부가적인 설명 -->
          <div id="WineDetailInfBox" class="row">
             <!-- 와인 이미지 -->
@@ -265,14 +556,13 @@ ul {
                   <!-- 다른 사람드 평점 -->
                   <div>
                      <li id="WineDetailGradeAverage">
-                        <h6>소비자 평점</h6>
+                        <h5>소비자 평점</h5>
  
                      </li>
                      <li id="WineDetailGradeMyAverage">
-                        <h6>내 평점</h6>
+                        <h5>내 평점</h5>
                         <form name="starform" id="starform" method="get" action="grade">
                            <fieldset>
-                              <button class="wineDetailGradeAvbtn" atype="submit">평가</button>
                               <input type="radio" name="rating" value="5" id="rate1"><label
                                  for="rate1">⭐</label> <input type="radio" name="rating"
                                  value="4" id="rate2"><label for="rate2">⭐</label> <input
@@ -283,6 +573,7 @@ ul {
                                  for="rate5">⭐</label> <input type="hidden" name="id" id="id"
                                  value="{{request.session.WineUser}}" /> <input type="hidden"
                                  name="wineid" id="wineid" value="{{wineid}}" />
+                               <button class="wineDetailGradeAvbtn" atype="submit">별점 주기</button>
                            </fieldset>
                         </form>
                      </li>

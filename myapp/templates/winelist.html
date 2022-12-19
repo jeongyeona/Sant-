@@ -20,21 +20,18 @@
 <!-- wine list css -->
 <style>
   #wineListback {
-    background-color: #F9F1DF;
+    background-color: #fff;
   }
   
   #wineListgrape {
-    width: 100%;
-    height : 400px;
+    width: 90%;
+    height : 150px;
   }
   
   #winelistgrapebox {
     margin: 20px 0px;
   }
   
-  .col-sm-8 {
-    display: flex;
-  }
   
   li {
     list-style: none;
@@ -49,7 +46,7 @@
   }
   
   #wineListBox_li {
-    background-color: #F9F1DF;
+    background-color: #fff;
     width: 30%;
     flex-direction: column;
     margin-top: 40px;
@@ -101,6 +98,9 @@
   #listfilterBox {
     background-color: white;
     margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   
   #wineType {
@@ -110,10 +110,15 @@
   #listfiltertypes {
     width: 100%;
   }
+  #listfiltertypes div{
+     display: flex;
+     width: 100%;
+     justify-content: space-between;
+  }
   
   #listfiltertypebutton input {
     margin-top: 10px;
-    width: 30%;
+    width: 32%;
     border-radius: 20px;
   }
   
@@ -121,9 +126,10 @@
     width: 100%;
   }
   
-  #listfiltercountrybutton input {
-    margin-top: 10px;
-    border-radius: 14px;
+  #listfiltercountry div{
+     display: flex;
+     width: 100%;
+     justify-content: space-between;
   }
   
   #listfilterpriceheaderno {
@@ -134,7 +140,8 @@
   #waa1239, #listfilterpriceheaderno {
     display: flex;
     justify-content: start;
-    margin-left: 10px;
+    margin: 30px 0px;
+    font-weight: 800;
   }
 .redlabel,
 .whitelabel,
@@ -154,15 +161,55 @@
 .Chilelabel,
 .RepublicofSouthAfricalabel,
 .otherCountrieslabel{
-  border: 1px solid #000;
-  border-radius: 5px;
+  border: 1px solid #9f9f9f ;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
+  padding: 3px;
 }
+.redlabel,
+.whitelabel,
+.sparklinglabel,
+.roselabel,
+.fortlabel,
+.exceptionlabel{
+   width: 30%;
+   flex-direction: column;
+   display: fl
+}
+.francelabel,
+.italylabel,
+.spainlabel,
+.Portugallabel,
+.usalabel,
+.argentinalabel,
+.NewZealandlabel,
+.Germanylabel,
+.australialabel,
+.Chilelabel,
+.RepublicofSouthAfricalabel,
+.otherCountrieslabel{
+   padding: 3px 14px;
+}
+#searchBtn{
+   background-color: #7E181A;
+   border: 1px solid #7E181A;
+   border-radius: 10px;
+   color: white;
+   font-size: 1.2rem;
+   margin-top: 30px;
+   width: 100%;
+   padding: 4px 0px;
+}
+.col-sm-4{
+display: flex;
+}
+
 input[type="checkbox"]:checked + label {
-  border-color: #F24822;
-  background-color: #F24822;
+  border-color: #7E181A;
+  background-color: #7E181A;
   color:white;
   display: flex;
   align-items: center;
@@ -174,25 +221,40 @@ input[type="checkbox"] {
 
 /* 페이지 링크 */
 .page-link{
-   background-color: #F9F1DF;
+   background-color: #fff;
    border : none;
    color : black;
 }
 #page-form{
-   background-color: #F9F1DF;
+   background-color: #fff;
    border : none;
    color : black;
 }
 .pagination{
-   --bs-pagination-disabled-bg : #F9F1DF;
-   margin-left: 200px;
+   --bs-pagination-disabled-bg : #fff;
    margin-top : 50px;
+}
+#lnkj21{
+   width: 1px;
+   background-color: #000;
+   opacity: 0.4;
+   height: 100%;
+   justify-content: center;
 }
 /* nav css */
 #mainLogo_img {
    width: 200px;
    margin-left: 20px;
    color: black;
+}
+.page-link{
+   background-color:white;
+}
+.active>.page-link{
+   background-color:white;
+   border:1px solid #9f9f9f;
+   border-radius:5px;
+   color:black;
 }
 
 #mainbox {
@@ -217,15 +279,15 @@ input[type="checkbox"] {
 }
 
 #slidebtn {
-   background-color: #F9F1DF;
-   border-color: #F9F1DF;
+   background-color: #fff;
+   border-color: #fff;
    color: black;
    font-weight: 700;
 }
 
 #slidebtn.hover {
-   background-color: #F9F1DF;
-   border-color: #F9F1DF;
+   background-color: #fff;
+   border-color: #fff;
    color: black;
    font-weight: 700;
 }
@@ -304,8 +366,8 @@ input[type="checkbox"] {
    width: 100%;
 }
 #listBtn{
-   background-color: #F9F1DF;
-   border-color: #F9F1DF;
+   background-color: #fff;
+   border-color: #fff;
    color: black;
    font-weight: 700;
    float: right;
@@ -313,6 +375,24 @@ input[type="checkbox"] {
 }
 #nav3{
    margin-top : 20px;
+}
+#winelistmainalllist h3{
+   display: flex;
+   justify-content: flex-start;
+   margin-top: 20px;
+}
+#winelistmainalllist{
+   display: flex;
+   justify-content: space-between;
+   border-bottom: 0.5px solid;
+}
+#winelistmainalllist select {
+   width: 20%;
+   padding-bottom: 0px;
+   padding-top: 0px; 
+   height: 35px;
+   display: flex;
+   margin-top: 20px;
 }
 
 </style>
@@ -449,36 +529,32 @@ input[type="checkbox"] {
       </div>
    </div>
 </nav>
-   <div id="winelistgrapebox">
-      <img src="static/images/wine3.png" alt="로고이미지입니다."
-         id="wineListgrape">
-   </div>
    <main>
       <div class="container text-center">
          <div class="row">
-                       <div class="col-sm-4">
+           <div class="col-sm-4">
             <div id="listfilterBox">
               <!-- 검색 기능 -->
-              <form action="winelist" name="starform" method="get">
-                <h4 id="waa1239">와인 검색</h4>
-                <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key">
-                <input type="submit" id="searchBtn" value="검색" />
-              </form>
               <form action="winelist" name="typebtn" method="get">
+                    <h1 id="waa1239">필터</h1>
                 <div id="listfiltertypes">
                   <h4 id="waa1239">Wine Types</h4>
-                    <input type="checkbox" value="레드" class="red" name="filterBtn" id="red">
-                    <label for="red" class="redlabel">레드</label>
-                    <input type="checkbox" value="화이트" class="white" name="filterBtn" id="white">
-                    <label for="white" class="whitelabel">화이트</label>
-                    <input type="checkbox" value="스파클링" class="sparkling" name="filterBtn" id="sparkling">
-                    <label for="sparkling" class="sparklinglabel">스파클링</label>
-                    <input type="checkbox" value="로제" class="rose" name="filterBtn" id="rose">
-                    <label for="rose" class="roselabel">로제</label>
-                    <input type="checkbox" value="주정강화" class="fort" name="filterBtn" id="fort">
-                    <label for="fort" class="fortlabel">주정강화</label>
-                    <input type="checkbox" value="기타" class="exception" name="filterBtn" id="exception">
-                    <label for="exception" class="exceptionlabel">기타</label>  
+                  <div>
+                     <input type="checkbox" value="레드" class="red" name="filterBtn" id="red">
+                     <label for="red" class="redlabel">레드</label>
+                     <input type="checkbox" value="화이트" class="white" name="filterBtn" id="white">
+                     <label for="white" class="whitelabel">화이트</label>
+                     <input type="checkbox" value="스파클링" class="sparkling" name="filterBtn" id="sparkling">
+                     <label for="sparkling" class="sparklinglabel">스파클링</label>
+                  </div>
+                  <div>
+                     <input type="checkbox" value="로제" class="rose" name="filterBtn" id="rose">
+                     <label for="rose" class="roselabel">로제</label>
+                     <input type="checkbox" value="주정강화" class="fort" name="filterBtn" id="fort">
+                     <label for="fort" class="fortlabel">주정강화</label>
+                     <input type="checkbox" value="기타" class="exception" name="filterBtn" id="exception">
+                     <label for="exception" class="exceptionlabel">기타</label>
+                    </div>  
                 </div>
                 <!-- 너무 어려움 마지막에 할 예정 -->
                 <div id="listfilterprice">
@@ -492,49 +568,78 @@ input[type="checkbox"] {
                   </div>
                 </div>
                 <div id="listfiltercountry">
-                    <input type="checkbox" value="프랑스" class="france" id="france" name="filterBtn2">
-                    <label for="france" class="francelabel">프랑스</label>
+                      <h4 id="waa1239">Wine nation</h4>
+                      <div>
+                       <input type="checkbox" value="프랑스" class="france" id="france" name="filterBtn2">
+                       <label for="france" class="francelabel">프랑스</label>
+   
+                       <input type="checkbox" value="이탈리아" class="italy" id="italy" name="filterBtn2">
+                       <label for="italy" class="italylabel">이탈리아</label>
+   
+                       <input type="checkbox" value="스페인" class="spain" id="spain" name="filterBtn2">
+                       <label for="spain" class="spainlabel">스페인</label>
+   
+                              </div>
+                              <div>
+                       <input type="checkbox" value="포르투갈" class="Portugal" id="Portugal" name="filterBtn2">
+                       <label for="Portugal" class="Portugallabel">포루투갈</label>
+                       
+                       <input type="checkbox" value="미국" class="usa" id="usa" name="filterBtn2">
+                       <label for="usa" class="usalabel">미국</label>
+                   
+                       <input type="checkbox" value="아르헨티나" class="argentina" id="argentina" name="filterBtn2">
+                       <label for="argentina" class="argentinalabel">아르헨티나</label>
+   
+                              </div>
+                              <div>
+                       <input type="checkbox" value="뉴질랜드" class="NewZealand" id="NewZealand" name="filterBtn2">
+                       <label for="NewZealand" class="NewZealandlabel">뉴질랜드</label>
+   
+                       <input type="checkbox" value="독일" class="Germany" id="Germany" name="filterBtn2">
+                       <label for="Germany" class="Germanylabel">독일</label>
 
-                    <input type="checkbox" value="이탈리아" class="italy" id="italy" name="filterBtn2">
-                    <label for="italy" class="italylabel">이탈리아</label>
+                       <input type="checkbox" value="호주" class="australia" id="australia" name="filterBtn2">
+                       <label for="australia" class="australialabel">호주</label>
 
-                    <input type="checkbox" value="스페인" class="spain" id="spain" name="filterBtn2">
-                    <label for="spain" class="spainlabel">스페인</label>
-
-                    <input type="checkbox" value="포르투갈" class="Portugal" id="Portugal" name="filterBtn2">
-                    <label for="Portugal" class="Portugallabel">포루투갈</label>
-
-                    <input type="checkbox" value="미국" class="usa" id="usa" name="filterBtn2">
-                    <label for="usa" class="usalabel">미국</label>
-                
-                    <input type="checkbox" value="아르헨티나" class="argentina" id="argentina" name="filterBtn2">
-                    <label for="argentina" class="argentinalabel">아르헨티나</label>
-
-                    <input type="checkbox" value="뉴질랜드" class="NewZealand" id="NewZealand" name="filterBtn2">
-                    <label for="NewZealand" class="NewZealandlabel">뉴질랜드</label>
-
-                    <input type="checkbox" value="독일" class="Germany" id="Germany" name="filterBtn2">
-                    <label for="Germany" class="Germanylabel">독일</label>
-
-                    <input type="checkbox" value="호주" class="australia" id="australia" name="filterBtn2">
-                    <label for="australia" class="australialabel">호주</label>
-
-                    <input type="checkbox" value="칠레" class="Chile" id="Chile" name="filterBtn2">
-                    <label for="Chile" class="Chilelabel">칠레</label>
-                  
-                    <input type="checkbox" value="남아프리카 공화국" class="RepublicofSouthAfrica" id="RepublicofSouthAfrica" name="filterBtn2">
-                    <label for="RepublicofSouthAfrica" class="RepublicofSouthAfricalabel">남아프리카 공화국</label>
-
-                    <input type="checkbox" value="기타국가" class="otherCountries" id="otherCountries" name="filterBtn2">
-                    <label for="otherCountries" class="otherCountrieslabel">기타국가</label>
+                       </div>
+                       <div>
+                       <input type="checkbox" value="칠레" class="Chile" id="Chile" name="filterBtn2">
+                       <label for="Chile" class="Chilelabel">칠레</label>
+                     
+                       <input type="checkbox" value="남아프리카" class="RepublicofSouthAfrica" id="RepublicofSouthAfrica" name="filterBtn2">
+                       <label for="RepublicofSouthAfrica" class="RepublicofSouthAfricalabel">남아프리카</label>
+   
+                       <input type="checkbox" value="기타국가" class="otherCountries" id="otherCountries" name="filterBtn2">
+                       <label for="otherCountries" class="otherCountrieslabel">기타국가</label>
+                     </div>
                 </div>
-                <div >우리 가져가야할 배열</div>
                 <input type="submit" id="searchBtn" value="검색" id="typebtninput"/>
               </form>
             </div>
+            <div id="lnkj21">
+            </div>
           </div>
-            <!-- 와인 리스트 출력 -->
+                 <!-- 이미지 및  -->
             <div class="col-sm-8">
+                     <div id="winelistgrapebox">
+                        <img src="static/images/wine3.png" alt="로고이미지입니다."
+                           id="wineListgrape">
+                     </div>
+                     <!-- 검색 바 -->
+                     <form action="winelist" name="starform" method="get">
+                   <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key" class="form-control">
+                   <input type="submit" id="searchBtn" value="검색" class="btn btn-success"/>
+                 </form>
+                 <div id="winelistmainalllist">
+                     <h3>전체 와인 가져오기</h3>
+                    <select>
+                             <option selected>많이 판매순</option>
+                             <option value="1">리뷰 많은순</option>
+                             <option value="2">가격 높은순</option>
+                             <option value="3">가격 낮은순</option>
+                         </select>
+                 </div>
+                 <!-- 와인 리스트 반복문 -->
                <ul id="wineListBox_ul">
                   {% for w in question_list %}
                   <a id="wineListBox_li" href="winedetail?wineid={{w.id}}">
@@ -565,12 +670,12 @@ input[type="checkbox"] {
                </ul>
             </div>
             <tr>
-               <!-- 페이징처리 시작 -->
+				<!-- 페이징처리 시작 -->
                 <ul class="pagination justify-content-center">
                     <!-- 이전페이지 -->
                     {% if question_list.has_previous %}
                     <li class="page-item" id="page-form">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}&page={{ question_list.previous_page_number }}">
+                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.previous_page_number }}">
                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
                          <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
                          </svg>
@@ -590,11 +695,11 @@ input[type="checkbox"] {
                     {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
                     {% if page_number == question_list.number %}
                     <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}&page={{ page_number }}">{{ page_number }}</a>
+                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
                     </li>
                     {% else %}
                     <li class="page-item">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}&page={{ page_number }}">{{ page_number }}</a>
+                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
                     </li>
                     {% endif %}
                     {% endif %}
@@ -602,7 +707,7 @@ input[type="checkbox"] {
                     <!-- 다음페이지 -->
                     {% if question_list.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}&page={{ question_list.next_page_number }}">                     
+                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.next_page_number }}">                     
                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
                         <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
                         </svg>
