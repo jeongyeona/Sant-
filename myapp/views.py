@@ -131,14 +131,14 @@ def grade(request):
             try: 
                 conn = MySQLdb.connect(**config)
                 cursor = conn.cursor()
-                sql = "INSERT INTO wine_grade(iuser, iwine, grade) VALUES({},{},{})".format(wine_user.pid, wine, grade)
+                sql = "INSERT INTO wine_grade(userid, wineid, grade) VALUES({},{},{})".format(wine_user.pid, wine, grade)
                 count = cursor.execute(sql)
                 print(count)
                 conn.commit()
     
                 return render(request, 'gradestar.html')
             except:
-                sql = "UPDATE wine_grade SET grade={} WHERE iwine={} AND iuser={}".format(grade, wine, wine_user.pid)
+                sql = "UPDATE wine_grade SET grade={} WHERE wineid={} AND userid={}".format(grade, wine, wine_user.pid)
                 count = cursor.execute(sql)
                 print(count)
                 conn.commit()
