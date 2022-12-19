@@ -124,7 +124,14 @@ def grade(request):
                 
         import pickle
         import MySQLdb
-        with open('C:/Users/JEONGYEON/Desktop/wine 프로젝트/Sant-/myapp/mydb.dat', mode='rb') as obj:
+        import os
+        
+        current_path = os.path.abspath(__file__) # 경로를 객체화
+        
+        parent_dir = os.path.dirname(current_path)
+        
+        print(current_path)
+        with open(parent_dir + '/mydb.dat', mode='rb') as obj:
             config = pickle.load(obj)
         
         if WineGrade.iuser != wine_user.pid and WineGrade.iwine != wine:
