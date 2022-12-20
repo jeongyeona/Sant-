@@ -19,6 +19,7 @@
 </head>
 <!-- wine list css -->
 <style>
+
   #wineListback {
     background-color: #fff;
   }
@@ -206,8 +207,7 @@
 .col-sm-4{
 display: flex;
 }
-
-input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked:not(#winepricecheckNO) + label {
   border-color: #7E181A;
   background-color: #7E181A;
   color:white;
@@ -215,10 +215,13 @@ input[type="checkbox"]:checked + label {
   align-items: center;
   justify-content: center;
 }
-input[type="checkbox"] {
+
+input[type="checkbox"]:not(#winepricecheckNO){
   display: none;
 }
-
+#winepricecheckNO{
+	accent-color: #7E181A;
+}
 /* 페이지 링크 */
 .page-link{
    background-color: #fff;
@@ -232,7 +235,8 @@ input[type="checkbox"] {
 }
 .pagination{
    --bs-pagination-disabled-bg : #fff;
-   margin-top : 50px;
+   margin : 70px 0px;
+   
 }
 #lnkj21{
    width: 1px;
@@ -375,6 +379,7 @@ input[type="checkbox"] {
 }
 #nav3{
    margin-top : 20px;
+   margin-bottom: 60px;
 }
 #winelistmainalllist h3{
    display: flex;
@@ -394,6 +399,34 @@ input[type="checkbox"] {
    display: flex;
    margin-top: 20px;
 }
+.wineprice{
+  width: 100%;
+  background: #7E181A;
+  accent-color: #7E181A;
+  margin-top: 15px;
+}
+#listfilterpriceheaderno{
+  display: flex;
+  justify-content: space-between;
+}
+#listfilterpriceheaderno div{
+  display: flex;
+}
+#listfilterpriceheaderno div a{
+  margin-bottom: 0;
+  margin-top: px;
+  margin: 5px 0px 0px 3px;
+}
+.winepricetext{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.winepricetext label{
+  margin-top: 5px;
+  color:#252525;
+}
+
 
 </style>
 <body id="wineListback">
@@ -558,15 +591,24 @@ input[type="checkbox"] {
                 </div>
                 <!-- 너무 어려움 마지막에 할 예정 -->
                 <div id="listfilterprice">
-                  <div id="listfilterpriceheader">
-                    <div id="listfilterpriceheaderno">
-                      <h4>Price Range</h4>
-                      <input type="checkbox">
-                      <h4>가격정보 없음</h4>
-                    </div>
-                    
-                  </div>
-                </div>
+				    <div id="listfilterpriceheader">
+				      <div id="listfilterpriceheaderno">
+				        <h4>Price Range</h4>
+				        <div>
+				          <input type="checkbox" id="winepricecheckNO" name="winepricecheckNO" value="가격정보 없음">
+				          <label for="winepricecheckNO" class="winepricecheckno"></label>
+				          <a>가격정보 없음</a>
+				        </div>
+				      </div>
+				      <input type="range" class="wineprice" min="0" max="20" step="1" id="winepricerange" name="priceRange" value="20">
+				      <br>
+				      <div class="winepricetext">
+				        <label>0 원</label>
+				        <label for="winepricerange" class="wineprice-label">전체 가격</label>
+				      </div>
+				    </div>
+				  </div>
+
                 <div id="listfiltercountry">
                       <h4 id="waa1239">Wine nation</h4>
                       <div>
@@ -622,7 +664,7 @@ input[type="checkbox"] {
                  <!-- 이미지 및  -->
             <div class="col-sm-8">
                      <div id="winelistgrapebox">
-                        <img src="static/images/wine3.png" alt="로고이미지입니다."
+                        <img src="static/images/winelistB.gif" alt="로고이미지입니다."
                            id="wineListgrape">
                      </div>
                      <!-- 검색 바 -->
@@ -631,7 +673,7 @@ input[type="checkbox"] {
                    <input type="submit" id="searchBtn" value="검색" class="btn btn-success"/>
                  </form>
                  <div id="winelistmainalllist">
-                     <h3>전체 와인 가져오기</h3>
+                     <h3>전체 와인 ({{count}})</h3>
                     <select>
                              <option selected>많이 판매순</option>
                              <option value="1">리뷰 많은순</option>
@@ -730,4 +772,25 @@ input[type="checkbox"] {
       </div>
    </main>
 </body>
+<script>
+const wineprice = document.querySelector('.wineprice');
+const winepricelabel=document.querySelector(".wineprice-label")
+
+
+function headleinput(){
+  console.log(wineprice.value)
+  if (winepricelabel.textContent) {
+    winepricelabel.textContent = "";
+    winepricelabel.textContent = wineprice.value*10000+" 원"
+    if(winepricelabel.textContent=="200000 원"){
+      winepricelabel.textContent = "전체 가격"
+    }
+    wineprice.setAttribute("value", wineprice.value)
+  }
+}
+
+wineprice.addEventListener('input',headleinput)
+
+</script>
+
 </html>
