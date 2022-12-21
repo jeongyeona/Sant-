@@ -24,6 +24,23 @@
     background-color: #fff;
   }
   
+  @media (min-width: 576px){
+		.minilist{
+	    flex: 0 0 auto;
+	    width: 25%;
+		}
+	}
+	@media (min-width: 576px){
+			.maxlist {
+		    flex: 0 0 auto;
+		    flex-grow: 0;
+		    flex-shrink: 0;
+		    flex-basis: auto;
+		    width: 75%;
+		}
+	}
+
+	  
   #wineListgrape {
     width: 90%;
     height : 150px;
@@ -48,9 +65,9 @@
   
   #wineListBox_li {
     background-color: #fff;
-    width: 30%;
+    width: 19%;
     flex-direction: column;
-    margin-top: 40px;
+    margin: 40px 10px 0px 0px;
     text-decoration: none;
     color: black;
   }
@@ -82,10 +99,11 @@
     justify-content: flex-start;
     margin-left: 10px;
     text-decoration: none;
+    font-size: 0.9rem;
   }
   
   #winenameKo, #winenameEn {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     width: 90%;
     overflow: scroll;
     -ms-overflow-style: none;
@@ -99,7 +117,7 @@
   #listfilterBox {
     background-color: white;
     margin-top: 40px;
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: center;
   }
@@ -141,7 +159,7 @@
   #waa1239, #listfilterpriceheaderno {
     display: flex;
     justify-content: start;
-    margin: 30px 0px;
+    margin: 30px 0px 0px 0px;
     font-weight: 800;
   }
 .redlabel,
@@ -204,7 +222,7 @@
    width: 100%;
    padding: 4px 0px;
 }
-.col-sm-4{
+.minilist{
 display: flex;
 }
 input[type="checkbox"]:checked:not(#winepricecheckNO) + label {
@@ -391,14 +409,6 @@ input[type="checkbox"]:not(#winepricecheckNO){
    justify-content: space-between;
    border-bottom: 0.5px solid;
 }
-#winelistmainalllist select {
-   width: 20%;
-   padding-bottom: 0px;
-   padding-top: 0px; 
-   height: 35px;
-   display: flex;
-   margin-top: 20px;
-}
 .wineprice{
   width: 100%;
   background: #7E181A;
@@ -426,7 +436,15 @@ input[type="checkbox"]:not(#winepricecheckNO){
   margin-top: 5px;
   color:#252525;
 }
-
+.text-center{
+	margin: 0px 100px;
+}
+#wineSearch{
+	margin-top: 20px
+}
+#wineSearch:focus {
+  outline: none;
+}
 
 </style>
 <body id="wineListback">
@@ -563,9 +581,9 @@ input[type="checkbox"]:not(#winepricecheckNO){
    </div>
 </nav>
    <main>
-      <div class="container text-center">
+      <div class="text-center">
          <div class="row">
-           <div class="col-sm-4">
+           <div class="minilist">
             <div id="listfilterBox">
               <!-- 검색 기능 -->
               <form action="winelist" name="typebtn" method="get">
@@ -589,6 +607,7 @@ input[type="checkbox"]:not(#winepricecheckNO){
                      <label for="exception" class="exceptionlabel">기타</label>
                     </div>  
                 </div>
+                   <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key" class="form-control">
                 <!-- 너무 어려움 마지막에 할 예정 -->
                 <div id="listfilterprice">
 				    <div id="listfilterpriceheader">
@@ -655,31 +674,21 @@ input[type="checkbox"]:not(#winepricecheckNO){
                        <label for="otherCountries" class="otherCountrieslabel">기타국가</label>
                      </div>
                 </div>
-                <input type="submit" id="searchBtn" value="검색" id="typebtninput"/>
+                <input type="submit" id="searchBtn" value="검색" id="typebtninput searchBtn"/>
               </form>
             </div>
             <div id="lnkj21">
             </div>
           </div>
                  <!-- 이미지 및  -->
-            <div class="col-sm-8">
-                     <div id="winelistgrapebox">
-                        <img src="static/images/winelistB.gif" alt="로고이미지입니다."
-                           id="wineListgrape">
-                     </div>
+            <div class="maxlist">
+                <div id="winelistgrapebox">
+                   <img src="static/images/winelistB.gif" alt="로고이미지입니다."
+                      id="wineListgrape">
+                </div>
                      <!-- 검색 바 -->
-                     <form action="winelist" name="starform" method="get">
-                   <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key" class="form-control">
-                   <input type="submit" id="searchBtn" value="검색" class="btn btn-success"/>
-                 </form>
                  <div id="winelistmainalllist">
                      <h3>전체 와인 ({{count}})</h3>
-                    <select>
-                             <option selected>많이 판매순</option>
-                             <option value="1">리뷰 많은순</option>
-                             <option value="2">가격 높은순</option>
-                             <option value="3">가격 낮은순</option>
-                         </select>
                  </div>
                  <!-- 와인 리스트 반복문 -->
                <ul id="wineListBox_ul">
@@ -701,11 +710,13 @@ input[type="checkbox"]:not(#winepricecheckNO){
                         <li id="winenameEn">{{w.name_en}}</li>
                         <br>
 						<li id="wineRegion">{{w.nation}}</li>
-                        <li id="wineType">{{w.type}}</li> {% if w.price == 0 %}
-                        <li id="winePrice">가격정보 없음</</li> {% else %}
-                        <li id="winePrice">{{w.price}}</</li> {% endif %}
-                        <!-- 별점 코드(나중에 상세페이지로), 여기는 예상별점 -->
-                        <li></li>
+                        <li id="wineType">{{w.type}}</li> 
+                        {% if w.price == 0 %}
+                        	<li id="winePrice">가격정보 없음</</li> 
+                        {% else %}
+                        	<li id="winePrice">{{w.price}}</</li> 
+                        {% endif %}
+                        <li>평균 {{w.grade}}</li>
                      </ul>
                   </a> 
                   {% endfor %}

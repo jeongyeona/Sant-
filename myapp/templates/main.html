@@ -16,6 +16,7 @@
 </head>
 
 <style>
+* { font-family: 'Noto Sans KR', sans-serif !important;}
 #mainLogo_img {
 	width: 200px;
 }
@@ -285,10 +286,11 @@
 
 						<div class="offcanvas-body">
 							<div id="mainLink" class="mt-3">
-								<a href="addinfo" id="mainSignForgotProfile">ADD INFORMATION</a>
+								<a href="addinfo" id="mainSignForgotProfile">개인 통계</a>
 							</div>
 							<form action="logout" method="post" autocomplete="off"> {% csrf_token %}
 								<!-- 로그 아웃시 연결 views 연결 만들기 -->
+								<input type="hidden" name="myid" value={{request.session.WineUser}}/>
 								<br />
 								<input type="submit" id="signupBtna" value="LOG OUT" />
 							</form>

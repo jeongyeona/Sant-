@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 import pandas as pd
+from django.db.models import Avg
 
 # Create your views here.
 def main(request):
@@ -75,7 +76,7 @@ def winelist(request):
                 datas_search[i].nation = datas_search[i].nation.split(sep=' -')[0]
         
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+        paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         count = datas_search.count()
@@ -94,7 +95,7 @@ def winelist(request):
             check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             cb = '&filterBtn='
@@ -114,7 +115,7 @@ def winelist(request):
                     result[i].nation = result[i].nation.split(sep=' -')[0]
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(result, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(result, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             cf = '&filterBtn2='
@@ -132,7 +133,7 @@ def winelist(request):
                 check_filter[i].nation = check_filter[i].nation.split(sep=' -')[0]
         
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+        paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         cb = '&filterBtn='
@@ -148,12 +149,13 @@ def winelist(request):
         check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
         # print(check_filter2)
         
+        
         for i in range(len(check_filter2)):
             if '-' in check_filter2[i].nation:
                 check_filter2[i].nation = check_filter2[i].nation.split(sep=' -')[0]
 
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(check_filter2, 6) # 페이지당 6개씩 보여주기
+        paginator=Paginator(check_filter2, 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         cf = '&filterBtn2='
@@ -165,16 +167,45 @@ def winelist(request):
     
     winedataall=Wine.objects.all().order_by("id")
     
-    for i in range(len(winedataall)):
-        if '-' in winedataall[i].nation:
-            winedataall[i].nation = winedataall[i].nation.split(sep=' -')[0]
-    
-    page=request.GET.get("page", 1) # 페이지
-    paginator=Paginator(winedataall, 6) # 페이지당 6개씩 보여주기
-    page_obj = paginator.get_page(page)
-    
+        
     count = winedataall.count()
     count = '{:,}'.format(winedataall.count())
+    
+    import pickle
+    import MySQLdb
+    import os
+    
+    current_path = os.path.abspath(__file__) # 경로를 객체화
+    
+    parent_dir = os.path.dirname(current_path)
+    
+    print(current_path)
+    with open(parent_dir + '/mydb.dat', mode='rb') as obj:
+        config = pickle.load(obj)
+    
+    try:
+        conn = MySQLdb.connect(**config)
+        cursor = conn.cursor()
+        sql = "select * from wine left join (select wineid, round(avg(grade), 2) as grade from wine_grade group by wineid) as avgstar on wine.id = avgstar.wineid order by id"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    
+    
+    data = pd.DataFrame(result, columns=['id', 'name_kr', 'name_en', 'producer', 'nation', 'varieties', 'type', 'food', 'abv', 'degree', 'sweet', 'acidity', 'body', 'tannin', 'price', 'year', 'ml', 'url', 'wineid', 'grade'])
+    print(data.head(3))
+    
+    data[['nation','nation2']] = data['nation'].str.split(' -', n=1, expand=True)
+    data.drop(columns='nation2')
+    
+    page=request.GET.get("page", 1) # 페이지
+    paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+    page_obj = paginator.get_page(page)
     
     return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
 
@@ -203,7 +234,7 @@ def grade(request):
         with open(parent_dir + '/mydb.dat', mode='rb') as obj:
             config = pickle.load(obj)
         
-        if WineGrade.iuser != wine_user.pid and WineGrade.iwine != wine:
+        if WineGrade.userid != wine_user.pid and WineGrade.wineid != wine:
             try:
                 conn = MySQLdb.connect(**config)
                 cursor = conn.cursor()
@@ -223,8 +254,8 @@ def grade(request):
             finally:
                 cursor.close()
                 conn.close()
-     
-        return render(request, 'err.html')
+
+    return render(request, 'err.html')
 
 def gradestar(request):
     return render(request, 'winelist.html')
@@ -282,6 +313,8 @@ def addinfo(request):
     wine_user = WineUser.objects.all()
     wine = Wine.objects.all()
     wine_grade = WineGrade.objects.all()
+    id = request.POST.get('myid')
+    
     return render(request, 'addinfo.html', {'user':wine_user, 'wine':wine, 'grade':wine_grade})
 
 def winedetail(request):

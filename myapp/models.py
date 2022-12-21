@@ -26,14 +26,14 @@ class Wine(models.Model):
 
 
 class WineGrade(models.Model):
-    iuser = models.ForeignKey('WineUser', models.DO_NOTHING, db_column='iuser')
-    iwine = models.OneToOneField(Wine, models.DO_NOTHING, db_column='iwine', primary_key=True)
+    userid = models.ForeignKey('WineUser', models.DO_NOTHING, db_column='userid')
+    wineid = models.OneToOneField(Wine, models.DO_NOTHING, db_column='wineid', primary_key=True, related_name = 'wineid')
     grade = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'wine_grade'
-        unique_together = [('iwine', 'iuser'),]
+        unique_together = [('userid', 'wineid'),]
 
 
 class WineUser(models.Model):
