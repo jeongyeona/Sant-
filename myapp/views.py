@@ -53,6 +53,7 @@ def loginok(request):
             # return render(request, "err.html")
             if check_password(login_pwd, wine_user.pwd): # 비번이 일치하면
                 request.session['WineUser'] = wine_user.id
+                request.session['WinePid'] = wine_user.pid
                 return redirect('/')
             else: # 비번이 일치하지 않으면
                 return render(request, 'pwderr.html')
@@ -212,23 +213,44 @@ def grade(request):
                 count = cursor.execute(sql)
                 print(count)
                 conn.commit()
+                
+                winedata = Wine.objects.all()
+                winedataid = Wine.objects.get(id=wine)
+                
+                diw = request.session['WinePid']
+                print(diw)
+                
+                data = mysql(diw, wine)
+                
+                if data:
+                    data = data[0]
+                
+                
     
-                return render(request, 'gradestar.html')
+                return render(request, 'winedetail.html', {'data':data[0], 'wineid':wine,"winedataid":winedataid})
             except:
                 sql = "UPDATE wine_grade SET grade={} WHERE wineid={} AND userid={}".format(grade, wine, wine_user.pid)
                 count = cursor.execute(sql)
                 print(count)
                 conn.commit()
+                
+                winedata = Wine.objects.all()
+                winedataid = Wine.objects.get(id=wine)
+                
+                diw = request.session['WinePid']
+                print(diw)
+                
+                data = mysql(diw, wine)
+                
+                if data:
+                    data = data[0]
     
-                return render(request, 'gradestar.html')
+                return render(request, 'winedetail.html', {'data':data, 'wineid':wine,"winedataid":winedataid})
             finally:
                 cursor.close()
                 conn.close()
 
     return render(request, 'err.html')
-
-def gradestar(request):
-    return render(request, 'winelist.html')
 
 def pwdok(request):
     
@@ -292,8 +314,15 @@ def winedetail(request):
         winedata = Wine.objects.all()
         wineid = request.GET.get('wineid')
         winedataid = Wine.objects.get(id=wineid)
+        
+        diw = request.session['WinePid']
+        print(diw)
+        
+        data = mysql(diw, wineid)
+        if data:
+            data = data[0]
     
-    return render(request, 'winedetail.html', {'wineid':wineid,"winedataid":winedataid})
+    return render(request, 'winedetail.html', {'data':data, 'wineid':wineid,"winedataid":winedataid})
 
 def pwderr(request):
     return render(request, 'pwderr.html')
@@ -331,3 +360,27 @@ def sql():
     data.drop(columns='nation2')
     
     return data
+
+def mysql(userid, wineid):  
+    current_path = os.path.abspath(__file__) # 경로를 객체화
+    
+    parent_dir = os.path.dirname(current_path)
+    
+    print(current_path)
+    with open(parent_dir + '/mydb.dat', mode='rb') as obj:
+        config = pickle.load(obj)
+    
+    try:
+        conn = MySQLdb.connect(**config)
+        cursor = conn.cursor()
+        sql = "select grade from wine_grade where userid = {} and wineid = {}".format(userid, wineid)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    
+    return result
