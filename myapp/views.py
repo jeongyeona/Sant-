@@ -67,37 +67,67 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-def winelist(request):  
-    if request.GET.get('search_key'):
-        sk = 'search_key='
-        search_key = request.GET.get('search_key')
-        # print(search_key)
-        datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-        # print(datas_search)
+def winelist(request):
+    if request.method == "GET":
         
-        data = sql()
+        if request.GET.get('filterBtn') and request.GET.get('filterBtn2') and request.GET.get('search_key'):
+            print('all')
+            search_key = request.GET.get('search_key')
+            # print(search_key)
+            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+            # print(datas_search)
+                
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+            
+            sk = '&search_key='
+                
+            list_check = request.GET.get('filterBtn')
+            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
+                        
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+                    
+            cb = '&filterBtn='
+                    
+            list_check2 = request.GET.get('filterBtn2')
+            # print(list_check)
+            # print(list_check2)
+            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
+            # print(check_filter2)
+            result = check_filter & check_filter2 & datas_search
+            sql_query = str(result.query)
+            print(sql_query)
+            
+            data = sql()
         
-        data = data[data['name_kr'].str.contains(search_key)]
-        # print(data)
-        
-        
-        page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-        page_obj = paginator.get_page(page)
-        
-        count = datas_search.count()
-        count = '{:,}'.format(datas_search.count())
+            data = data[data['name_kr'].str.contains(search_key)]
+            data = data[data['type'].str.contains(list_check)]
+            data = data[data['nation'].str.contains(list_check2)]
 
-
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
+            # print(data)
+                    
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+                 
+            cf = '&filterBtn2='
+                    
+            count = result.count()
+            count = '{:,}'.format(result.count())
+                    
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2, 'sk':sk, 'search_key':search_key})
     
-    elif request.GET.get('filterBtn'):
-        if request.GET.get('filterBtn2'):
+            
+        if request.GET.get('filterBtn') and request.GET.get('filterBtn2'):
+            print('버튼1 & 버튼2')
             list_check = request.GET.get('filterBtn')
             check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
+            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             cb = '&filterBtn='
@@ -108,9 +138,9 @@ def winelist(request):
             check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
             # print(check_filter2)
             result = check_filter & check_filter2 
-            # print(len(result))
+            print(len(result))
             sql_query = str(result.query)
-            # print(sql_query)
+            print(sql_query)
             
             data = sql()
         
@@ -118,7 +148,7 @@ def winelist(request):
             data = data[data['nation'].str.contains(list_check2)]
 
             # print(data)
-                
+            
             page=request.GET.get("page", 1) # 페이지
             paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
@@ -129,59 +159,164 @@ def winelist(request):
             count = '{:,}'.format(result.count())
             
             return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2})
-    if request.GET.get('filterBtn'):
-        list_check = request.GET.get('filterBtn')
-        check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
         
-        data = sql()
-        
-        data = data[data['type'].str.contains(list_check)]
-        
-        page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-        page_obj = paginator.get_page(page)
-        
-        cb = '&filterBtn='
-        
-        count = check_filter.count()
-        count = '{:,}'.format(check_filter.count())
-        
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check})
-    elif request.GET.get('filterBtn2'):
-        list_check2 = request.GET.get('filterBtn2')
-        check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
-        # print(check_filter2)
-        
-        
-        data = sql()
-        
-        data = data[data['nation'].str.contains(list_check2)]
-
-        page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-        page_obj = paginator.get_page(page)
-        
-        cf = '&filterBtn2='
-        
-        count = check_filter2.count()
-        count = '{:,}'.format(check_filter2.count())
+        if request.GET.get('search_key') and request.GET.get('filterBtn'):
+            print('서치 & 버튼1')
+            search_key = request.GET.get('search_key')
+            # print(search_key)
+            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+            # print(datas_search)
+                
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
             
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cf':cf, 'list_check2':list_check2})
-    
-    winedataall=Wine.objects.all().order_by("id")
-    
+            sk = '&search_key='
+                
+            list_check = request.GET.get('filterBtn')
+            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
+                        
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+                    
+            cb = '&filterBtn='
+                    
+            result = check_filter & datas_search
+            sql_query = str(result.query)
+            print(sql_query)
+            
+            data = sql()
         
-    count = winedataall.count()
-    count = '{:,}'.format(winedataall.count())
+            data = data[data['name_kr'].str.contains(search_key)]
+            data = data[data['type'].str.contains(list_check)]
+                 
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 6) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+                    
+            count = result.count()
+            count = '{:,}'.format(result.count())
+                
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cb':cb, 'list_check':list_check})
+        
+        if request.GET.get('search_key') and request.GET.get('filterBtn2'):
+            print('서치 & 버튼2')
+            search_key = request.GET.get('search_key')
+            # print(search_key)
+            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+            # print(datas_search)
+            
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+            
+            sk = '&search_key='
+                    
+            list_check2 = request.GET.get('filterBtn2')
+            # print(list_check2)
+            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
+            # print(check_filter2)
+            result = check_filter2 & datas_search
+            sql_query = str(result.query)
+            print(sql_query)
+            
+            data = sql()
+        
+            data = data[data['name_kr'].str.contains(search_key)]
+            data = data[data['nation'].str.contains(list_check2)]
+            # print(data)    
+            
+            
+                
+            
+                
+                
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+                 
+            cf = '&filterBtn2='
+                    
+            count = result.count()
+            count = '{:,}'.format(result.count())
+                    
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cf':cf, 'list_check2':list_check2})
+        
+        if request.GET.get('filterBtn'):
+            list_check = request.GET.get('filterBtn')
+            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
+            
+            data = sql()
+            
+            data = data[data['type'].str.contains(list_check)]
+            
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+            
+            cb = '&filterBtn='
+            
+            count = check_filter.count()
+            count = '{:,}'.format(check_filter.count())
+            
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check})
+        
+        if request.GET.get('search_key'):
+            sk = 'search_key='
+            search_key = request.GET.get('search_key')
+            # print(search_key)
+            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
+            # print(datas_search)
+            
+            data = sql()
+            
+            data = data[data['name_kr'].str.contains(search_key)]
+            # print(data)
+            
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+            
+            count = datas_search.count()
+            count = '{:,}'.format(datas_search.count())
     
-    data = sql()
     
-    page=request.GET.get("page", 1) # 페이지
-    paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-    page_obj = paginator.get_page(page)
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
+        
+        if request.GET.get('filterBtn2'):
+            list_check2 = request.GET.get('filterBtn2')
+            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
+            # print(check_filter2)
+            
+            
+            data = sql()
+            
+            data = data[data['nation'].str.contains(list_check2)]
     
-    return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
-
+            page=request.GET.get("page", 1) # 페이지
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+            page_obj = paginator.get_page(page)
+            
+            cf = '&filterBtn2='
+            
+            count = check_filter2.count()
+            count = '{:,}'.format(check_filter2.count())
+                
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cf':cf, 'list_check2':list_check2})
+    
+        winedataall=Wine.objects.all().order_by("id")
+        
+        count = winedataall.count()
+        count = '{:,}'.format(winedataall.count())
+        
+        data = sql()
+        
+        page=request.GET.get("page", 1) # 페이지
+        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
+        page_obj = paginator.get_page(page)
+        
+        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
 
 
 def grade(request):
