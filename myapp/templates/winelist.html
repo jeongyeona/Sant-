@@ -700,7 +700,7 @@ input[type="checkbox"]:not(#winepricecheckNO){
                         <li id="winenameKo">{{w.name_kr}}</li>
                         <li id="winenameEn">{{w.name_en}}</li>
                         <br>
-                        <li id="wineRegion">{{rs}}</li>
+						<li id="wineRegion">{{w.nation}}</li>
                         <li id="wineType">{{w.type}}</li> {% if w.price == 0 %}
                         <li id="winePrice">가격정보 없음</</li> {% else %}
                         <li id="winePrice">{{w.price}}</</li> {% endif %}
@@ -775,7 +775,6 @@ input[type="checkbox"]:not(#winepricecheckNO){
 <script>
 const wineprice = document.querySelector('.wineprice');
 const winepricelabel=document.querySelector(".wineprice-label")
-
 
 function headleinput(){
   console.log(wineprice.value)

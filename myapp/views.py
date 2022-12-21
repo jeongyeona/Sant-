@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+import pandas as pd
 
 # Create your views here.
 def main(request):
@@ -69,6 +70,10 @@ def winelist(request):
         datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
         print(datas_search)
         
+        for i in range(len(datas_search)):
+            if '-' in datas_search[i].nation:
+                datas_search[i].nation = datas_search[i].nation.split(sep=' -')[0]
+        
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
@@ -81,7 +86,7 @@ def winelist(request):
             rs = w.nation.split(sep='-')
             # print(rs[0])
                 
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'rs': rs[0], 'sk':sk, 'search_key':search_key})
+        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
     
     elif request.GET.get('filterBtn'):
         if request.GET.get('filterBtn2'):
@@ -94,9 +99,6 @@ def winelist(request):
             
             cb = '&filterBtn='
             
-            for w in check_filter:
-                rs = w.nation.split(sep='-')
-                # print(rs[0])
             list_check2 = request.GET.get('filterBtn2')
             # print(list_check)
             # print(list_check2)
@@ -106,6 +108,10 @@ def winelist(request):
             print(len(result))
             sql_query = str(result.query)
             print(sql_query)
+            
+            for i in range(len(result)):
+                if '-' in result[i].nation:
+                    result[i].nation = result[i].nation.split(sep=' -')[0]
                 
             page=request.GET.get("page", 1) # 페이지
             paginator=Paginator(result, 6) # 페이지당 6개씩 보여주기
@@ -116,13 +122,15 @@ def winelist(request):
             count = result.count()
             count = '{:,}'.format(result.count())
             
-            for w in result:
-                rs = w.nation.split(sep='-')
-                # print(rs[0])
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'rs': rs[0], 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2})
+            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2})
     if request.GET.get('filterBtn'):
         list_check = request.GET.get('filterBtn')
         check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
+        
+        for i in range(len(check_filter)):
+                if '-' in check_filter[i].nation:
+                    check_filter[i].nation = check_filter[i].nation.split(sep=' -')[0]
+        
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
@@ -132,15 +140,17 @@ def winelist(request):
         count = check_filter.count()
         count = '{:,}'.format(check_filter.count())
         
-        for w in check_filter:
-                rs = w.nation.split(sep='-')
-                # print(rs[0])
+
         
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'rs': rs, 'cb':cb, 'list_check':list_check})
+        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check})
     elif request.GET.get('filterBtn2'):
         list_check2 = request.GET.get('filterBtn2')
         check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
         # print(check_filter2)
+        
+        for i in range(len(check_filter2)):
+            if '-' in check_filter2[i].nation:
+                check_filter2[i].nation = check_filter2[i].nation.split(sep=' -')[0]
 
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(check_filter2, 6) # 페이지당 6개씩 보여주기
@@ -150,14 +160,15 @@ def winelist(request):
         
         count = check_filter2.count()
         count = '{:,}'.format(check_filter2.count())
-        
-        for w in check_filter2:
-            rs = w.nation.split(sep='-')
-            # print(rs[0])
             
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'rs': rs[0], 'cf':cf, 'list_check2':list_check2})
+        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cf':cf, 'list_check2':list_check2})
     
     winedataall=Wine.objects.all().order_by("id")
+    
+    for i in range(len(winedataall)):
+        if '-' in winedataall[i].nation:
+            winedataall[i].nation = winedataall[i].nation.split(sep=' -')[0]
+    
     page=request.GET.get("page", 1) # 페이지
     paginator=Paginator(winedataall, 6) # 페이지당 6개씩 보여주기
     page_obj = paginator.get_page(page)
@@ -165,15 +176,7 @@ def winelist(request):
     count = winedataall.count()
     count = '{:,}'.format(winedataall.count())
     
-    list=[]
-    
-    # for w in winedataall:
-    #     for i in winedataall:
-    #         rs = i.nation.split(sep='-')
-    #         list.append(rs[0])
-    #     print(list)
-            
-        return render(request, 'winelist.html', {'count':count, 'rs': list[0], 'question_list':page_obj})
+    return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
 
 
 
