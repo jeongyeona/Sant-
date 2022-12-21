@@ -71,14 +71,14 @@ def winelist(request):
     if request.GET.get('search_key'):
         sk = 'search_key='
         search_key = request.GET.get('search_key')
-        print(search_key)
+        # print(search_key)
         datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-        print(datas_search)
+        # print(datas_search)
         
         data = sql()
         
         data = data[data['name_kr'].str.contains(search_key)]
-        print(data)
+        # print(data)
         
         
         page=request.GET.get("page", 1) # 페이지
@@ -88,7 +88,7 @@ def winelist(request):
         count = datas_search.count()
         count = '{:,}'.format(datas_search.count())
 
-                
+
         return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
     
     elif request.GET.get('filterBtn'):
@@ -108,16 +108,16 @@ def winelist(request):
             check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
             # print(check_filter2)
             result = check_filter & check_filter2 
-            print(len(result))
+            # print(len(result))
             sql_query = str(result.query)
-            print(sql_query)
+            # print(sql_query)
             
             data = sql()
         
             data = data[data['type'].str.contains(list_check)]
             data = data[data['nation'].str.contains(list_check2)]
 
-            print(data)
+            # print(data)
                 
             page=request.GET.get("page", 1) # 페이지
             paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
@@ -145,8 +145,6 @@ def winelist(request):
         
         count = check_filter.count()
         count = '{:,}'.format(check_filter.count())
-        
-
         
         return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check})
     elif request.GET.get('filterBtn2'):
@@ -192,10 +190,10 @@ def grade(request):
         grade = request.GET.get('rating')
         id = request.GET.get('id')
         wine_user = WineUser.objects.get(id=id)
-        print(wine_user.pid)
-        print(id)
-        print(wine)
-        print(grade)
+        # print(wine_user.pid)
+        # print(id)
+        # print(wine)
+        # print(grade)
         
         current_path = os.path.abspath(__file__) # 경로를 객체화
         
@@ -231,14 +229,14 @@ def grade(request):
             except:
                 sql = "UPDATE wine_grade SET grade={} WHERE wineid={} AND userid={}".format(grade, wine, wine_user.pid)
                 count = cursor.execute(sql)
-                print(count)
+                # print(count)
                 conn.commit()
                 
                 winedata = Wine.objects.all()
                 winedataid = Wine.objects.get(id=wine)
                 
                 diw = request.session['WinePid']
-                print(diw)
+                # print(diw)
                 
                 data = mysql(diw, wine)
                 
@@ -270,14 +268,14 @@ def pwdreset(request):
         else:
             if WineUser.objects.filter(nickname=name,
                                              id=id, email=email).exists():
-                print(WineUser.objects.filter(nickname=name,
-                                             id=id, email=email).exists())
-                print('존재하는 회원입니다')
+                # print(WineUser.objects.filter(nickname=name,
+                                             # id=id, email=email).exists())
+                # print('존재하는 회원입니다')
                 # if wine_user == 0:
                 #     return render(request, "err.html")
                 return render(request, "pwdreset.html", {'id':id})
             else:
-                print('false')
+                # print('false')
                 lo_error['err'] = "비밀번호를 틀렸습니다."
                 return render(request, "err.html")
     
@@ -285,7 +283,7 @@ def pwdreset(request):
 def pwdsuc(request):
     err_data = {}
     id=request.POST.get('id')
-    print(id)
+    # print(id)
     if request.method == "POST":
         new = request.POST.get('new')
         newok = request.POST.get('newok')
@@ -297,7 +295,7 @@ def pwdsuc(request):
             wine_user = WineUser.objects.get(id=request.POST.get('id'))
             wine_user.pwd=make_password(new)
             wine_user.save()
-            print(wine_user)
+            # print(wine_user)
             return redirect("/")
     return render(request, 'err.html')
 
@@ -316,7 +314,7 @@ def winedetail(request):
         winedataid = Wine.objects.get(id=wineid)
         
         diw = request.session['WinePid']
-        print(diw)
+        # print(diw)
         
         data = mysql(diw, wineid)
         if data:
@@ -335,7 +333,7 @@ def sql():
     
     parent_dir = os.path.dirname(current_path)
     
-    print(current_path)
+    # print(current_path)
     with open(parent_dir + '/mydb.dat', mode='rb') as obj:
         config = pickle.load(obj)
     
@@ -354,7 +352,7 @@ def sql():
     
     
     data = pd.DataFrame(result, columns=['id', 'name_kr', 'name_en', 'producer', 'nation', 'varieties', 'type', 'food', 'abv', 'degree', 'sweet', 'acidity', 'body', 'tannin', 'price', 'year', 'ml', 'url', 'wineid', 'grade'])
-    print(data.head(3))
+    # print(data.head(3))
     
     data[['nation','nation2']] = data['nation'].str.split(' -', n=1, expand=True)
     data.drop(columns='nation2')
