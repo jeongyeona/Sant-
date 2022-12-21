@@ -6,6 +6,9 @@ from django.contrib.auth import login as auth_login
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 import pandas as pd
 from django.db.models import Avg
+import pickle
+import MySQLdb
+import os
 
 # Create your views here.
 def main(request):
@@ -71,21 +74,19 @@ def winelist(request):
         datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
         print(datas_search)
         
-        for i in range(len(datas_search)):
-            if '-' in datas_search[i].nation:
-                datas_search[i].nation = datas_search[i].nation.split(sep=' -')[0]
+        data = sql()
+        
+        data = data[data['name_kr'].str.contains(search_key)]
+        print(data)
+        
         
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
+        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         count = datas_search.count()
         count = '{:,}'.format(datas_search.count())
 
-        
-        for w in datas_search:
-            rs = w.nation.split(sep='-')
-            # print(rs[0])
                 
         return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
     
@@ -110,12 +111,15 @@ def winelist(request):
             sql_query = str(result.query)
             print(sql_query)
             
-            for i in range(len(result)):
-                if '-' in result[i].nation:
-                    result[i].nation = result[i].nation.split(sep=' -')[0]
+            data = sql()
+        
+            data = data[data['type'].str.contains(list_check)]
+            data = data[data['nation'].str.contains(list_check2)]
+
+            print(data)
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(result, 10) # 페이지당 6개씩 보여주기
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             cf = '&filterBtn2='
@@ -128,12 +132,12 @@ def winelist(request):
         list_check = request.GET.get('filterBtn')
         check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
         
-        for i in range(len(check_filter)):
-            if '-' in check_filter[i].nation:
-                check_filter[i].nation = check_filter[i].nation.split(sep=' -')[0]
+        data = sql()
+        
+        data = data[data['type'].str.contains(list_check)]
         
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
+        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         cb = '&filterBtn='
@@ -150,12 +154,12 @@ def winelist(request):
         # print(check_filter2)
         
         
-        for i in range(len(check_filter2)):
-            if '-' in check_filter2[i].nation:
-                check_filter2[i].nation = check_filter2[i].nation.split(sep=' -')[0]
+        data = sql()
+        
+        data = data[data['nation'].str.contains(list_check2)]
 
         page=request.GET.get("page", 1) # 페이지
-        paginator=Paginator(check_filter2, 10) # 페이지당 6개씩 보여주기
+        paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         cf = '&filterBtn2='
@@ -171,37 +175,7 @@ def winelist(request):
     count = winedataall.count()
     count = '{:,}'.format(winedataall.count())
     
-    import pickle
-    import MySQLdb
-    import os
-    
-    current_path = os.path.abspath(__file__) # 경로를 객체화
-    
-    parent_dir = os.path.dirname(current_path)
-    
-    print(current_path)
-    with open(parent_dir + '/mydb.dat', mode='rb') as obj:
-        config = pickle.load(obj)
-    
-    try:
-        conn = MySQLdb.connect(**config)
-        cursor = conn.cursor()
-        sql = "select * from wine left join (select wineid, round(avg(grade), 2) as grade from wine_grade group by wineid) as avgstar on wine.id = avgstar.wineid order by id"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
-    
-    
-    data = pd.DataFrame(result, columns=['id', 'name_kr', 'name_en', 'producer', 'nation', 'varieties', 'type', 'food', 'abv', 'degree', 'sweet', 'acidity', 'body', 'tannin', 'price', 'year', 'ml', 'url', 'wineid', 'grade'])
-    print(data.head(3))
-    
-    data[['nation','nation2']] = data['nation'].str.split(' -', n=1, expand=True)
-    data.drop(columns='nation2')
+    data = sql()
     
     page=request.GET.get("page", 1) # 페이지
     paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
@@ -221,10 +195,6 @@ def grade(request):
         print(id)
         print(wine)
         print(grade)
-                
-        import pickle
-        import MySQLdb
-        import os
         
         current_path = os.path.abspath(__file__) # 경로를 객체화
         
@@ -330,3 +300,34 @@ def pwderr(request):
 
 def iderr(request):
     return render(request, 'iderr.html')
+
+def sql():  
+    current_path = os.path.abspath(__file__) # 경로를 객체화
+    
+    parent_dir = os.path.dirname(current_path)
+    
+    print(current_path)
+    with open(parent_dir + '/mydb.dat', mode='rb') as obj:
+        config = pickle.load(obj)
+    
+    try:
+        conn = MySQLdb.connect(**config)
+        cursor = conn.cursor()
+        sql = "select * from wine left join (select wineid, round(avg(grade), 2) as grade from wine_grade group by wineid) as avgstar on wine.id = avgstar.wineid order by id"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    
+    
+    data = pd.DataFrame(result, columns=['id', 'name_kr', 'name_en', 'producer', 'nation', 'varieties', 'type', 'food', 'abv', 'degree', 'sweet', 'acidity', 'body', 'tannin', 'price', 'year', 'ml', 'url', 'wineid', 'grade'])
+    print(data.head(3))
+    
+    data[['nation','nation2']] = data['nation'].str.split(' -', n=1, expand=True)
+    data.drop(columns='nation2')
+    
+    return data

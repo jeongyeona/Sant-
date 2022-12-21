@@ -25,7 +25,7 @@ urlpatterns = [
     path('logout', views.logout),  
     path('err', views.err), 
     path('winelist', views.winelist), 
-    path('grade', views.grade), 
+    path('grade', views.grade),  
     path('pwdok', views.pwdok),  
     path('pwdreset', views.pwdreset), 
     path('pwdsuc', views.pwdsuc), 
