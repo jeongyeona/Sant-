@@ -128,8 +128,8 @@ def winelist(request):
         check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
         
         for i in range(len(check_filter)):
-                if '-' in check_filter[i].nation:
-                    check_filter[i].nation = check_filter[i].nation.split(sep=' -')[0]
+            if '-' in check_filter[i].nation:
+                check_filter[i].nation = check_filter[i].nation.split(sep=' -')[0]
         
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
