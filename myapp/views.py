@@ -15,7 +15,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.utils import to_categorical  
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
-from sklearn.preprocessing import RobustScaler, MinMaxScaler
+from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
 import random
 import math
 
@@ -325,13 +325,12 @@ def winelist(request):
         # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
         if request.session.get('WinePid'):
             ddata=distance(data, request.session.get('WinePid'))
-            data=pd.merge(data, ddata)
-            data = data.sort_values('distance')
+            print('시작')
+            data=pd.concat([data, ddata], axis=1)
+            data = data.sort_values('distance', ascending=True)
             print('거리순 정렬')
             print(data[['id','distance']].head())
             data=data[1:11]
-            
-        print(data.head())
     
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
@@ -461,12 +460,10 @@ def winedetail(request):
         
         data = []
         if request.session.get('WinePid'):
-            diw = request.session['WinePid']
+            diw = request.session.get('WinePid')
             # print(diw)
-            
             data = mysql(diw, wineid)
-            data = data[0]
-    
+            
     return render(request, 'winedetail.html', {'data':data, 'wineid':wineid,"winedataid":winedataid})
 
 def pwderr(request):
@@ -616,11 +613,15 @@ def distance(df, userid):
         #     pass
         #
 
+    feature = df.iloc[:,4:15]
+    
+    feature.drop(columns=['food','degree'], inplace=True)
+    
     def PostNation(values):
         if values not in nation:
             return '기타국가'
         return values
-    df['nation'] = df['nation'].apply(PostNation)   
+    feature['nation'] = feature['nation'].apply(PostNation)   
     
     def PostVar(values):
         try:
@@ -632,13 +633,13 @@ def distance(df, userid):
         except:
             pass
         
-    df['varieties'] = df['varieties'].apply(PostVar)
+    feature['varieties'] = feature['varieties'].apply(PostVar)
     
     def PostType(values):
         if values not in type:
             values='기타'
         return values
-    df['type'] = df['type'].apply(PostType)
+    feature['type'] = feature['type'].apply(PostType)
     
     def PostAbv(values):
         if values != '0':
@@ -647,21 +648,21 @@ def distance(df, userid):
             values = re.sub(r'[^\w]', r' ', values)
             values = values.split(sep=' ')[0]
         return values
-    df['abv'] = df['abv'].apply(PostAbv)
-    df['abv'] = df['abv'].astype(dtype='int')
-    bb = round(df['abv'].mean())
+    feature['abv'] = feature['abv'].apply(PostAbv)
+    feature['abv'] = feature['abv'].astype(dtype='int')
+    bb = round(feature['abv'].mean())
 
     def ZeroAbv(values):
         if values == 0:
             values = bb            
         return values
-    df['abv'] = df['abv'].apply(ZeroAbv)    
+    feature['abv'] = feature['abv'].apply(ZeroAbv)    
         
     def PostPrice(values):
         if values == 0:
             values = round(df['price'].mean())
         return values
-    df['price'] = df['price'].apply(PostPrice)
+    feature['price'] = feature['price'].apply(PostPrice)
     # food    
     # food = "0 chellfish dry fruit noodle chicken pig raisin bibimbap salami salad fish champagne cow asia sheep cheese cake fried pizza walnut"
     # tokenizer = Tokenizer()
@@ -688,13 +689,11 @@ def distance(df, userid):
 
     pd.set_option('display.max_columns', 21)
     pd.set_option('display.max_seq_items', 100)
-    feature = df.iloc[:,4:15]
-    
-    feature.drop(columns=['food','degree'], inplace=True)
+
     print('feature 요약')
     print(feature.head())
     
-    transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=RobustScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
+    transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
     transform.fit(feature)
     x_feature = transform.transform(feature)
     # tar=x_feature[target].toarray()
@@ -705,11 +704,17 @@ def distance(df, userid):
     def dist(x, y):
         return np.sqrt(np.sum((x-y)**2))
     
-    df['distance']= np.NaN
-    print(x_feature[0])
-    print(x_feature[target])
-    for i, row in df.iterrows():
-        df['distance'][i]=dist(x_feature[i].toarray(),x_feature[target].toarray())
+    def dis(x, y):
+        a = (np.array(x)-np.array(y))**2
+        return np.sqrt(a.sum(axis=1))
+    
+    xf = pd.DataFrame(x_feature.toarray())
+    xft = pd.DataFrame(x_feature[target].toarray())
+    c = dis(xf,xft)
+    # print('길이')
+    # print(len(c))
+    # for i, row in df.iterrows():
+    #     df['distance'][i]=dist(x_feature[i].toarray(),x_feature[target].toarray())
         
     # def d(values):   # array를 넣어준다
     #     return dist(values, tar)
@@ -719,10 +724,7 @@ def distance(df, userid):
     # df['distance'] = dist(df['feature'], df['target'])
 
     # print(df['distance'])
-    print('대상과의 거리 0나와야함')
-    print(df['distance'][target])
-    print('거리 null값 갯수')
-    print(df['distance'].isnull().sum())
-    distance=df[['id', 'distance']]
+    distance=pd.DataFrame({'distance':c})
+    print(distance)
     # print(feature[10:15])
     return distance
