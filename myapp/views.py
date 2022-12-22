@@ -48,7 +48,12 @@ def loginok(request):
         if not(login_id):
             lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
         if(login_id):
-            wine_user = WineUser.objects.get(id=login_id)
+            # __________________________________
+            try:
+                wine_user = WineUser.objects.get(id=login_id)
+            except WineUser.DoesNotExist:
+                return render(request, 'iderr.html')
+            # __________________________________
             # if wine_user == 0:
             # return render(request, "err.html")
             if check_password(login_pwd, wine_user.pwd): # 비번이 일치하면
@@ -444,15 +449,15 @@ def addinfo(request):
 
 def winedetail(request):
     if request.method == "GET":
-        winedata = Wine.objects.all()
         wineid = request.GET.get('wineid')
         winedataid = Wine.objects.get(id=wineid)
         
-        diw = request.session['WinePid']
-        # print(diw)
-        
-        data = mysql(diw, wineid)
-        if data:
+        data = []
+        if request.session.get('WinePid'):
+            diw = request.session['WinePid']
+            # print(diw)
+            
+            data = mysql(diw, wineid)
             data = data[0]
     
     return render(request, 'winedetail.html', {'data':data, 'wineid':wineid,"winedataid":winedataid})

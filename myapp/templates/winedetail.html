@@ -339,6 +339,10 @@ h5{
    text-align: left;
    margin-left: 20px;
 }
+.ddd{
+   text-align: left;
+   margin-left: 25px;
+}
 
 </style>
 <body id="winedetailback">
@@ -561,7 +565,7 @@ h5{
                      <li id="WineDetailGradeAverage">
                      {% if data %}
                         <h5>내 별점</h5>
-                   <p>⭐ {{data}}</p>
+                   <p class="ddd">⭐ {{data}}</p>
                  {% endif %}
                      </li>
                      <li id="WineDetailGradeMyAverage">
@@ -621,21 +625,60 @@ h5{
                            </div>
                      </ul>
                   </div>
-                  <div cla>
-                     <div id="WDclickmebox">
+                            <div>
+                      <div id="WDclickmebox">
+                          <div id="WDclickmeboxdiv">
+                            <div id="WDclickme3">상세정보</div>
+                         </div>
                          <div id="WDclickmeboxdiv">
-                           <div id="WDclickme3">상세정보</div>
-                        </div>
-                        <div id="WDclickmeboxdiv">
-                           <div id="WDclickme4">테이스팅노트</div>
-                        </div>
-                     </div>
-                  </div>   
+                            <div id="WDclickme4">테이스팅노트</div>
+                         </div>
+                      </div>
+                      <div id="WDcommenetBox">
+                              <div id="WDcommenettextBox">
+                                 <h5>댓글 달기</h5>
+                                 <div>
+                                    <textarea rows="" cols="" id="WDtextarea" maxlength="60" placeholder=" 최대 60자까지만 작성해 주세요"></textarea>
+                                    <input type="button" value="등록" />
+                                 </div>
+                              </div>
+                              <div>
+                                 <div id="WDcommenetuser"></div>
+                                 <div id="WDcommenetday"></div>
+                              </div>
+                              <div></div>
+                              <div></div>
+                      </div>
+                </div>   
          </div>
       </div>
    </main>
 </body>
 <style> 
+#WDcommenettextBox div{
+         width: 100%;
+         display: flex;
+      }
+      #WDtextarea{
+         width: 100%;
+         height: 100px;
+         border-top-left-radius: 5px;
+         border-bottom-left-radius: 5px;
+         resize:none;
+      }
+      #WDcommenettextBox{
+         display: flex;
+         flex-direction: column;
+         width: 90%;
+         margin-left: 40px;
+      }
+      #WDcommenettextBox h5{
+         display: flex;
+         justify-content: flex-start;
+         margin-left: 0px;
+         margin-bottom: 10px;
+      }
+   
    /* 목록 버튼 css*/
    #backlist{
       background-color: #888888;
@@ -725,8 +768,30 @@ h5{
        box-shadow: inset 0px 0px 3px white;
    }
 
+
 </style>
 <script>
+   const form = document.querySelector('#starform');
+   
+   form.addEventListener('submit', event => {
+   const selectedRadio = document.querySelector('input[type="radio"]:checked');
+   
+     if (!selectedRadio) {
+       alert('아직 선택하지 않았습니다.');
+      event.preventDefault();
+       return;
+     }
+   });
+   
+   const wineid = document.querySelector('#id')
+
+   form.addEventListener('submit', event => {
+       if (wineid.value === "") {
+          event.preventDefault();
+           alert("로그인해주세요");
+         }
+    });
+   
     // DB에서 당도,산미,바디,탄닌을 받아서 시각화
     let sweet=document.querySelector("#WineDetailInfSweet")
     let acidity=document.querySelector("#WineDetailInfacidity")
@@ -808,12 +873,6 @@ h5{
     }else{
        tainnin.innerHTML=fiveicon;
     }
-    
-    // 와인에 지역 상세주소 잘라서 출력
-    let country=document.querySelector("#WineDetailInfcountry")
-    let regions=document.querySelector("#WineDetailInfregions")
-    let region=document.querySelector("#WineDetailInfregion")
-
     
 </script>
 </html>
