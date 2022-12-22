@@ -78,7 +78,7 @@ def winelist(request):
             # print(datas_search)
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             sk = '&search_key='
@@ -87,7 +87,7 @@ def winelist(request):
             check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
                         
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
                     
             cb = '&filterBtn='
@@ -110,7 +110,7 @@ def winelist(request):
             # print(data)
                     
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
                  
             cf = '&filterBtn2='
@@ -127,7 +127,7 @@ def winelist(request):
             check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             cb = '&filterBtn='
@@ -168,7 +168,7 @@ def winelist(request):
             # print(datas_search)
                 
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(datas_search, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
             
             sk = '&search_key='
@@ -177,7 +177,7 @@ def winelist(request):
             check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
                         
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
                     
             cb = '&filterBtn='
@@ -192,7 +192,7 @@ def winelist(request):
             data = data[data['type'].str.contains(list_check)]
                  
             page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 6) # 페이지당 6개씩 보여주기
+            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
                     
             count = result.count()

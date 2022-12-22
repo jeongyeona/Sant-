@@ -13,6 +13,7 @@
    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
    crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <title>Document</title>
 </head>
 <style>
@@ -51,9 +52,7 @@
    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
 /* 왕디테일 */
-#WineDetailInfBox {
-   margin-top: 100px;
-}
+
 
 #WineDetailimgbox {
    background-color: #fff;
@@ -280,13 +279,6 @@ ul {
 #slidebtn{
    margin-right: 19px;
 }
-#signupBtn, #signupBtna {
-   width: 100%;
-   height: 50px;
-   background-color: #7E181A;;
-   color: white;
-   font-size: 16px;
-}
 
 #mainSignForgot, #mainSignForgotProfile {
    text-decoration: none;
@@ -335,163 +327,167 @@ ul {
 /* 배너 css */
 
 #tkwls{
-	margin-top: 100px;
-	text-align: center;
+   margin-top: 100px;
+   text-align: center;
 }
 #tkwls2{
-	width: 80%;
-	height: 250px;
-	text-align: center;
+   width: 80%;
+   height: 250px;
+   text-align: center;
 }
 h5{
-	text-align: left;
-	margin-left: 20px;
+   text-align: left;
+   margin-left: 20px;
 }
 
 </style>
 <body id="winedetailback">
    <main>
-		<nav id="nav3">
-			<a href="/"> <img src="static/images/bysante.png" alt="logoimg"
-				id="mainLogo_img">
-			</a> {% if request.session.WineUser %}
-			<!-- 프로필 폼 -->
+      <nav id="nav3">
+         <a href="/"> <img src="static/images/bysante.png" alt="logoimg"
+            id="mainLogo_img">
+         </a> {% if request.session.WineUser %}
+         <!-- 프로필 폼 -->
 
-			<div class=anhsdjw123>
-				<button id="slidebtn" class="btn btn-primary" type="button"
-					data-bs-toggle="offcanvas" data-bs-target="#userprofile"
-					aria-controls="offcanvasRight">PROFILE</button>
-				<div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile"
-					aria-labelledby="offcanvasRightLabel">
-					<div class="offcanvas-header">
-						<button type="button" class="btn-close"
-							data-bs-dismiss="offcanvas" aria-label="Close"></button>
-					</div>
-					<div class="loginImgBox">
-						<img src="static/images/profilelogo.png" alt="loginlogo"
-							id="loginlogo">
-					</div>
-					<div class="proflieImgBox">
-						<img src="static/images/proflieimg.png" alt="proflieimg"
-							id="proflieImg">
-					</div>
+         <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button"
+               data-bs-toggle="offcanvas" data-bs-target="#userprofile"
+               aria-controls="offcanvasRight">PROFILE</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile"
+               aria-labelledby="offcanvasRightLabel">
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/profilelogo.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
+               <div class="proflieImgBox">
+                  <img src="static/images/proflieimg.png" alt="proflieimg"
+                     id="proflieImg">
+               </div>
 
-					<div class="offcanvas-body">
-						<div id="mainLink" class="mt-3">
-							<a href="addinfo" id="mainSignForgotProfile">개인 통계</a>
-						</div>
-						<form action="logout" method="post" autocomplete="off"> {% csrf_token %}
-							<!-- 로그 아웃시 연결 views 연결 만들기 -->
-							<br /> <input type="submit" id="signupBtna" value="LOG OUT" />
-						</form>
-					</div>
-				</div>
-			</div>
-			{% else %}
-			<!-- 로그인 폼 -->
-			<div class=anhsdjw123>
-				<button id="slidebtn" class="btn btn-primary" type="button"
-					data-bs-toggle="offcanvas" data-bs-target="#logintarget"
-					aria-controls="offcanvasRight">LOGIN</button>
-				<div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget"
-					aria-labelledby="offcanvasRightLabel">
-					<div class="offcanvas-header">
-						<button type="button" class="btn-close"
-							data-bs-dismiss="offcanvas" aria-label="Close"></button>
-					</div>
-					<div class="loginImgBox">
-						<img src="static/images/loginimg.png" alt="loginlogo"
-							id="loginlogo">
-					</div>
+               <div class="offcanvas-body">
+                  <div id="mainLink" class="mt-3">
+                     <a href="addinfo" id="mainSignForgotProfile">ADD INFORMATION</a>
+                  </div>
+                  <form action="logout" method="post" autocomplete="off">
+                     {% csrf_token %}
+                     <!-- 로그 아웃시 연결 views 연결 만들기 -->
+                     <br /> <input type="submit" id="signupBtna" value="LOG OUT" />
+                  </form>
+               </div>
+            </div>
+         </div>
+         {% else %}
+         <!-- 로그인 폼 -->
+         <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button"
+               data-bs-toggle="offcanvas" data-bs-target="#logintarget"
+               aria-controls="offcanvasRight">LOGIN</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget"
+               aria-labelledby="offcanvasRightLabel">
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/loginimg.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
 
-					<div class="offcanvas-body">
-						<form action="loginok" method="post" autocomplete="off"
-							id="loginform">
-							{% csrf_token %}
-							<div class="mb-1">
-								<input class="form-control " type="text" placeholder="ID"
-									name="lo_id" id="loginMainForm" />
-							</div>
-							<br />
-							<div class="mb-1">
-								<input class="form-control " type="password"
-									placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
-							</div>
-							<br /> <input type="submit" id="signupBtna" value="SIGN IN" />
-						</form>
-						<div id="mainLink" class="mt-3">
-							<a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
-								data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
-								id="mainSignForgot">FORGOT PASSWORD </a>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endif %}
+               <div class="offcanvas-body">
+                  <form action="loginok" method="post" autocomplete="off"
+                     id="loginform">
+                     {% csrf_token %}
+                     <div class="mb-1">
+                        <input class="form-control " type="text" placeholder="ID"
+                           name="lo_id" id="loginMainForm" />
+                     </div>
+                     <br />
+                     <div class="mb-1">
+                        <input class="form-control " type="password"
+                           placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
+                     </div>
+                     <br /> <input type="submit" id="signupBtna" value="SIGN IN" />
+                  </form>
+                  <div id="mainLink" class="mt-3">
+                     <a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
+                        id="mainSignForgot">FORGOT PASSWORD </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endif %}
 
-			<button id="listBtn" type="button" class="btn btn-primary"
-				onClick="location.href='winelist'">LIST</button>
+         <button id="listBtn" type="button" class="btn btn-primary"
+            onClick="location.href='winelist'">LIST</button>
 
-			<!-- 회원가입 폼  -->
-			<div class=anhsdjw123>
-				<div class="offcanvas offcanvas-end" tabindex="-1" id="newuserlogin"
-					aria-labelledby="offcanvasRightLabel">
+         <!-- 회원가입 폼  -->
+         <div class=anhsdjw123>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="newuserlogin"
+               aria-labelledby="offcanvasRightLabel">
 
-					<div class="offcanvas-header">
-						<button type="button" class="btn-close"
-							data-bs-dismiss="offcanvas" aria-label="Close"></button>
-					</div>
-					<div class="loginImgBox">
-						<img src="static/images/loginimg.png" alt="loginlogo"
-							id="loginlogo">
-					</div>
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/loginimg.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
 
-					<div class="offcanvas-body">
-						<form action="signupok" method="post" id="signupForm"
-							autocomplete="off">
-							{% csrf_token %}
-							<div class="mb-2">
-								<input class="form-control " type="text" placeholder="NICKNAME"
-									name="User_name" id="Username" />
-								<div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며 2-10자리
-									가능합니다.</div>
-							</div>
-							<br />
-							<div class="mb-2">
-								<input class="form-control " type="text" placeholder="ID"
-									name="User_id" id="Userid" />
-								<div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
-							</div>
-							<br />
-							<div class="mb-2">
-								<input class="form-control " type="password"
-									placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
-								<div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
-									8글자~13글자 이내로 입력해주세요.</div>
-							</div>
-							<br />
-							<div class="mb-2">
-								<input class="form-control " type="password"
-									placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
-								<div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
-							</div>
-							<br />
-							<div class="mb-2">
-								<input class="form-control " type="text" placeholder="E_MAIL"
-									name="User_email" id="Useremail" />
-								<div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
-							</div>
-							<br> <input type="submit" id="signupBtn" value="SIGN UP" />
-						</form>
-					</div>
-				</div>
-			</div>
-		</nav>
+               <div class="offcanvas-body">
+                  <form action="signupok" method="post" id="signupForm"
+                     autocomplete="off">
+                     {% csrf_token %}
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="NICKNAME"
+                           name="User_name" id="Username" />
+                        <div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며 2-10자리
+                           가능합니다.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="ID"
+                           name="User_id" id="Userid" />
+                        <div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="password"
+                           placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
+                        <div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
+                           8글자~13글자 이내로 입력해주세요.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="password"
+                           placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
+                        <div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="E_MAIL"
+                           name="User_email" id="Useremail" />
+                        <div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
+                     </div>
+                     <br> <input type="submit" id="signupBtn" value="SIGN UP" />
+                  </form>
+               </div>
+            </div>
+         </div>
+      </nav>
 
-		<div class="tkwls" id="tkwls">
-			<img src="static/images/4.gif" id="tkwls2"/>
-		</div>
-		<div class="container text-center">
+      <div class="tkwls" id="tkwls">
+         <img src="static/images/4.gif" id="tkwls2"/>
+      </div>
+      <div class="container text-center">
+              <div id="backlist">
+               <a href="winelist">목록</a>
+         </div>
          <!-- 와인 디테일 와인 이미지랑 부가적인 설명 -->
          <div id="WineDetailInfBox" class="row">
             <!-- 와인 이미지 -->
@@ -563,13 +559,13 @@ h5{
                   <!-- 다른 사람드 평점 -->
                   <div>
                      <li id="WineDetailGradeAverage">
-                        {% if data %}
+                     {% if data %}
                         <h5>내 별점</h5>
- 							<p>⭐ {{data}}</p>
- 						{% endif %}
+                   <p>⭐ {{data}}</p>
+                 {% endif %}
                      </li>
                      <li id="WineDetailGradeMyAverage">
-                        <h5>내 평점</h5>
+                        <h5>별점 주기</h5>
                         <form name="starform" id="starform" method="get" action="grade">
                            <fieldset>
                               <input type="radio" name="rating" value="5" id="rate1"><label
@@ -590,18 +586,175 @@ h5{
                </ul>
             </div>
          </div>
-         <!-- 비슷 재품 -->
-         <div></div>
+         <div id="wine_detailinfo">
+                  <div id="wine_detailinfolist">
+                     <div id="WDclickmebox">
+                         <div id="WDclickmeboxdiv">
+                           <div id="WDclickme1">상세정보</div>
+                        </div>
+                        <div id="WDclickmeboxdiv">
+                           <div id="WDclickme2">테이스팅노트</div>
+                        </div>
+                     </div>   
+                     <ul>
+                        <div id="wineDetailvalue">
+                                <div>생산자</div>
+                                <div>생산년도</div>
+                                <div>국가/생산지역</div>
+                                <div>주요품종</div>
+                                <div>타입</div>
+                                <div>알코올</div>
+                                <div>음용온도</div>
+                                <div>추천음식</div>
+                                <div>용량</div>
+                              </div>
+                              <div id="wineDetailvalueinfo" class="container">
+                                <div>{{winedataid.producer}}</div>                  
+                                <div id="nullcount">{{winedataid.year}}</div>
+                                <div id="winelalanation">{{winedataid.nation}}</div>
+                                <div id="winelalanation">{{winedataid.varieties}}</div>
+                                <div>{{winedataid.type}}</div>
+                                <div id="nullcount">{{winedataid.abv}}</div>         
+                                <div>{{winedataid.degree}}</div>
+                                <div id="nullcount">{{winedataid.food}}</div>
+                                <div>{{winedataid.ml}}</div>   
+                           </div>
+                     </ul>
+                  </div>
+                  <div cla>
+                     <div id="WDclickmebox">
+                         <div id="WDclickmeboxdiv">
+                           <div id="WDclickme3">상세정보</div>
+                        </div>
+                        <div id="WDclickmeboxdiv">
+                           <div id="WDclickme4">테이스팅노트</div>
+                        </div>
+                     </div>
+                  </div>   
+         </div>
       </div>
    </main>
 </body>
+<style> 
+   /* 목록 버튼 css*/
+   #backlist{
+      background-color: #888888;
+      width: 70px;
+      height: 30px;
+      margin: 100px 0px 20px 20px;
+      border-radius: 10px;   
+   }
+   #backlist a{
+      text-decoration: none;
+      color: white;
+   }
+   #backlist a:hover { 
+      color: white; 
+   }
+   #WDclickmebox{
+      display: flex;
+      margin: 50px 0px 30px 40px;
+   }
+   #WDclickmeboxdiv{
+      width: 200px;
+   }
+   #WDclickme1,
+   #WDclickme4{
+      color:#7E181A;
+      font-size:1.1rem;
+      font-weight: 800;
+      text-align : center;
+      line-height: 50px;
+      border: 2px solid #7E181A;
+      border-top-right-radius :10px;
+      border-top-left-radius :10px;
+      border-bottom: none;
+   }
+   #WDclickme2,
+   #WDclickme3{
+      color:#666666;
+      text-align : center;
+      line-height: 50px;
+      border: 1px solid #666666;
+      border-top-right-radius :10px;
+      border-top-left-radius :10px;
+      border-bottom: none;
+   }
+   
+   /* 와인 상세정보css*/
+   #wine_detailinfolist ul{
+      display: flex;
+   }
+   #wine_detailinfo{
+      margin-bottom: 200px;
+   }
+   #wineDetailvalue div{
+      display: flex;
+      width: 150px;
+      margin-left: 100px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      font-weight: 800;
+   }
+   #wineDetailvalueinfo div{
+      display: flex;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+   }
+   #winelalanation{
+       width:73%;
+       overflow: auto;
+       white-space: nowrap;
+       
+  }
+  #winelalanation::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+   }
+   
+   #winelalanation::-webkit-scrollbar-thumb {
+       background-color: #B0B0B0;
+       border-radius: 10px;
+       background-clip: padding-box;
+       border: 2px solid transparent;
+   }
+   
+   #winelalanation::-webkit-scrollbar-track {
+       background-color: #E0E0E0;
+       border-radius: 10px;
+       box-shadow: inset 0px 0px 3px white;
+   }
+
+</style>
 <script>
-      // DB에서 당도,산미,바디,탄닌을 받아서 시각화
+    // DB에서 당도,산미,바디,탄닌을 받아서 시각화
     let sweet=document.querySelector("#WineDetailInfSweet")
     let acidity=document.querySelector("#WineDetailInfacidity")
     let body=document.querySelector("#WineDetailInfbody")
-    let tainnin=document.querySelector("#WineDetailInftainnin")
+    let tainnin=document.querySelector("#WineDetailInftainnin")  
+    let nation=document.querySelector("#winelalanation")
+    let nullcount=document.querySelector("#nullcount")
     
+    if(nullcount.textContent == 0){
+       nullcount.innerHTML= "정보없음"
+    }
+    
+    
+      $('#WDclickme3').click(function() {
+        $('html, body').animate({
+          scrollTop: $('#WDclickme1').offset().top
+        }, 1);
+      });
+    
+      $('#WDclickme2').click(function() {
+        $('html, body').animate({
+          scrollTop: $('#WDclickme4').offset().top
+        }, 1);
+      });
+    
+    // 음식 이름 자르기
+      nation.textContent = nation.textContent.replace(/-/g, '>');
+
     let oneicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
     let twoicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon"></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
     let threeicon='<div class="asjoui1h989"><div class="winedetailicon" id="winedetailiconid1"></div><div class="winedetailicon" id="winedetailiconid2"></div><div class="winedetailicon" id="winedetailiconid3" ></div><div class="winedetailicon"></div><div class="winedetailicon"></div></div>'
@@ -660,16 +813,7 @@ h5{
     let country=document.querySelector("#WineDetailInfcountry")
     let regions=document.querySelector("#WineDetailInfregions")
     let region=document.querySelector("#WineDetailInfregion")
-    let text=country.innerHTML
-    let date = text.split("-")
-    
-    if(true){
-        regions.innerText=date[0]
-        region.innerText=date[1]
-        country.style.display = 'none';
-    }
-      // 음식 이름 자르기
-      let foods=document.querySelector("#wineDrtailInffoods")
+
     
 </script>
 </html>
