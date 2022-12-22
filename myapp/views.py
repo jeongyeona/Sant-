@@ -5,10 +5,22 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 import pandas as pd
+import numpy as np
 from django.db.models import Avg
 import pickle
 import MySQLdb
 import os
+import re
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.utils import to_categorical  
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
+from sklearn.preprocessing import RobustScaler, MinMaxScaler
+import random
+import math
+
+current_path = os.path.abspath(__file__) # 경로를 객체화
+parent_dir = os.path.dirname(current_path)
 
 # Create your views here.
 def main(request):
@@ -232,11 +244,6 @@ def winelist(request):
             data = data[data['nation'].str.contains(list_check2)]
             # print(data)    
             
-            
-                
-            
-                
-                
             page=request.GET.get("page", 1) # 페이지
             paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
             page_obj = paginator.get_page(page)
@@ -286,15 +293,13 @@ def winelist(request):
             count = datas_search.count()
             count = '{:,}'.format(datas_search.count())
     
-    
             return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
         
         if request.GET.get('filterBtn2'):
             list_check2 = request.GET.get('filterBtn2')
             check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
             # print(check_filter2)
-            
-            
+                 
             data = sql()
             
             data = data[data['nation'].str.contains(list_check2)]
@@ -317,12 +322,22 @@ def winelist(request):
         
         data = sql()
         
+        # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
+        if request.session.get('WinePid'):
+            ddata=distance(data, request.session.get('WinePid'))
+            data=pd.merge(data, ddata)
+            data = data.sort_values('distance')
+            print('거리순 정렬')
+            print(data[['id','distance']].head())
+            data=data[1:11]
+            
+        print(data.head())
+    
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(page)
         
         return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
-
 
 def grade(request):
     if request.method == "GET":
@@ -334,10 +349,6 @@ def grade(request):
         # print(id)
         # print(wine)
         # print(grade)
-        
-        current_path = os.path.abspath(__file__) # 경로를 객체화
-        
-        parent_dir = os.path.dirname(current_path)
         
         print(current_path)
         with open(parent_dir + '/mydb.dat', mode='rb') as obj:
@@ -356,15 +367,13 @@ def grade(request):
                 winedataid = Wine.objects.get(id=wine)
                 
                 diw = request.session['WinePid']
-                print(diw)
+
                 
                 data = mysql(diw, wine)
                 
                 if data:
                     data = data[0]
                 
-                
-    
                 return render(request, 'winedetail.html', {'data':data[0], 'wineid':wine,"winedataid":winedataid})
             except:
                 sql = "UPDATE wine_grade SET grade={} WHERE wineid={} AND userid={}".format(grade, wine, wine_user.pid)
@@ -391,7 +400,6 @@ def grade(request):
     return render(request, 'err.html')
 
 def pwdok(request):
-    
     return render(request, "pwdok.html")
 
 def pwdreset(request):
@@ -409,7 +417,7 @@ def pwdreset(request):
             if WineUser.objects.filter(nickname=name,
                                              id=id, email=email).exists():
                 # print(WineUser.objects.filter(nickname=name,
-                                             # id=id, email=email).exists())
+                # id=id, email=email).exists())
                 # print('존재하는 회원입니다')
                 # if wine_user == 0:
                 #     return render(request, "err.html")
@@ -419,7 +427,6 @@ def pwdreset(request):
                 lo_error['err'] = "비밀번호를 틀렸습니다."
                 return render(request, "err.html")
     
-
 def pwdsuc(request):
     err_data = {}
     id=request.POST.get('id')
@@ -490,21 +497,15 @@ def sql():
         cursor.close()
         conn.close()
     
-    
     data = pd.DataFrame(result, columns=['id', 'name_kr', 'name_en', 'producer', 'nation', 'varieties', 'type', 'food', 'abv', 'degree', 'sweet', 'acidity', 'body', 'tannin', 'price', 'year', 'ml', 'url', 'wineid', 'grade'])
     # print(data.head(3))
     
-    data[['nation','nation2']] = data['nation'].str.split(' -', n=1, expand=True)
-    data.drop(columns='nation2')
+    data[['nation','nation2']] = data['nation'].str.split('(', n=1, expand=True)
+    data.drop(columns='nation2', inplace=True)
     
     return data
 
 def mysql(userid, wineid):  
-    current_path = os.path.abspath(__file__) # 경로를 객체화
-    
-    parent_dir = os.path.dirname(current_path)
-    
-    print(current_path)
     with open(parent_dir + '/mydb.dat', mode='rb') as obj:
         config = pickle.load(obj)
     
@@ -522,3 +523,206 @@ def mysql(userid, wineid):
         conn.close()
     
     return result
+
+def distance(df, userid):
+    # print(current_path)
+    with open(parent_dir + '/mydb.dat', mode='rb') as obj:
+        config = pickle.load(obj)
+    
+    try:
+        conn = MySQLdb.connect(**config)
+        cursor = conn.cursor()
+        sql = "select wineid from wine_grade where userid=%s and grade=(select max(grade) from wine_grade where userid=%s)"
+        cursor.execute(sql, (userid, userid))
+        targetno = cursor.fetchall()
+
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    nation = ['프랑스','이탈리아','미국','칠레','스페인','호주','아르헨티나','독일','뉴질랜드','남아프리카','포르투갈','오스트리아']
+    
+    # nation 13개
+    # France          6643
+    # Italy           4133
+    # U.S.A           2677
+    # Chile           1915
+    # Spain           1625
+    # Australia       1417
+    # Argentina        521
+    # Germany          405
+    # New Zealand      297
+    # South Africa     293
+    # Portugal         229
+    # Austria          105
+    # 기타
+    
+    varieties = ['Cabernet Sauvignon', 'Pinot Noir', 'Chardonnay', 'Merlot', 'Syrah/Shiraz', 'Sangiovese', 'Sauvignon Blanc', 'Tempranillo',
+                 'Blend', 'Grenache', 'Riesling', 'Nebbiolo', 'Moscato', 'Malbec', 'Carmenere', 'Zinfandel']
+    
+    # variety 17개
+    # Cabernet Sauvignon              2777
+    # Pinot Noir                      2548
+    # Chardonnay                      2517
+    # Merlot                          1575
+    # Syrah/Shiraz                    1378
+    # Sangiovese                       849
+    # Sauvignon Blanc                  728
+    # Tempranillo                      588
+    # Blend                            538
+    # Grenache                         530
+    # Riesling                         462
+    # Nebbiolo                         430
+    # Moscato                          337
+    # Malbec                           301
+    # Carmenere                        239
+    # Zinfandel                        185
+    
+    type = ['레드','화이트','스파클링','로제','주정강화','고도주']
+    
+    # type 7개
+    # 레드        13197
+    # 화이트        5267
+    # 스파클링       1561
+    # 로제          324
+    # 주정강화        152
+    # 고도주          76
+    # 기타           57
+    
+    # 총 43개
+    
+    # for i, row in enumerate(df):
+        # 국가 바꾸기
+        # if df['nation'][i] not in nation:
+        #     df['nation'][i]='기타국가'
+        
+        # 품종 바꾸기
+        # items = re.findall('\(([^)]+)', df['varieties'][i])   #  첫번째 괄호 안에 있는 문자 추출
+        # df['varieties'][i]=items[0]
+        # if df['varieties'][i] not in varieties:
+        #     df['varieties'][i]='etc'
+        
+        # type 바꾸기
+        # if df['type'][i] not in type:
+        #     df['type'][i]='기타'
+           
+        # 온도 바꾸기
+        # if df['abv'][i][0] != '0':
+        #     df['abv']=df['abv'].str.replace(pat=r'[^\w]', repl=r'', regex=True)
+        # try:
+        #     df['abv'][i] = df['abv'][i][0] + (df['abv'][i][1])
+        # except:
+        #     pass
+        #
+
+    def PostNation(values):
+        if values not in nation:
+            return '기타국가'
+        return values
+    df['nation'] = df['nation'].apply(PostNation)   
+    
+    def PostVar(values):
+        try:
+            values = re.findall('\(([^)]+)', values)   #  첫번째 괄호 안에 있는 문자 추출
+            values = values[0]
+            if values not in varieties:
+                return 'etc'
+            return values
+        except:
+            pass
+        
+    df['varieties'] = df['varieties'].apply(PostVar)
+    
+    def PostType(values):
+        if values not in type:
+            values='기타'
+        return values
+    df['type'] = df['type'].apply(PostType)
+    
+    def PostAbv(values):
+        if values != '0':
+            # values에 ~ 이 있을때 앞에거 0번째
+            # ~이 없을때 % 앞에 글자.
+            values = re.sub(r'[^\w]', r' ', values)
+            values = values.split(sep=' ')[0]
+        return values
+    df['abv'] = df['abv'].apply(PostAbv)
+    df['abv'] = df['abv'].astype(dtype='int')
+    bb = round(df['abv'].mean())
+
+    def ZeroAbv(values):
+        if values == 0:
+            values = bb            
+        return values
+    df['abv'] = df['abv'].apply(ZeroAbv)    
+        
+    def PostPrice(values):
+        if values == 0:
+            values = round(df['price'].mean())
+        return values
+    df['price'] = df['price'].apply(PostPrice)
+    # food    
+    # food = "0 chellfish dry fruit noodle chicken pig raisin bibimbap salami salad fish champagne cow asia sheep cheese cake fried pizza walnut"
+    # tokenizer = Tokenizer()
+    # tokenizer.fit_on_texts([food])
+    # # print('단어 집합 :', tokenizer.word_index)
+    # # 단어 집합 : {'chellfish': 1, 'dry': 2, 'fruit': 3, 'noodle': 4, 'chicken': 5, 'pig': 6, 'raisin': 7, 'bibimbap': 8, 'salami': 9, 'salad': 10, 'fish': 11, 'champagne': 12, 'cow': 13, 'asia': 14, 'sheep': 15, 'cheese': 16, 'cake': 17, 'fried': 18, 'pizza': 19, 'walnut': 20}
+    #
+    # for i, row in enumerate(df):
+    #     food2 = df['food'][i].replace('food-','')
+    #     # print(food2)
+    #     encoded = tokenizer.texts_to_sequences([food2])[0]
+    #     # print(encoded)
+    #     one_hot = to_categorical(encoded)
+    #     # print(one_hot)
+    #     df['food'][i]=one_hot
+    # print(df.nation.head())
+    # print(df.varieties.head())
+    # print(df.type.head())    
+    # print(df.abv.head())
+    # print(targetno)
+    choice = random.choice(targetno)
+    choice = choice[0]
+    target = df.index[(df['id']==choice)]
+
+    pd.set_option('display.max_columns', 21)
+    pd.set_option('display.max_seq_items', 100)
+    feature = df.iloc[:,4:15]
+    
+    feature.drop(columns=['food','degree'], inplace=True)
+    print('feature 요약')
+    print(feature.head())
+    
+    transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=RobustScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
+    transform.fit(feature)
+    x_feature = transform.transform(feature)
+    # tar=x_feature[target].toarray()
+    
+    # df['target'] = np.NaN
+    # df['feature'] = np.array(x_feature) # (20635, 41)
+    # df['target'] = df['target'].fillna(x_feature[target])  # (0, 41)
+    def dist(x, y):
+        return np.sqrt(np.sum((x-y)**2))
+    
+    df['distance']= np.NaN
+    print(x_feature[0])
+    print(x_feature[target])
+    for i, row in df.iterrows():
+        df['distance'][i]=dist(x_feature[i].toarray(),x_feature[target].toarray())
+        
+    # def d(values):   # array를 넣어준다
+    #     return dist(values, tar)
+    # df['distance'] = x_feature.toarray().apply(d)
+
+    # 판다스 시리즈에 적용하는 Haversine 벡터화 구현
+    # df['distance'] = dist(df['feature'], df['target'])
+
+    # print(df['distance'])
+    print('대상과의 거리 0나와야함')
+    print(df['distance'][target])
+    print('거리 null값 갯수')
+    print(df['distance'].isnull().sum())
+    distance=df[['id', 'distance']]
+    # print(feature[10:15])
+    return distance
