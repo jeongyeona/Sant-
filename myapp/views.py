@@ -85,329 +85,51 @@ def logout(request):
     return redirect('/')
 
 def winelist(request):
+    data = sql()
+    df = data.copy()
+    sk =''
+    cb =''
+    cf =''
+    vt =''
+    search_key = ''
+    list_check = ''
+    list_check2 = ''
     if request.method == "GET":
-        
-        if request.GET.get('filterBtn') and request.GET.get('filterBtn2') and request.GET.get('search_key'):
-            print('all')
-            search_key = request.GET.get('search_key')
-            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-                
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            sk = '&search_key='
-                
-            list_check = request.GET.get('filterBtn')
-            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
-                        
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-                    
-            cb = '&filterBtn='
-                    
-            list_check2 = request.GET.get('filterBtn2')
-            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-        
-            data = data[data['name_kr'].str.contains(search_key)]
-            data = data[data['type'].str.contains(list_check)]
-            data = data[data['nation'].str.contains(list_check2)]
-            result = check_filter & check_filter2 & datas_search & data_range
-            # print(data)
-                    
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-                 
-            cf = '&filterBtn2='
-                    
-            count = result.count()
-            count = '{:,}'.format(result.count())
-                    
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2, 'sk':sk, 'search_key':search_key})
-    
-        if request.GET.get('filterBtn') and request.GET.get('filterBtn2'):
-            print('버튼1 & 버튼2')
-            list_check = request.GET.get('filterBtn')
-            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
-                
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            cb = '&filterBtn='
-            
-            list_check2 = request.GET.get('filterBtn2')
-            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-        
-            data = data[data['type'].str.contains(list_check)]
-            data = data[data['nation'].str.contains(list_check2)]
-            result = check_filter & check_filter2 & data_range
-            
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            cf = '&filterBtn2='
-            
-            count = result.count()
-            count = '{:,}'.format(result.count())
-            
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'cf':cf, 'list_check2':list_check2})
-        
-        if request.GET.get('search_key') and request.GET.get('filterBtn'):
-            print('서치 & 버튼1')
-            search_key = request.GET.get('search_key')
-            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-                
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            sk = '&search_key='
-                
-            list_check = request.GET.get('filterBtn')
-            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
-                        
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(check_filter, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-                    
-            cb = '&filterBtn='
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-            data = data[data['name_kr'].str.contains(search_key)]
-            data = data[data['type'].str.contains(list_check)]
-                 
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            result = check_filter & datas_search      
-            count = result.count()
-            count = '{:,}'.format(result.count())
-                
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cb':cb, 'list_check':list_check})
-        
-        if request.GET.get('search_key') and request.GET.get('filterBtn2'):
-            print('서치 & 버튼2')
-            search_key = request.GET.get('search_key')
-            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-            
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(datas_search, 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            sk = '&search_key='
-                    
-            list_check2 = request.GET.get('filterBtn2')
-            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-        
-            data = data[data['name_kr'].str.contains(search_key)]
-            data = data[data['nation'].str.contains(list_check2)]
-            
-            result = check_filter2 & datas_search & data_range
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-                 
-            cf = '&filterBtn2='
-                    
-            count = result.count()
-            count = '{:,}'.format(result.count())
-                    
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cf':cf, 'list_check2':list_check2})
-        
-        if request.GET.get('filterBtn'):
-            print('버튼1')
-            list_check = request.GET.get('filterBtn')
-            check_filter = Wine.objects.filter(type__icontains=list_check).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1 # 단지 페이징 처리..
-            max_range2 = request.GET.get('priceRange')
-            # m_range = int(max_range2) * 10000
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-            data = data[data['type'].str.contains(list_check)]
-            
-            # print(len(data['price']))
-            
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            result = check_filter & data_range
-            
-            cb = '&filterBtn='
-            pr = '&priceRange='
-            
-            count = result.count()
-            count = '{:,}'.format(result.count())
-            
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cb':cb, 'list_check':list_check, 'pr':pr, 'm_range':max_range})
-        
         if request.GET.get('search_key'):
-            print('서치')
-            sk = 'search_key='
             search_key = request.GET.get('search_key')
-            datas_search = Wine.objects.filter(name_kr__icontains=search_key).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
             data = data[data['name_kr'].str.contains(search_key)]
-            
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            result = datas_search & data_range
-            count = result.count()
-            count = '{:,}'.format(result.count())
-    
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key})
-        
-        if request.GET.get('filterBtn2'):
-            print('버튼2')
-            list_check2 = request.GET.get('filterBtn2')
-            check_filter2 = Wine.objects.filter(nation__icontains=list_check2).order_by('id')
-            
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-            data = data[data['nation'].str.contains(list_check2)]
-            
-            result = check_filter2 & data_range
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
-            cf = '&filterBtn2='
-            
-            count = result.count()
-            count = '{:,}'.format(result.count())
-                
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'cf':cf, 'list_check2':list_check2})
-        
-        if request.GET.get('priceRange'):
-            print('가격')
-            max_range = request.GET.get('priceRange') * 1
-            max_range2 = request.GET.get('priceRange')
-            if max_range2 == '20':
-                m_range=int(max_range2)*500000
-            else:
-                m_range=int(max_range2)*10000
-            data_range = Wine.objects.filter(price__range = (1, m_range)).order_by('id')
-            
-            data = sql()
-            data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-            
-            page=request.GET.get("page", 1) # 페이지
-            paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-            page_obj = paginator.get_page(page)
-            
+            sk = '&search_key='
+        if request.GET.get('filterBtn'):
+            list_check = request.GET.get('filterBtn')
+            data = data[data['type'].str.contains(list_check)]
             cb = '&filterBtn='
-            pr = '&priceRange='
-            
-            count = data_range.count()
-            count = '{:,}'.format(data_range.count())
-            
-            return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'pr':pr, 'm_range':max_range})
+        if request.GET.get('filterBtn2'):
+            list_check2 = request.GET.get('filterBtn2')
+            data = data[data['nation'].str.contains(list_check2)]
+            cf = '&filterBtn2='
+        if request.GET.get('filterBtn4'):
+            list_check4 = request.GET.get('filterBtn4')
+            data = data[data['varietyd'].str.contains(list_check4)]
+            vt = '&filterBtn4='
         
-        winedataall=Wine.objects.all().order_by("id")
-        
-        count = winedataall.count()
-        count = '{:,}'.format(winedataall.count())
-        
-        data = sql()
-        
-        df = data.copy()
+        print(data)
         postdata=postpro(df)
         # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
         if request.session.get('WinePid'):
             ddata=distance(postdata, request.session.get('WinePid'))
             print('시작')
-            data=pd.concat([data, ddata], axis=1)
+            data = pd.concat([data, ddata], axis=1)
             data = data.sort_values('distance', ascending=True)
             print('거리순 정렬')
             print(data[['id','distance']].head(6))
             data=data[1:11]
-        
+            
+        count = len(data)
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
-        page_obj = paginator.get_page(page)
+        page_obj = paginator.get_page(int(page))
         
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj})
+        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cb':cb, 'list_check':list_check, 'cf':cf,'list_check2':list_check2, 'vt':vt, 'list_check4':list_check4, 'search_key':search_key})
     
 def grade(request):
     if request.method == "GET":
@@ -417,7 +139,7 @@ def grade(request):
         wine_user = WineUser.objects.get(id=id)
         # print(wine_user.pid)
         # print(id)
-        # print(wine)
+        # print(와인)
         # print(grade)
         
         print(current_path)

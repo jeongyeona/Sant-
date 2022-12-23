@@ -111,6 +111,8 @@ input[type="checkbox"]:not(#winepricecheckNO){
 #wineSearch:focus {outline: none;}
 .listfilterfoods label,.listfiltervarietyd label,.listfiltercountry label{padding: 3px 14px;border-radius: 15px;border: 1px solid #9f9f9f;margin: 10px 5px;}
 #listfilterfoodsbox,#listfiltervarietydbox,#listfiltercountrybox{flex-direction: column;}
+#winegrade{color: black; opacity: 0.6;}
+#winegradeexpectation{ color: #7E181A;}
 </style>
 <body id="wineListback">
     <nav id="nav3">
@@ -435,11 +437,15 @@ input[type="checkbox"]:not(#winepricecheckNO){
                                 <li id="wineRegion">{{w.nation}}</li>
                                 <li id="wineType">{{w.type}}</li>
                                 {% if w.price == 0 %}
-                                <li id="winePrice">가격정보 없음</< /li>
-                                    {% else %}
-                                <li id="winePrice">{{w.price}}</< /li>
-                                    {% endif %}
-                                <li>평균 ⭐ {{w.grade}}</li>
+                                   <li id="winePrice">가격정보 없음</li>
+                                {% else %}
+                                   <li id="winePrice">{{w.price}} 원</li>
+                                {% endif %}
+                                {% if w.grade %}
+                                   <li id="winegrade">평균 ★ {{w.grade}}</li>
+                                {% else %}
+                                   <li id="winegradeexpectation">예상 ★ {{expectation}}</li>
+                                {% endif %}
                             </ul>
                         </a>
                         {% endfor %}
@@ -451,7 +457,7 @@ input[type="checkbox"]:not(#winepricecheckNO){
                         <!-- 이전페이지 -->
                         {% if question_list.has_previous %}
                         <li class="page-item" id="page-form">
-                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.previous_page_number }}">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{pr}}{{m_range}}&page={{ question_list.previous_page_number }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
                                     <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
                                 </svg>
@@ -471,11 +477,11 @@ input[type="checkbox"]:not(#winepricecheckNO){
                         {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
                         {% if page_number == question_list.number %}
                         <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{pr}}{{m_range}}&page={{ page_number }}">{{ page_number }}</a>
                         </li>
                         {% else %}
                         <li class="page-item">
-                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{pr}}{{m_range}}&page={{ page_number }}">{{ page_number }}</a>
                         </li>
                         {% endif %}
                         {% endif %}
@@ -483,7 +489,7 @@ input[type="checkbox"]:not(#winepricecheckNO){
                         <!-- 다음페이지 -->
                         {% if question_list.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.next_page_number }}">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{pr}}{{m_range}}&page={{ question_list.next_page_number }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
                                     <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
                                 </svg>

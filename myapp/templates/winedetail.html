@@ -344,6 +344,71 @@ h5{
    margin-left: 25px;
 }
 
+/* 와인타입색낄 */
+
+.redbutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #c70039;
+    background-color: #c70039;
+    border-radius: 5px;
+}
+
+.whitebutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #829dd2;
+    background-color: #829dd2;
+    border-radius: 5px;
+}
+.sparklingbutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #ed9310;
+    background-color: #ed9310;
+    border-radius: 5px;
+}
+.rosebutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #ea9ab2;
+    background-color: #ea9ab2;
+    border-radius: 5px;
+}
+.fortifiedbutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #829dd2;
+    background-color: #829dd2;
+    border-radius: 5px;
+}
+.etcbutton{
+	height: 30px;
+    padding: 0 15px;
+    line-height: 28px;
+    border-color: transparent;
+    color: #fff;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+
 </style>
 <body id="winedetailback">
    <main>
@@ -517,9 +582,9 @@ h5{
                         {% if winedataid.price == 0 %}
                         <li id="WineDetailInfPrice">가격정보 없음</li>
                         {% else %}
-                        <li id="WineDetailInfPrice">{{winedataid.price}}</li>
+                        <li id="WineDetailInfPrice">{{winedataid.price}} 원</li>
                         {% endif %}
-                        <li id="WineDetailInfMl">{{winedataid.ml}}</li>
+                        <li id="WineDetailInfMl">({{winedataid.ml}})</li>
                      </ul>
                      <li id="WineDetailInfPriceText">* 수입사가 제동한 가격으로 판매처별로 가격이 다를
                         수 있습니다.
@@ -618,9 +683,9 @@ h5{
                                 <div id="winelalanation">{{winedataid.nation}}</div>
                                 <div id="winelalanation">{{winedataid.varieties}}</div>
                                 <div>{{winedataid.type}}</div>
-                                <div id="nullcount">{{winedataid.abv}}</div>         
+                                <div id="nullcount2">{{winedataid.abv}}</div>         
                                 <div>{{winedataid.degree}}</div>
-                                <div id="nullcount">{{winedataid.food}}</div>
+                                <div id="nullcount3">{{winedataid.food}}</div>
                                 <div>{{winedataid.ml}}</div>   
                            </div>
                      </ul>
@@ -771,6 +836,37 @@ h5{
 
 </style>
 <script>
+	
+    let nullcount=document.querySelector("#nullcount")
+    let nullcount2=document.querySelector("#nullcount2")
+    let nullcount3=document.querySelector("#nullcount3")
+
+    
+    if(nullcount.textContent == "0" ){
+       nullcount.innerHTML= "정보없음"
+    }
+    if(nullcount2.textContent == "0" ){
+    	nullcount2.innerHTML= "정보없음"
+    }
+    if(nullcount3.textContent == "0" ){
+    	nullcount3.innerHTML= "정보없음"
+    }
+    
+	const winetype=document.querySelector("#WineDetailInftype")
+	if(winetype.textContent == "레드"){
+	   winetype.classList.add("redbutton")
+	}else if(winetype.textContent == "화이트"){
+	   winetype.classList.add("whitebutton")
+	}else if(winetype.textContent == "스파클링"){
+	   winetype.classList.add("sparklingbutton")
+	}else if(winetype.textContent == "로제"){
+	   winetype.classList.add("rosebutton")
+	}else if(winetype.textContent == "주정강화"){
+	   winetype.classList.add("fortifiedbutton")
+	}else if(winetype.textContent == "기타"){
+	   winetype.classList.add("etcbutton")
+	};
+	
    const form = document.querySelector('#starform');
    
    form.addEventListener('submit', event => {
@@ -798,12 +894,6 @@ h5{
     let body=document.querySelector("#WineDetailInfbody")
     let tainnin=document.querySelector("#WineDetailInftainnin")  
     let nation=document.querySelector("#winelalanation")
-    let nullcount=document.querySelector("#nullcount")
-    
-    if(nullcount.textContent == 0){
-       nullcount.innerHTML= "정보없음"
-    }
-    
     
       $('#WDclickme3').click(function() {
         $('html, body').animate({
