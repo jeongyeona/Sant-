@@ -97,15 +97,24 @@
 			<!--  2번째 칸 -->
 			<div class="addinfocss222">
 				<h3>평가수</h3>
-				<p>{{data}}</p>
+
+				<p>와인 이름 :{{df.name_kr|safe}}</p>
+				<p>내가 준 별점 : {{df.mygrade}}</p>
+
 			</div>
 			<!--  3번째 칸 -->
 			<div class="addinfocss222">
-				<h3>평가수</h3>
+				<h3>선호 국가</h3>
+				{% for i in nation %}
+				<p>{{i.nation}} - {{i.count}}</p>
+				{% endfor %}
 			</div>
 			<!--  4번째 칸 -->
 			<div class="addinfocss222">
-				<h3>평가수</h3>
+				<h3>선호 품종</h3>
+				{% for i in varieties %}
+				<p>{{i}}</p>
+				{% endfor %}
 			</div>
 			<!--  5번째 칸 -->
 			<div class="addinfocss222">
