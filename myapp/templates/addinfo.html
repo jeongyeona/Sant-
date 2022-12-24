@@ -91,20 +91,39 @@
 				</div>
 				<div class="njo12">
 					<img src="static/images/proflieimg.png" alt="" id="addinfobackpro" />
-					<p id="addinfobackprotext">{{wine_nickname}}</p>
+					<p id="addinfobackprotext">{{wineid}}</p>
 				</div>
 			</div>
 			<!--  2번째 칸 -->
 			<div class="addinfocss222">
 				<h3>평가수</h3>
+				{% for i in mygrade %}
+				<p>내 별점 평균 : {{i.0}}</p>
+				{% endfor %}
+				{% for i in gradecount %} 
+				<p>별점 개수 : {{i}}</p>
+				{% endfor %}
+				{% for i in maxgrade %}
+				<p>많이 준 별점 : {{i.mygrade}}</p>
+				{% endfor %}
 			</div>
 			<!--  3번째 칸 -->
 			<div class="addinfocss222">
-				<h3>평가수</h3>
+				<h3>선호 국가</h3>
+				<ol>
+					{% for i in nation %}
+					<li>{{i.nation}} - {{i.count}}</li>
+					{% endfor %}
+				</ol>
 			</div>
 			<!--  4번째 칸 -->
 			<div class="addinfocss222">
-				<h3>평가수</h3>
+				<h3>선호 품종</h3>
+				<ol>
+					{% for v in varieties %}
+					<li>{{v.varieties}} - {{v.count}}</li>
+					{% endfor %}
+				</ol>
 			</div>
 			<!--  5번째 칸 -->
 			<div class="addinfocss222">

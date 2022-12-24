@@ -4,170 +4,51 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script
-   src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-   integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-   crossorigin="anonymous"></script>
-<link
-   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-   rel="stylesheet"
-   integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-   crossorigin="anonymous">
-<script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>Document</title>
 </head>
 <!-- wine list css -->
 <style>
-
-  #wineListback {
-    background-color: #fff;
-  }
-  
-  @media (min-width: 576px){
-		.minilist{
-	    flex: 0 0 auto;
-	    width: 25%;
-		}
-	}
-	@media (min-width: 576px){
-			.maxlist {
-		    flex: 0 0 auto;
-		    flex-grow: 0;
-		    flex-shrink: 0;
-		    flex-basis: auto;
-		    width: 75%;
-		}
-	}
-
-	  
-  #wineListgrape {
-    width: 90%;
-    height : 150px;
-  }
-  
-  #winelistgrapebox {
-    margin: 20px 0px;
-  }
-  
-  
-  li {
-    list-style: none;
-  }
-  
-  #wineListBox_ul {
-    padding-left: 0;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  #wineListBox_li {
-    background-color: #fff;
-    width: 19%;
-    flex-direction: column;
-    margin: 40px 10px 0px 0px;
-    text-decoration: none;
-    color: black;
-  }
-  
-  #listwinetest {
-    width: 100%;
-  }
-  
-  #winelistimg svg {
-    display: none
-  }
-  
-  #wineListBox_div:hover {
-    filter: brightness(75%);
-  }
-  
-  #winelistimg {
-    box-shadow: 0 0 1em white;
-    width: 100%
-  }
-  
-  #wineListBoxInf {
-    padding-left: 0;
-    margin-top: 10px;
-  }
-  
-  #wineListBoxInf li {
-    display: flex;
-    justify-content: flex-start;
-    margin-left: 10px;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  
-  #winenameKo, #winenameEn {
-    font-size: 1.1rem;
-    width: 90%;
-    overflow: scroll;
-    -ms-overflow-style: none;
-    white-space: nowrap;
-  }
-  
-  #winenameKo::-webkit-scrollbar, #winenameEn::-webkit-scrollbar {
-    display: none;
-  }
-  
-  #listfilterBox {
-    background-color: white;
-    margin-top: 40px;
-    width: 95%;
-    display: flex;
-    justify-content: center;
-  }
-  
-  #wineType {
-    margin-left: 5px;
-  }
-  
-  #listfiltertypes {
-    width: 100%;
-  }
-  #listfiltertypes div{
-     display: flex;
-     width: 100%;
-     justify-content: space-between;
-  }
-  
-  #listfiltertypebutton input {
-    margin-top: 10px;
-    width: 32%;
-    border-radius: 20px;
-  }
-  
-  #listfiltercountry {
-    width: 100%;
-  }
-  
-  #listfiltercountry div{
-     display: flex;
-     width: 100%;
-     justify-content: space-between;
-  }
-  
-  #listfilterpriceheaderno {
-    display: flex;
-    width: 100%;
-  }
-  
-  #waa1239, #listfilterpriceheaderno {
-    display: flex;
-    justify-content: start;
-    margin: 30px 0px 0px 0px;
-    font-weight: 800;
-  }
+#wineListback {background-color: #fff;}
+@media (min-width: 576px){.minilist{flex: 0 0 auto;width: 25%;}}
+@media (min-width: 576px){.maxlist {flex: 0 0 auto;flex-grow: 0;flex-shrink: 0;flex-basis: auto;width: 75%;}}  
+#wineListgrape { width: 90%; height : 150px;}
+#winelistgrapebox {margin: 20px 0px;}
+li {list-style: none;}
+#wineListBox_ul {padding-left: 0;display: flex;width: 100%;justify-content: space-between;flex-wrap: wrap;}
+#wineListBox_li {background-color: #fff;width: 19%;flex-direction: column;margin: 40px 10px 0px 0px;text-decoration: none;color: black;}
+#listwinetest {width: 100%;}
+#winelistimg svg {display: none}
+#wineListBox_div:hover {filter: brightness(75%);}
+#winelistimg {box-shadow: 0 0 1em white;width: 100%}
+#wineListBoxInf {padding-left: 0;margin-top: 10px;}
+#wineListBoxInf li {display: flex;justify-content: flex-start;margin-left: 10px;text-decoration: none;font-size: 0.9rem;}
+#winenameKo, #winenameEn {font-size: 1.1rem;width: 90%;overflow: scroll;-ms-overflow-style: none;white-space: nowrap;}
+#winenameKo::-webkit-scrollbar, #winenameEn::-webkit-scrollbar {display: none;}
+#listfilterBox {background-color: white;margin-top: 40px; margin-right:20px; width: 95%;display: flex;justify-content: center;}
+#wineType {margin-left: 5px;}
+#listfiltertypes {width: 100%;}
+#listfiltertypes div{display: flex;width: 100%;justify-content: space-between;}
+#listfiltertypebutton input {margin-top: 10px;width: 32%;border-radius: 20px;}
+#listfilterpriceheaderno {display: flex;width: 100%;}
+#waa1239, #listfilterpriceheaderno {display: flex;justify-content: start;margin: 30px 0px 0px 0px;font-weight: 800;}
+#waa1239{margin-bottom: 20px;}
 .redlabel,
 .whitelabel,
 .sparklinglabel,
 .roselabel,
 .fortlabel,
-.exceptionlabel,
+.exceptionlabel{border: 1px solid #9f9f9f ;border-radius: 20px;display: flex;align-items: center;justify-content: center;margin-top: 10px;padding: 3px;}
+
+.redlabel,
+.whitelabel,
+.sparklinglabel,
+.roselabel,
+.fortlabel,
+.exceptionlabel{width: 30%;flex-direction: column;display: fl}
+
 .francelabel,
 .italylabel,
 .spainlabel,
@@ -179,628 +60,474 @@
 .australialabel,
 .Chilelabel,
 .RepublicofSouthAfricalabel,
-.otherCountrieslabel{
-  border: 1px solid #9f9f9f ;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  padding: 3px;
-}
-.redlabel,
-.whitelabel,
-.sparklinglabel,
-.roselabel,
-.fortlabel,
-.exceptionlabel{
-   width: 30%;
-   flex-direction: column;
-   display: fl
-}
-.francelabel,
-.italylabel,
-.spainlabel,
-.Portugallabel,
-.usalabel,
-.argentinalabel,
-.NewZealandlabel,
-.Germanylabel,
-.australialabel,
-.Chilelabel,
-.RepublicofSouthAfricalabel,
-.otherCountrieslabel{
-   padding: 3px 14px;
-}
-#searchBtn{
-   background-color: #7E181A;
-   border: 1px solid #7E181A;
-   border-radius: 10px;
-   color: white;
-   font-size: 1.2rem;
-   margin-top: 30px;
-   width: 100%;
-   padding: 4px 0px;
-}
-.minilist{
-display: flex;
-}
-input[type="checkbox"]:checked:not(#winepricecheckNO) + label {
-  border-color: #7E181A;
-  background-color: #7E181A;
-  color:white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+.otherCountrieslabel{padding: 3px 14px;}
+#searchBtn{background-color: #7E181A;border: 1px solid #7E181A;border-radius: 10px;color: white;font-size: 1.2rem;margin-top: 30px;width: 100%;padding: 4px 0px;}
+.minilist{display: flex;}
+input[type="checkbox"]:checked:not(#winepricecheckNO) + label {border-color: #7E181A;background-color: #7E181A;color:white;align-items: center;justify-content: center;}
 input[type="checkbox"]:not(#winepricecheckNO){
-  display: none;
-}
-#winepricecheckNO{
-	accent-color: #7E181A;
-}
+    display: none;}
+#winepricecheckNO{accent-color: #7E181A;}
 /* 페이지 링크 */
-.page-link{
-   background-color: #fff;
-   border : none;
-   color : black;
-}
-#page-form{
-   background-color: #fff;
-   border : none;
-   color : black;
-}
-.pagination{
-   --bs-pagination-disabled-bg : #fff;
-   margin : 70px 0px;
-   
-}
-#lnkj21{
-   width: 1px;
-   background-color: #000;
-   opacity: 0.4;
-   height: 100%;
-   justify-content: center;
-}
+.page-link{background-color: #fff;border : none;color : black;}
+#page-form{background-color: #fff;border : none;color : black;}
+.pagination{--bs-pagination-disabled-bg : #fff;margin : 70px 0px;}
+#lnkj21{width: 1px;background-color: #000;opacity: 0.4;height: 100%;justify-content: center;}
 /* nav css */
-#mainLogo_img {
-   width: 200px;
-   margin-left: 20px;
-   color: black;
-}
-.page-link{
-   background-color:white;
-}
-.active>.page-link{
-   background-color:white;
-   border:1px solid #9f9f9f;
-   border-radius:5px;
-   color:black;
-}
-
-#mainbox {
-   width: 100%;
-   display: flex;
-   justify-content: center;
-}
-
-#main_backcolor {
-   height: 100%;
-   margin: 20px;
-   background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);
-}
-
-#mainPage_img {
-   max-width: 70%;
-}
-
-.anhsdjw123 {
-   float: right;
-   margin-bottom: 50;
-}
-
-#slidebtn {
-   background-color: #fff;
-   border-color: #fff;
-   color: black;
-   font-weight: 700;
-}
-
-#slidebtn.hover {
-   background-color: #fff;
-   border-color: #fff;
-   color: black;
-   font-weight: 700;
-}
-
-#navIconColor {
-   color: black;
-}
-
-#loginlogo {
-   width: 200px;
-}
-
-.loginImgBox {
-   display: flex;
-   justify-content: center;
-   margin: 50px 0px;
-}
-
-#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
-   #signupBtna, #loginMainForm {
-   border-radius: 5px;
-   border: solid 3px #7E181A;
-   box-shadow: none;
-}
-
-.btn-close:focus {
-   box-shadow: none;
-}
-
-.form-control {
-   height: 45px;
-   font-size: 16px;
-}
-
-#signupBtn, #signupBtna {
-   width: 100%;
-   height: 50px;
-   background-color: #7E181A;
-   color: white;
-   font-size: 16px;
-}
-#slidebtn{
-   margin-right: 19px;
-}
-
-#mainSignForgot, #mainSignForgotProfile {
-   text-decoration: none;
-   color: black;
-}
-
-#mainSignForgotProfile {
-   display: flex;
-   justify-content: end;
-   width: 100%;
-}
-
-#mainLink {
-   display: flex;
-   justify-content: space-between;
-   opacity: 0.6;
-   width: 100%;
-}
-
-.offcanvas {
-   border-top-left-radius: 15px;
-}
-
-#proflieImg {
-   width: 150px;
-   margin: 100px 0px;
-}
-
-.proflieImgBox {
-   display: flex;
-   justify-content: center;
-   width: 100%;
-}
-#listBtn{
-   background-color: #fff;
-   border-color: #fff;
-   color: black;
-   font-weight: 700;
-   float: right;
-   margin-bottom: 50;
-}
-#nav3{
-   margin-top : 20px;
-   margin-bottom: 60px;
-}
-#winelistmainalllist h3{
-   display: flex;
-   justify-content: flex-start;
-   margin-top: 20px;
-}
-#winelistmainalllist{
-   display: flex;
-   justify-content: space-between;
-   border-bottom: 0.5px solid;
-}
-.wineprice{
-  width: 100%;
-  background: #7E181A;
-  accent-color: #7E181A;
-  margin-top: 15px;
-}
-#listfilterpriceheaderno{
-  display: flex;
-  justify-content: space-between;
-}
-#listfilterpriceheaderno div{
-  display: flex;
-}
-#listfilterpriceheaderno div a{
-  margin-bottom: 0;
-  margin-top: px;
-  margin: 5px 0px 0px 3px;
-}
-.winepricetext{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-.winepricetext label{
-  margin-top: 5px;
-  color:#252525;
-}
-.text-center{
-	margin: 0px 100px;
-}
-#wineSearch{
-	margin-top: 20px
-}
-#wineSearch:focus {
-  outline: none;
-}
-
+#mainLogo_img {width: 200px;margin-left: 20px;color: black;}
+.page-link{background-color:white;}
+.active>.page-link{background-color:white;border:1px solid #9f9f9f;border-radius:5px;color:black;}
+#mainbox {width: 100%;display: flex;justify-content: center;}
+#main_backcolor {height: 100%;margin: 20px;background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);}
+#mainPage_img {max-width: 70%;}
+.anhsdjw123 {float: right;margin-bottom: 50;}
+#slidebtn {background-color: #fff;border-color: #fff;color: black;font-weight: 700;}
+#slidebtn.hover {background-color: #fff;border-color: #fff;color: black;font-weight: 700;}
+#navIconColor {color: black;}
+#loginlogo {width: 200px;}
+.loginImgBox {display: flex;justify-content: center;margin: 50px 0px;}
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,#signupBtna, #loginMainForm {border-radius: 5px;border: solid 3px #7E181A;box-shadow: none;}
+.btn-close:focus {box-shadow: none;}
+.form-control {height: 45px;font-size: 16px;}
+#signupBtn, #signupBtna {width: 100%;height: 50px;background-color: #7E181A;color: white;font-size: 16px;}
+#slidebtn{margin-right: 19px;}
+#mainSignForgot, #mainSignForgotProfile {text-decoration: none;color: black;}
+#mainSignForgotProfile {display: flex;justify-content: end;width: 100%;}
+#mainLink {display: flex;justify-content: space-between;opacity: 0.6;width: 100%;}
+.offcanvas {border-top-left-radius: 15px;}
+#proflieImg {width: 150px;margin: 100px 0px;} 
+.proflieImgBox {display: flex;justify-content: center;width: 100%;}
+#listBtn{background-color: #fff;border-color: #fff;color: black;font-weight: 700;float: right;margin-bottom: 50;}
+#nav3{margin-top : 20px;margin-bottom: 60px;}
+#winelistmainalllist h3{display: flex;justify-content: flex-start;margin-top: 20px;}
+#winelistmainalllist{display: flex;justify-content: space-between;border-bottom: 0.5px solid;}
+.wineprice{width: 100%;background: #7E181A;accent-color: #7E181A;margin-top: 15px;}
+#listfilterpriceheaderno{display: flex;justify-content: space-between;}
+#listfilterpriceheaderno div{display: flex;}
+#listfilterpriceheaderno div a{margin-bottom: 0;margin-top: px;margin: 5px 0px 0px 3px;}
+.winepricetext{width: 100%;display: flex;justify-content: space-between;}
+.winepricetext label{margin-top: 5px;color:#252525;}
+.text-center{margin: 0px 100px;}
+#wineSearch{margin-top: 20px}
+#wineSearch:focus {outline: none;}
+.listfilterfoods label,.listfiltervarietyd label,.listfiltercountry label{padding: 3px 14px;border-radius: 15px;border: 1px solid #9f9f9f;margin: 10px 5px;}
+#listfilterfoodsbox,#listfiltervarietydbox,#listfiltercountrybox{flex-direction: column;}
+#gradeaverage{color: black; opacity: 0.6;}
+#gradeexpectation{color: #7E181A}
 </style>
 <body id="wineListback">
-<nav id="nav3">
-   <a href="/">
-      <img src="static/images/bysante.png" alt="logoimg" id="mainLogo_img">
-   </a>
-   
-   {% if request.session.WineUser %}
-   <!-- 프로필 폼 -->
+    <nav id="nav3">
+        <a href="/">
+            <img src="static/images/bysante.png" alt="logoimg" id="mainLogo_img">
+        </a>
 
-   <div class=anhsdjw123>
-      <button id="slidebtn" class="btn btn-primary" type="button"
-         data-bs-toggle="offcanvas" data-bs-target="#userprofile"
-         aria-controls="offcanvasRight">PROFILE</button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile"
-         aria-labelledby="offcanvasRightLabel">
-         <div class="offcanvas-header">
-            <button type="button" class="btn-close"
-               data-bs-dismiss="offcanvas" aria-label="Close"></button>
-         </div>
-         <div class="loginImgBox">
-            <img src="static/images/profilelogo.png" alt="loginlogo" id="loginlogo">
-         </div>
-         <div class="proflieImgBox">
-            <img src="static/images/proflieimg.png" alt="proflieimg" id="proflieImg">
-         </div>
+        {% if request.session.WineUser %}
+        <!-- 프로필 폼 -->
 
-         <div class="offcanvas-body">
-            <div id="mainLink" class="mt-3">
-               <a href="addinfo" id="mainSignForgotProfile">개인 통계</a>
-            </div>
-            <form action="logout" method="post" autocomplete="off"> {% csrf_token %}
-               <!-- 로그 아웃시 연결 views 연결 만들기 -->
-               <br />
-               <input type="submit" id="signupBtna" value="LOG OUT" />
-            </form>
-         </div>
-      </div>
-   </div>
-   {% else %}
-   <!-- 로그인 폼 -->
-   <div class=anhsdjw123>
-      <button id="slidebtn" class="btn btn-primary" type="button"
-         data-bs-toggle="offcanvas" data-bs-target="#logintarget"
-         aria-controls="offcanvasRight">LOGIN</button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget"
-         aria-labelledby="offcanvasRightLabel">
-         <div class="offcanvas-header">
-            <button type="button" class="btn-close"
-               data-bs-dismiss="offcanvas" aria-label="Close"></button>
-         </div>
-         <div class="loginImgBox">
-            <img src="static/images/loginimg.png" alt="loginlogo" id="loginlogo">
-         </div>
-
-         <div class="offcanvas-body">
-            <form action="loginok" method="post" autocomplete="off" id="loginform"> {% csrf_token %}
-               <div class="mb-1">
-                  <input class="form-control " type="text" placeholder="ID"
-                     name="lo_id" id="loginMainForm" />
-               </div>
-               <br />
-               <div class="mb-1">
-                  <input class="form-control " type="password"
-                     placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
-               </div>
-               <br /> <input type="submit" id="signupBtna" value="SIGN IN" />
-            </form>
-            <div id="mainLink" class="mt-3">
-               <a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
-                          data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
-                          id="mainSignForgot">FORGOT PASSWORD
-                       </a>
-            </div>
-         </div>
-      </div>
-   </div>
-   {% endif %}
-   
-   <button id="listBtn" type="button" class="btn btn-primary" onClick="location.href='winelist'">LIST</button>
-   
-   <!-- 회원가입 폼  -->
-   <div class=anhsdjw123>
-      <div class="offcanvas offcanvas-end" tabindex="-1"
-         id="newuserlogin" aria-labelledby="offcanvasRightLabel">
-
-         <div class="offcanvas-header">
-            <button type="button" class="btn-close"
-               data-bs-dismiss="offcanvas" aria-label="Close"></button>
-         </div>
-         <div class="loginImgBox">
-            <img src="static/images/loginimg.png" alt="loginlogo" id="loginlogo">
-         </div>
-
-         <div class="offcanvas-body">
-            <form action="signupok" method="post" id="signupForm"
-               autocomplete="off"> {% csrf_token %}
-               <div class="mb-2">
-                  <input class="form-control " type="text" placeholder="NICKNAME"
-                     name="User_name" id="Username" />
-                  <div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며
-                     2-10자리 가능합니다.</div>
-               </div>
-               <br />
-               <div class="mb-2">
-                  <input class="form-control " type="text" placeholder="ID"
-                     name="User_id" id="Userid" />
-                  <div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
-               </div>
-               <br />
-               <div class="mb-2">
-                  <input class="form-control " type="password"
-                     placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
-                  <div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
-                     8글자~13글자 이내로 입력해주세요.</div>
-               </div>
-               <br />
-               <div class="mb-2">
-                  <input class="form-control " type="password"
-                     placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
-                  <div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
-               </div>
-               <br />
-               <div class="mb-2">
-                  <input class="form-control " type="text" placeholder="E_MAIL"
-                     name="User_email" id="Useremail" />
-                  <div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
-               </div>
-               <br> <input type="submit" id="signupBtn" value="SIGN UP" />
-            </form>
-         </div>
-      </div>
-   </div>
-</nav>
-   <main>
-      <div class="text-center">
-         <div class="row">
-           <div class="minilist">
-            <div id="listfilterBox">
-              <!-- 검색 기능 -->
-              <form action="winelist" name="typebtn" method="get">
-                    <h1 id="waa1239">필터</h1>
-                <div id="listfiltertypes">
-                  <h4 id="waa1239">Wine Types</h4>
-                  <div>
-                     <input type="checkbox" value="레드" class="red" name="filterBtn" id="red">
-                     <label for="red" class="redlabel">레드</label>
-                     <input type="checkbox" value="화이트" class="white" name="filterBtn" id="white">
-                     <label for="white" class="whitelabel">화이트</label>
-                     <input type="checkbox" value="스파클링" class="sparkling" name="filterBtn" id="sparkling">
-                     <label for="sparkling" class="sparklinglabel">스파클링</label>
-                  </div>
-                  <div>
-                     <input type="checkbox" value="로제" class="rose" name="filterBtn" id="rose">
-                     <label for="rose" class="roselabel">로제</label>
-                     <input type="checkbox" value="주정강화" class="fort" name="filterBtn" id="fort">
-                     <label for="fort" class="fortlabel">주정강화</label>
-                     <input type="checkbox" value="기타" class="exception" name="filterBtn" id="exception">
-                     <label for="exception" class="exceptionlabel">기타</label>
-                    </div>  
+        <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#userprofile" aria-controls="offcanvasRight">PROFILE</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                   <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key" class="form-control">
-                <!-- 너무 어려움 마지막에 할 예정 -->
-                <div id="listfilterprice">
-				    <div id="listfilterpriceheader">
-				      <div id="listfilterpriceheaderno">
-				        <h4>Price Range</h4>
-				        <div>
-				          <input type="checkbox" id="winepricecheckNO" name="winepricecheckNO" value="가격정보 없음">
-				          <label for="winepricecheckNO" class="winepricecheckno"></label>
-				          <a>가격정보 없음</a>
-				        </div>
-				      </div>
-				      <input type="range" class="wineprice" min="0" max="20" step="1" id="winepricerange" name="priceRange" value="20">
-				      <br>
-				      <div class="winepricetext">
-				        <label>0 원</label>
-				        <label for="winepricerange" class="wineprice-label">전체 가격</label>
-				      </div>
-				    </div>
-				  </div>
-
-                <div id="listfiltercountry">
-                      <h4 id="waa1239">Wine nation</h4>
-                      <div>
-                       <input type="checkbox" value="프랑스" class="france" id="france" name="filterBtn2">
-                       <label for="france" class="francelabel">프랑스</label>
-   
-                       <input type="checkbox" value="이탈리아" class="italy" id="italy" name="filterBtn2">
-                       <label for="italy" class="italylabel">이탈리아</label>
-   
-                       <input type="checkbox" value="스페인" class="spain" id="spain" name="filterBtn2">
-                       <label for="spain" class="spainlabel">스페인</label>
-   
-                              </div>
-                              <div>
-                       <input type="checkbox" value="포르투갈" class="Portugal" id="Portugal" name="filterBtn2">
-                       <label for="Portugal" class="Portugallabel">포루투갈</label>
-                       
-                       <input type="checkbox" value="미국" class="usa" id="usa" name="filterBtn2">
-                       <label for="usa" class="usalabel">미국</label>
-                   
-                       <input type="checkbox" value="아르헨티나" class="argentina" id="argentina" name="filterBtn2">
-                       <label for="argentina" class="argentinalabel">아르헨티나</label>
-   
-                              </div>
-                              <div>
-                       <input type="checkbox" value="뉴질랜드" class="NewZealand" id="NewZealand" name="filterBtn2">
-                       <label for="NewZealand" class="NewZealandlabel">뉴질랜드</label>
-   
-                       <input type="checkbox" value="독일" class="Germany" id="Germany" name="filterBtn2">
-                       <label for="Germany" class="Germanylabel">독일</label>
-
-                       <input type="checkbox" value="호주" class="australia" id="australia" name="filterBtn2">
-                       <label for="australia" class="australialabel">호주</label>
-
-                       </div>
-                       <div>
-                       <input type="checkbox" value="칠레" class="Chile" id="Chile" name="filterBtn2">
-                       <label for="Chile" class="Chilelabel">칠레</label>
-                     
-                       <input type="checkbox" value="남아프리카" class="RepublicofSouthAfrica" id="RepublicofSouthAfrica" name="filterBtn2">
-                       <label for="RepublicofSouthAfrica" class="RepublicofSouthAfricalabel">남아프리카</label>
-   
-                       <input type="checkbox" value="기타국가" class="otherCountries" id="otherCountries" name="filterBtn2">
-                       <label for="otherCountries" class="otherCountrieslabel">기타국가</label>
-                     </div>
+                <div class="loginImgBox">
+                    <img src="static/images/profilelogo.png" alt="loginlogo" id="loginlogo">
                 </div>
-                <input type="submit" id="searchBtn" value="검색" id="typebtninput searchBtn"/>
-              </form>
-            </div>
-            <div id="lnkj21">
-            </div>
-          </div>
-                 <!-- 이미지 및  -->
-            <div class="maxlist">
-                <div id="winelistgrapebox">
-                   <img src="static/images/winelistB.gif" alt="로고이미지입니다."
-                      id="wineListgrape">
+                <div class="proflieImgBox">
+                    <img src="static/images/proflieimg.png" alt="proflieimg" id="proflieImg">
                 </div>
-                     <!-- 검색 바 -->
-                 <div id="winelistmainalllist">
-                     <h3>전체 와인 ({{count}})</h3>
-                 </div>
-                 <!-- 와인 리스트 반복문 -->
-               <ul id="wineListBox_ul">
-                  {% for w in question_list %}
-                  <a id="wineListBox_li" href="winedetail?wineid={{w.id}}">
-                     <div id="wineListBox_div">
-                        <div id="winelistimg">
-                           <!-- 와인 종류에 맞게 뒷 배경색 바꿀까? 참고 wine 1987 -->
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                              fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                              <path
-                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /></svg>
 
-                           <img src="{{w.url}}" id="listwinetest">
+                <div class="offcanvas-body">
+                    <div id="mainLink" class="mt-3">
+                        <a href="addinfo" id="mainSignForgotProfile">개인 통계</a>
+                    </div>
+                    <form action="logout" method="post" autocomplete="off"> {% csrf_token %}
+                        <!-- 로그 아웃시 연결 views 연결 만들기 -->
+                        <br />
+                        <input type="submit" id="signupBtna" value="LOG OUT" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- 로그인 폼 -->
+        <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#logintarget" aria-controls="offcanvasRight">LOGIN</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="loginImgBox">
+                    <img src="static/images/loginimg.png" alt="loginlogo" id="loginlogo">
+                </div>
+
+                <div class="offcanvas-body">
+                    <form action="loginok" method="post" autocomplete="off" id="loginform"> {% csrf_token %}
+                        <div class="mb-1">
+                            <input class="form-control " type="text" placeholder="ID" name="lo_id" id="loginMainForm" />
                         </div>
-                     </div> 
-                     <ul id="wineListBoxInf">
-                        <li id="winenameKo">{{w.name_kr}}</li>
-                        <li id="winenameEn">{{w.name_en}}</li>
-                        <br>
-						<li id="wineRegion">{{w.nation}}</li>
-                        <li id="wineType">{{w.type}}</li> 
-                        {% if w.price == 0 %}
-                        	<li id="winePrice">가격정보 없음</</li> 
-                        {% else %}
-                        	<li id="winePrice">{{w.price}}</</li> 
-                        {% endif %}
-                        <li>평균 ⭐ {{w.grade}}</li>
-                     </ul>
-                  </a> 
-                  {% endfor %}
-               </ul>
-            </div>
-            <tr>
-				<!-- 페이징처리 시작 -->
-                <ul class="pagination justify-content-center">
-                    <!-- 이전페이지 -->
-                    {% if question_list.has_previous %}
-                    <li class="page-item" id="page-form">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.previous_page_number }}">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-                         <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-                         </svg>
-                     </a>
-                  </li>
-                  {% else %}
-                    <li class="page-item disabled" id="page-form">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
-                         <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
-                         </svg>
-                     </a>
-                    </li>
-                    {% endif %}
-                    <!-- 페이지리스트 -->
-                    {% for page_number in question_list.paginator.page_range %}
-                    {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
-                    {% if page_number == question_list.number %}
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ page_number }}">{{ page_number }}</a>
-                    </li>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    <!-- 다음페이지 -->
-                    {% if question_list.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}&page={{ question_list.next_page_number }}">                     
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                        <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                        </svg>
-                     </a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                        <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                        </svg>
+                        <br />
+                        <div class="mb-1">
+                            <input class="form-control " type="password" placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
+                        </div>
+                        <br /> <input type="submit" id="signupBtna" value="SIGN IN" />
+                    </form>
+                    <div id="mainLink" class="mt-3">
+                        <a id="mainSignForgot" type="button" data-bs-toggle="offcanvas" data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok" id="mainSignForgot">FORGOT PASSWORD
                         </a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <!-- 페이징처리 끝 -->
-               </td>
-            </tr>
-         </div>
-      </div>
-   </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <button id="listBtn" type="button" class="btn btn-primary" onClick="location.href='winelist'">LIST</button>
+
+        <!-- 회원가입 폼  -->
+        <div class=anhsdjw123>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="newuserlogin" aria-labelledby="offcanvasRightLabel">
+
+                <div class="offcanvas-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="loginImgBox">
+                    <img src="static/images/loginimg.png" alt="loginlogo" id="loginlogo">
+                </div>
+
+                <div class="offcanvas-body">
+                    <form action="signupok" method="post" id="signupForm" autocomplete="off"> {% csrf_token %}
+                        <div class="mb-2">
+                            <input class="form-control " type="text" placeholder="NICKNAME" name="User_name" id="Username" />
+                            <div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며
+                                2-10자리 가능합니다.</div>
+                        </div>
+                        <br />
+                        <div class="mb-2">
+                            <input class="form-control " type="text" placeholder="ID" name="User_id" id="Userid" />
+                            <div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
+                        </div>
+                        <br />
+                        <div class="mb-2">
+                            <input class="form-control " type="password" placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
+                            <div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
+                                8글자~13글자 이내로 입력해주세요.</div>
+                        </div>
+                        <br />
+                        <div class="mb-2">
+                            <input class="form-control " type="password" placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
+                            <div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
+                        </div>
+                        <br />
+                        <div class="mb-2">
+                            <input class="form-control " type="text" placeholder="E_MAIL" name="User_email" id="Useremail" />
+                            <div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
+                        </div>
+                        <br> <input type="submit" id="signupBtn" value="SIGN UP" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="text-center">
+            <div class="row">
+                <div class="minilist">
+                    <div id="listfilterBox">
+                        <!-- 검색 기능 -->
+                        <form action="winelist" name="typebtn" method="get">
+                            <h1 id="waa1239">필터</h1>
+                            <div id="listfiltertypes">
+                                <h4 id="waa1239">Wine Types</h4>
+                                <div>
+                                    <input type="checkbox" value="레드" class="red" name="filterBtn" id="red">
+                                    <label for="red" class="redlabel">레드</label>
+                                    <input type="checkbox" value="화이트" class="white" name="filterBtn" id="white">
+                                    <label for="white" class="whitelabel">화이트</label>
+                                    <input type="checkbox" value="스파클링" class="sparkling" name="filterBtn" id="sparkling">
+                                    <label for="sparkling" class="sparklinglabel">스파클링</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" value="로제" class="rose" name="filterBtn" id="rose">
+                                    <label for="rose" class="roselabel">로제</label>
+                                    <input type="checkbox" value="주정강화" class="fort" name="filterBtn" id="fort">
+                                    <label for="fort" class="fortlabel">주정강화</label>
+                                    <input type="checkbox" value="기타" class="exception" name="filterBtn" id="exception">
+                                    <label for="exception" class="exceptionlabel">기타</label>
+                                </div>
+                            </div>
+                            <input type="text" placeholder="Search" id="wineSearch" onkeyup="search(this)" name="search_key" class="form-control">
+                            <!-- 너무 어려움 마지막에 할 예정 -->
+                            <div id="listfilterprice">
+                                <div id="listfilterpriceheader">
+                                    <div id="listfilterpriceheaderno">
+                                        <h4>Price Range</h4>
+                                        <div>
+                                            <input type="checkbox" id="winepricecheckNO" name="winepricecheckNO" value="가격정보 없음">
+                                            <label for="winepricecheckNO" class="winepricecheckno"></label>
+                                            <a>가격정보 없음</a>
+                                        </div>
+                                    </div>
+                                    <input type="range" class="wineprice" min="0" max="20" step="1" id="winepricerange" name="priceRange" value="20">
+                                    <br>
+                                    <div class="winepricetext">
+                                        <label>0 원</label>
+                                        <label for="winepricerange" class="wineprice-label">전체 가격</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="listfiltercountrybox">
+                                <h4 id="waa1239">Wine nation</h4>
+                                <div class="listfiltercountry">
+                                    <div>
+                                        <input type="checkbox" value="프랑스" class="france" id="france" name="filterBtn2">
+                                        <label for="france" class="francelabel">프랑스</label>
+                                        <input type="checkbox" value="이탈리아" class="italy" id="italy" name="filterBtn2">
+                                        <label for="italy" class="italylabel">이탈리아</label>
+                                        <input type="checkbox" value="스페인" class="spain" id="spain" name="filterBtn2">
+                                        <label for="spain" class="spainlabel">스페인</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" value="포르투갈" class="Portugal" id="Portugal" name="filterBtn2">
+                                        <label for="Portugal" class="Portugallabel">포루투갈</label>
+                                        <input type="checkbox" value="미국" class="usa" id="usa" name="filterBtn2">
+                                        <label for="usa" class="usalabel">미국</label>
+                                        <input type="checkbox" value="아르헨티나" class="argentina" id="argentina" name="filterBtn2">
+                                        <label for="argentina" class="argentinalabel">아르헨티나</label>
+
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" value="뉴질랜드" class="NewZealand" id="NewZealand" name="filterBtn2">
+                                        <label for="NewZealand" class="NewZealandlabel">뉴질랜드</label>
+                                        <input type="checkbox" value="독일" class="Germany" id="Germany" name="filterBtn2">
+                                        <label for="Germany" class="Germanylabel">독일</label>
+                                        <input type="checkbox" value="호주" class="australia" id="australia" name="filterBtn2">
+                                        <label for="australia" class="australialabel">호주</label>
+
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" value="칠레" class="Chile" id="Chile" name="filterBtn2">
+                                        <label for="Chile" class="Chilelabel">칠레</label>
+                                        <input type="checkbox" value="남아프리카" class="RepublicofSouthAfrica" id="RepublicofSouthAfrica" name="filterBtn2">
+                                        <label for="RepublicofSouthAfrica" class="RepublicofSouthAfricalabel">남아프리카</label>
+                                        <input type="checkbox" value="기타국가" class="otherCountries" id="otherCountries" name="filterBtn2">
+                                        <label for="otherCountries" class="otherCountrieslabel">기타국가</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="listfilterfoodsbox">
+                                <h4 id="waa1239">Wine Food</h4>
+                                <div class="listfilterfoods">
+                                    <div>
+                                        <input type="checkbox" id="dry" name="filterBtn3" value="food-dry" />
+                                        <label for="dry" class="drylabel">육포</label>
+                                        <input type="checkbox" id="fruit" name="filterBtn3" value="food-fruit" />
+                                        <label for="fruit" class="fruitlabel">과일</label>
+                                        <input type="checkbox" id="noodle" name="filterBtn3" value="food-noodle" />
+                                        <label for="noodle" class="noodlelabel">국수</label>
+                                        <input type="checkbox" id="chicken" name="filterBtn3" value="food-chicken" />
+                                        <label for="chicken" class="chickenlabel">닭</label>
+                                        <input type="checkbox" id="pig" name="filterBtn3" value="food-pig" />
+                                        <label for="pig" class="piglabel">돼지</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="bibimbap" name="filterBtn3" value="food-bibimbap" />
+                                        <label for="bibimbap" class="bibimbaplabel">비빔밥</label>
+                                        <input type="checkbox" id="salami" name="filterBtn3" value="food-salami" />
+                                        <label for="salami" class="salamilabel">살라미</label>
+                                        <input type="checkbox" id="salad" name="filterBtn3" value="food-salad" />
+                                        <label for="salad" class="saladlabel">샐러드</label>
+                                        <input type="checkbox" id="fish" name="filterBtn3" value="food-fish" />
+                                        <label for="fish" class="fishlabel">생선</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="champagne" name="filterBtn3" value="food-champagne" />
+                                        <label for="champagne" class="champagnelabel">샴페인</label>
+                                        <input type="checkbox" id="cow" name="filterBtn3" value="food-cow" />
+                                        <label for="cow" class="cowlabel">소</label>
+                                        <input type="checkbox" id="asia" name="filterBtn3" value="food-asia" />
+                                        <label for="asia" class="asialabel">아시아</label>
+                                        <input type="checkbox" id="sheep" name="filterBtn3" value="food-sheep" />
+                                        <label for="sheep" class="sheeplabel">양</label>
+                                        <input type="checkbox" id="cheese" name="filterBtn3" value="food-cheese" />
+                                        <label for="cheese" class="cheeselabel">치즈</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="cake" name="filterBtn3" value="food-cake" />
+                                        <label for="cake" class="cakelabel">케이크</label>
+                                        <input type="checkbox" id="fried" name="filterBtn3" value="food-fried" />
+                                        <label for="fried" class="friedlabel">피자</label>
+                                        <input type="checkbox" id="pizza" name="filterBtn3" value="food-pizza" />
+                                        <label for="pizza" class="pizzalabel">튀김</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="listfiltervarietydbox">
+                                <h4 id="waa1239">Grape Varietyd</h4>
+                                <div class="listfiltervarietyd">
+                                    <div>
+                                        <input type="checkbox" id="CabernetSauvignon" name="filterBtn4" value="Cabernet Sauvignon">
+                                        <label for="CabernetSauvignon" class="labelCabernetSauvignon">카베르네 소비뇽</label>
+                                        <input type="checkbox" id="PinotNoir" name="filterBtn4" value="Pinot Noir">
+                                        <label for="PinotNoir" class="labelPinotNoir">피노 누아르</label>
+                                        <input type="checkbox" id="Merlot" name="filterBtn4" value="Merlot">
+                                        <label for="Merlot" class="labelMerlot">메를로</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="Grenache" name="filterBtn4" value="Grenache">
+                                        <label for="Grenache" class="labelGrenache">그르나슈</label>
+                                        <input type="checkbox" id="Sangiovese" name="filterBtn4" value="Sangiovese">
+                                        <label for="Sangiovese" class="labelSangiovese">산지오베제</label>
+                                        <input type="checkbox" id="SauvignonBlanc" name="filterBtn4" value="SauvignonBlanc">
+                                        <label for="SauvignonBlanc" class="labelSauvignonBlanc">소비뇽 블랑</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="Malbec" name="filterBtn4" value="Malbec">
+                                        <label for="Malbec" class="labelMalbec">말벡</label>
+                                        <input type="checkbox" id="Tempranillo" name="filterBtn4" value="Tempranillo">
+                                        <input type="checkbox" id="Syrah/Shiraz" name="filterBtn4" value="Syrah/Shiraz">
+                                        <label for="Syrah/Shiraz" class="labelSyrah/Shiraz">시라즈</label>
+                                        <label for="Tempranillo" class="labelTempranillo">템프라니요</label>
+                                        <input type="checkbox" id="Riesling" name="filterBtn4" value="Riesling">
+                                        <label for="Riesling" class="labelRiesling">리즐링</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="Blend" name="filterBtn4" value="Blend">
+                                        <label for="Blend" class="labelBlend">혼합</label>
+                                        <input type="checkbox" id="Chardonnay" name="filterBtn4" value="Chardonnay">
+                                        <label for="Chardonnay" class="labelChardonnay">샤르도네</label>
+                                        <input type="checkbox" id="Nebbiolo" name="filterBtn4" value="Nebbiolo">
+                                        <label for="Nebbiolo" class="labelNebbiolo">네비올로</label>
+                                        <input type="checkbox" id="Moscato" name="filterBtn4" value="Moscato">
+                                        <label for="Moscato" class="labelMoscato">머스캣</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" id="searchBtn" value="검색" id="typebtninput searchBtn" />
+                        </form>
+                    </div>
+                    <div id="lnkj21">
+                    </div>
+                </div>
+                <!-- 이미지 및  -->
+                <div class="maxlist">
+                    <div id="winelistgrapebox">
+                        <img src="static/images/winelistB.gif" alt="로고이미지입니다." id="wineListgrape">
+                    </div>
+                    <!-- 검색 바 -->
+                    <div id="winelistmainalllist">
+                        <h3>전체 와인 ({{count}})</h3>
+                    </div>
+                    <!-- 와인 리스트 반복문 -->
+                    <ul id="wineListBox_ul">
+                        {% for w in question_list %}
+                        <a id="wineListBox_li" href="winedetail?wineid={{w.id}}">
+                            <div id="wineListBox_div">
+                                <div id="winelistimg">
+                                    <!-- 와인 종류에 맞게 뒷 배경색 바꿀까? 참고 wine 1987 -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" /></svg>
+
+                                    <img src="{{w.url}}" id="listwinetest">
+                                </div>
+                            </div>
+                            <ul id="wineListBoxInf">
+                                <li id="winenameKo">{{w.name_kr}}</li>
+                                <li id="winenameEn">{{w.name_en}}</li>
+                                <br>
+                                <li id="wineRegion">{{w.nation}}</li>
+                                <li id="wineType">{{w.type}}</li>
+                                {% if w.price == 0 %}
+                                   <li id="winePrice">가격정보 없음</< /li>
+                                {% else %}
+                                   <li id="winePrice">{{w.price}}</< /li>
+                                {% endif %}
+                                {% if w.grade %}
+                                   <li id="gradeaverage">평균 ★ {{w.grade}}</li>
+                                {% else %}
+                                   <li id="gradeexpectation">예상 ★ </li>
+                                {% endif %}
+                            </ul>
+                        </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <tr>
+                    <!-- 페이징처리 시작 -->
+                    <ul class="pagination justify-content-center">
+                        <!-- 이전페이지 -->
+                        {% if question_list.has_previous %}
+                        <li class="page-item" id="page-form">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{wf}}{{list_check3}}{{vt}}{{list_check4}}{{pr}}{{m_range}}&page={{ question_list.previous_page_number }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                                    <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+                                </svg>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled" id="page-form">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                                    <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+                                </svg>
+                            </a>
+                        </li>
+                        {% endif %}
+                        <!-- 페이지리스트 -->
+                        {% for page_number in question_list.paginator.page_range %}
+                        {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+                        {% if page_number == question_list.number %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{wf}}{{list_check3}}{{vt}}{{list_check4}}{{pr}}{{m_range}}&page={{ page_number }}">{{ page_number }}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{wf}}{{list_check3}}{{vt}}{{list_check4}}{{pr}}{{m_range}}&page={{ page_number }}">{{ page_number }}</a>
+                        </li>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <!-- 다음페이지 -->
+                        {% if question_list.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{{sk}}{{search_key}}{{cb}}{{list_check}}{{cf}}{{list_check2}}{{wf}}{{list_check3}}{{vt}}{{list_check4}}{{pr}}{{m_range}}&page={{ question_list.next_page_number }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                                </svg>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                                </svg>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <!-- 페이징처리 끝 -->
+                    </td>
+                </tr>
+            </div>
+        </div>
+    </main>
 </body>
 <script>
-const wineprice = document.querySelector('.wineprice');
-const winepricelabel=document.querySelector(".wineprice-label")
+    const wineprice = document.querySelector('.wineprice');
+    const winepricelabel = document.querySelector(".wineprice-label")
 
-function headleinput(){
-  console.log(wineprice.value)
-  if (winepricelabel.textContent) {
-    winepricelabel.textContent = "";
-    winepricelabel.textContent = wineprice.value*10000+" 원"
-    if(winepricelabel.textContent=="200000 원"){
-      winepricelabel.textContent = "전체 가격"
+    function headleinput() {
+        console.log(wineprice.value)
+        if (winepricelabel.textContent) {
+            winepricelabel.textContent = "";
+            winepricelabel.textContent = wineprice.value * 10000 + " 원"
+            if (winepricelabel.textContent == "200000 원") {
+                winepricelabel.textContent = "전체 가격"
+            }
+            wineprice.setAttribute("value", wineprice.value)
+        }
     }
-    wineprice.setAttribute("value", wineprice.value)
-  }
-}
 
-wineprice.addEventListener('input',headleinput)
-
+    wineprice.addEventListener('input', headleinput)
 </script>
-
 </html>
