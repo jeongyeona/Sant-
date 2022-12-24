@@ -1,100 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-  rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-  crossorigin="anonymous">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
-  crossorigin="anonymous">
-</script>
-<!-- 비밀번호찾기 페이지 -->
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/winelistcss.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/pwdok.css" />
+    <!-- 비밀번호찾기 페이지 -->
 </head>
-<style>
 
-textarea {
- box-sizing: border-box; resize: none; 
-}
-#mainLogo_img {
-	width: 200px;
-}
-#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
-	#signupBtna, #loginMainForm, #i_name, #i_id, #i_email {
-	border-radius: 5px;
-	border: solid 3px #7E181A;
-	box-shadow: none;
-}
-#signupBtn, #signupBtna, #btnOk {
-	width: 100%;
-	height: 50px;
-	background-color: #7E181A;;
-	color: white;
-	font-size: 16px;
-}
-.form-control {
-	height: 45px;
-	font-size: 16px;
-}
-.vvv{
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-}
-#akjhsdkuh{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  width: 500px;
-  height: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.input {
-  width:32%;
-  height:100px;
-  font-size:20px;
-}
-.centers{
-  width: 32%;
-}
-#box {
-  margin-top: 150px;
-}
-
-</style>
-
-<header>
-  <nav>
-    <a href="/">
-      <img src="static/images/bysante.png" alt="logoimg" id="mainLogo_img">
-    </a>
-    <a href="winelist">list</a>
-  </nav>
-</header>
-
-<body id="main_backcolor">
+<body>
+    {% include "nav.html" %}
     <div class="conteiner">
-      <main>
-        <div id="box">
-          <div class="vvv">
-           <img  class="centers" src="static/images/i_pwdok.png">
-          </div>
-              <form class="form-inline center" action="pwdreset" method="post" id="akjhsdkuh">
-              {% csrf_token %}
-              <input class="form-control" type="text" placeholder="NICKNAME" name="name"id="i_name" >
-              <br /><br> 
-              <input class="form-control" type="text" placeholder="ID"name="id" id="i_id" /> 
-              <br /><br> 
-              <input class="form-control" type="text"placeholder="E_MAIL" name="email" id="i_email" />
-              <br /><br> 
-              <input class="btn btn-outline-danger" type="submit" id="btnOk" value="Change" /> <br />
-           </form>
-         </div>
-      </main>
+        <main>
+            <div id="pwdokboxlist">
+                <div class="vvv">
+                    <img class="pwdokboxlistcenters" src="static/images/i_pwdok.png">
+                </div>
+                <form class="form-inline center" action="pwdreset" method="post" id="akjhsdkuh">
+                    {% csrf_token %}
+                    <input class="form-control" type="text" placeholder="NICKNAME" name="name" id="i_name">
+                    <br /><br>
+                    <input class="form-control" type="text" placeholder="ID" name="id" id="i_id" />
+                    <br /><br>
+                    <input class="form-control" type="text" placeholder="E_MAIL" name="email" id="i_email" />
+                    <br /><br>
+                    <input class="btn btn-outline-danger" type="submit" id="btnOk" value="Change" /> <br />
+                </form>
+            </div>
+        </main>
     </div>
 </body>
 

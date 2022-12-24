@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#i_name, #i_id, #i_email,.pwdresetclass {border-radius: 5px;border: solid 3px #7E181A;box-shadow: none;height: 45px;font-size: 16px;}
+#btnOk {width: 100%;height: 50px;background-color: #7E181A;;color: white;font-size: 16px;}
+.vvv{display: flex;justify-content: center;width: 100%;}
+#akjhsdkuh{display: flex;justify-content: center;flex-direction: column;text-align: center;width: 500px;height: 500px;margin-left: auto;margin-right: auto;}
+.pwdokboxlistcenters{width: 32%;}
+#pwdokboxlist {margin-top: 150px;}
+#listBtn, #slidebtn {border-radius: 5px;border: solid 1px #fff;box-shadow: none;}

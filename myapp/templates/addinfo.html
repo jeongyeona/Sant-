@@ -5,65 +5,111 @@
 <title>Insert title here</title>
 <!-- CSS only -->
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-	crossorigin="anonymous">
+   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+   rel="stylesheet"
+   integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+   crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/static/css/addinfocss.css" />
+<script src="/static/js/mainjs.js" async="True" ></script>
 </head>
+<style>
+.star{
+   display: flex;
+   justify-content: space-around;
+}
+.starresult{
+   display: flex;
+   justify-content: space-around;
+}
+.star1{
+   font-size: 20px;
+}
+.star2{
+   font-size: 30px;
+}
+.hi{
+   margin-left: 15px;
+}
+
+.nationdiv{
+   width: 100%
+}
+
+.nation{
+   font-size: 20px;
+}
+
+.count{
+   font-size: 30px;
+}
+</style>
 <body id="addinfoback">
-	<div>
-		<header>
-			<!-- nav include -->
-   			{% include "nav.html" %}
-		</header>
-		<div class="container">
-			<!-- 1번째 칸 -->
-			<div class="addinfocss-111">
-				<div class="jkhn2314">
-					<img src="static/images/logo2.png" alt="" id="addinfobacklogo" />
-					<p id="addinfobacklogotext">취향분석</p>
-				</div>
-				<div class="njo12">
-					<img src="static/images/proflieimg.png" alt="" id="addinfobackpro" />
-					<p id="addinfobackprotext">{{wineid}}</p>
-				</div>
-			</div>
-			<!--  2번째 칸 -->
-			<div class="addinfocss222">
-				<h3>평가수</h3>
-				{% for i in mygrade %}
-				<p>내 별점 평균 : {{i.0}}</p>
-				{% endfor %}
-				{% for i in gradecount %} 
-				<p>별점 개수 : {{i}}</p>
-				{% endfor %}
-				{% for i in maxgrade %}
-				<p>많이 준 별점 : {{i.mygrade}}</p>
-				{% endfor %}
-			</div>
-			<!--  3번째 칸 -->
-			<div class="addinfocss222">
-				<h3>선호 국가</h3>
-				<ol>
-					{% for i in nation %}
-					<li>{{i.nation}} - {{i.count}}</li>
-					{% endfor %}
-				</ol>
-			</div>
-			<!--  4번째 칸 -->
-			<div class="addinfocss222">
-				<h3>선호 품종</h3>
-				<ol>
-					{% for v in varieties %}
-					<li>{{v.varieties}} - {{v.count}}</li>
-					{% endfor %}
-				</ol>
-			</div>
-			<!--  5번째 칸 -->
-			<div class="addinfocss222">
-				<h3>평가수</h3>
-			</div>
-		</div>
+   <div>
+      <header>
+         <!-- nav include -->
+            {% include "nav.html" %}
+      </header>
+      <div class="container">
+         <!-- 1번째 칸 -->
+         <div class="addinfocss-111">
+            <div class="jkhn2314">
+               <img src="static/images/logo2.png" alt="" id="addinfobacklogo" />
+               <p id="addinfobacklogotext">취향분석</p>
+            </div>
+            <div class="njo12">
+               <img src="static/images/proflieimg.png" alt="" id="addinfobackpro" />
+               <p id="addinfobackprotext">{{wineid}}</p>
+            </div>
+         </div>
+         <!--  2번째 칸 -->
+         <div class="addinfocss222">
+            <h3>평가수</h3>
+            <div class="stardiv">
+               <div class="starresult">
+                  {% for i in mygrade %}
+                  <p class="star2">{{i.0}}</p>
+                  {% endfor %}
+                  {% for i in gradecount %} 
+                  <p class="star2">{{i}}</p>
+                  {% endfor %}
+                  {% for i in maxgrade %}
+                  <p class="star2">{{i.mygrade}}</p>
+                  {% endfor %}
+               </div>
+               <div class="star">
+                  <p class="star1">내 별점 평균</p>
+                  <p class="star1 hi">별점 개수</p>
+                  <p class="star1">많이 준 별점</p>
+               </div>
+            </div>
+         </div>
+         <!--  3번째 칸 -->
+         <div class="addinfocss222">
+            <h3>선호 국가</h3>
+            <div class="nationdiv">
+               {% for i in nation %}
+               <p class="count">{{i.count}}</p>
+               {% endfor %}
+            </div>
+            <div class="nationresult">
+               {% for i in nation %}
+               <p class="nation">{{i.nation}}</p>
+               {% endfor %}
+            </div>
+         </div>
+         <!--  4번째 칸 -->
+         <div class="addinfocss222">
+            <h3>선호 품종</h3>
+            <ol>
+               {% for v in varieties %}
+               <li>{{v.varieties}} - {{v.count}}</li>
+               {% endfor %}
+            </ol>
+         </div>
+         <!--  5번째 칸 -->
+         <div class="addinfocss222">
+            <h3>평가수</h3>
+         </div>
+      </div>
 </body>
 </html>

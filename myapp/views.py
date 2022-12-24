@@ -291,6 +291,7 @@ def addinfo(request):
     # print('여기')
     nationcount = count.reset_index().rename(columns={'index':'nation', 'nation':'count'})
     # print(nationcount)
+    nationcount = nationcount[0:3]
     nationcount = nationcount.to_dict('records')
     # print(nationcount)
     
@@ -299,6 +300,7 @@ def addinfo(request):
     varieties = pd.DataFrame(varieties)
     varieties = varieties.reset_index().rename(columns={'index':'varieties', 'varieties':'count'})
     # print(varieties)
+    varieties = varieties[0:3]
     varieties = varieties.to_dict('records')
     
     # 내 별점 평균
