@@ -1,0 +1,441 @@
+@charset "UTF-8";
+
+#WDcommenettextBox div{
+         width: 100%;
+         display: flex;
+      }
+      #WDtextarea{
+         width: 100%;
+         height: 100px;
+         border-top-left-radius: 5px;
+         border-bottom-left-radius: 5px;
+         resize:none;
+      }
+      #WDcommenettextBox{
+         display: flex;
+         flex-direction: column;
+         width: 90%;
+         margin-left: 40px;
+      }
+      #WDcommenettextBox h5{
+         display: flex;
+         justify-content: flex-start;
+         margin-left: 0px;
+         margin-bottom: 10px;
+      }
+   
+   /* 목록 버튼 css*/
+   #backlist{
+      background-color: #888888;
+      width: 70px;
+      height: 30px;
+      margin: 100px 0px 20px 20px;
+      border-radius: 10px;   
+   }
+   #backlist a{
+      text-decoration: none;
+      color: white;
+   }
+   #backlist a:hover { 
+      color: white; 
+   }
+   #WDclickmebox{
+      display: flex;
+      margin: 50px 0px 30px 40px;
+   }
+   #WDclickmeboxdiv{
+      width: 200px;
+   }
+   #WDclickme1,
+   #WDclickme4{
+      color:#7E181A;
+      font-size:1.1rem;
+      font-weight: 800;
+      text-align : center;
+      line-height: 50px;
+      border: 2px solid #7E181A;
+      border-top-right-radius :10px;
+      border-top-left-radius :10px;
+      border-bottom: none;
+   }
+   #WDclickme2,
+   #WDclickme3{
+      color:#666666;
+      text-align : center;
+      line-height: 50px;
+      border: 1px solid #666666;
+      border-top-right-radius :10px;
+      border-top-left-radius :10px;
+      border-bottom: none;
+   }
+   
+   /* 와인 상세정보css*/
+   #wine_detailinfolist ul{
+      display: flex;
+   }
+   #wine_detailinfo{
+      margin-bottom: 200px;
+   }
+   #wineDetailvalue div{
+      display: flex;
+      width: 150px;
+      margin-left: 100px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      font-weight: 800;
+   }
+   #wineDetailvalueinfo div{
+      display: flex;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+   }
+   #winelalanation{
+       width:73%;
+       overflow: auto;
+       white-space: nowrap;
+       
+  }
+  #winelalanation::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+   }
+   
+   #winelalanation::-webkit-scrollbar-thumb {
+       background-color: #B0B0B0;
+       border-radius: 10px;
+       background-clip: padding-box;
+       border: 2px solid transparent;
+   }
+   
+   #winelalanation::-webkit-scrollbar-track {
+       background-color: #E0E0E0;
+       border-radius: 10px;
+       box-shadow: inset 0px 0px 3px white;
+   }
+   
+/* 별점 코드 */
+#starform fieldset {
+   display: inline-block;
+   direction: rtl;
+   border: 0;
+   margin-left: -45px;
+}
+
+#starform fieldset legend {
+   font-size: 12px;
+   text-align: center;
+}
+
+#starform input[type=radio] {
+   display: none;
+}
+
+#starform label {
+   font-size: 1em;
+   color: transparent;
+   text-shadow: 0 0 0 #f0f0f0;
+}
+
+#starform label:hover {
+   text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+
+#starform label:hover ~ label {
+   text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+
+#starform input[type=radio]:checked ~ label {
+   text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+/* 왕디테일 */
+
+
+#WineDetailimgbox {
+   background-color: #fff;
+   border-radius: 10px;
+   width: 90%
+}
+
+#WineDetailimg {
+   width: 100%;
+   margin: 30px 0px;
+}
+
+ul {
+   list-style: none;
+   padding-left: 0px;
+}
+
+#mon123 li {
+   display: flex;
+   justify-content: start;
+   margin-left: 10px;
+}
+#mon123 h4{
+   display: flex;
+   justify-content: start;
+   margin-left: 10px;
+}
+#WineDetailInfLocal, #WineDetailInfPriceMl {
+   display: flex;
+}
+#WineDetailInfLocal li{
+   font-weight: 700;
+   font-size:1.1rem;
+}
+#WineDetailInfPriceMl {
+   font-size: 1.3rem;
+}
+
+#mon123 ul, #WineDetailInfPricebox {
+   margin-top: 20px;
+}
+
+#WineDetailInftaste {
+   display: flex;
+}
+
+#WineDetailInfNameKo {
+   font-size: 1.5rem;
+}
+
+#WineDetailInfNameEn {
+   font-size: 1.2rem;
+   color: #706c65;
+}
+
+#WineDetailInfPriceText {
+   font-size: 0.7rem;
+}
+
+#WineDetailInftaste div {
+   display: flex;
+}
+
+.asjoui1h989 {
+   display: flex;
+   justify-content: space-around;
+}
+
+.winedetailicon {
+   width: 20px;
+   height: 20px;
+   border-radius: 50%;
+   background-color: #dbdbdb;
+   margin-left: 5px;
+}
+
+#winedetailiconid1 {
+   background-color: #F8CFB9;
+}
+
+#winedetailiconid2 {
+   background-color: #F6AD93;
+}
+
+#winedetailiconid3 {
+   background-color: #F58C6E;
+}
+
+#winedetailiconid4 {
+   background-color: #F36A48;
+}
+
+#winedetailiconid5 {
+   background-color: #F24822;
+}
+
+.WineDetail1283 {
+   width: 150px;
+}
+
+#WineDetailInfcountry {
+   display: none;
+}
+#winedetailback{
+   background-color:#fff; 
+}
+
+/* 평점 칸 css*/
+#WineDetailGrade{
+   display: flex;
+   width: 100%;
+}
+#WineDetailGradeUl{
+   display: flex;
+   width: 80%;
+
+}
+
+#WineDetailGradeUl div{
+   background-color: white;
+   border-radius:10px;
+   width: 80%;
+   padding: 10px 0px;
+   border: solid 1px;
+   height: 120px;
+   border-color: #fff;
+   margin-top: 13px;
+}
+.wineDetailGradeAvbtn{
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  background-color:#CD6666;
+  color: white;
+  width: 150px;
+  margin-top: 20px;
+  height: 54px;
+}
+
+/* nav */
+#mainLogo_img {
+   width: 200px;
+   margin-left: 20px;
+   color: black;
+}
+
+#mainbox {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+}
+
+#main_backcolor {
+   height: 100%;
+   margin: 20px;
+   background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);
+}
+
+#mainPage_img {
+   max-width: 70%;
+}
+
+.anhsdjw123 {
+   float: right;
+   margin-bottom: 50;
+}
+
+#slidebtn {
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+}
+
+#slidebtn.hover {
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+}
+
+#navIconColor {
+   color: black;
+}
+
+#loginlogo {
+   width: 200px;
+}
+
+.loginImgBox {
+   display: flex;
+   justify-content: center;
+   margin: 50px 0px;
+}
+
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
+   #signupBtna, #loginMainForm {
+   border-radius: 5px;
+   border: solid 3px #7E181A;
+   box-shadow: none;
+}
+
+.btn-close:focus {
+   box-shadow: none;
+}
+
+.form-control {
+   height: 45px;
+   font-size: 16px;
+}
+
+#signupBtn, #signupBtna {
+   width: 100%;
+   height: 50px;
+   background-color: #fff;
+   color: white;
+   font-size: 16px;
+}
+#slidebtn{
+   margin-right: 19px;
+}
+
+#mainSignForgot, #mainSignForgotProfile {
+   text-decoration: none;
+   color: black;
+}
+
+#mainSignForgotProfile {
+   display: flex;
+   justify-content: end;
+   width: 100%;
+}
+
+#mainLink {
+   display: flex;
+   justify-content: space-between;
+   opacity: 0.6;
+   width: 100%;
+}
+
+.offcanvas {
+   border-top-left-radius: 15px;
+}
+
+#proflieImg {
+   width: 150px;
+   margin: 100px 0px;
+}
+
+.proflieImgBox {
+   display: flex;
+   justify-content: center;
+   width: 100%;
+}
+#listBtn{
+   background-color: #fff;
+   border-color: #fff;
+   color: black;
+   font-weight: 700;
+   float: right;
+   margin-bottom: 50;
+}
+#nav3{
+   margin-top : 20px;
+}
+
+/* 배너 css */
+
+#tkwls{
+   margin-top: 100px;
+   text-align: center;
+}
+#tkwls2{
+   width: 80%;
+   height: 250px;
+   text-align: center;
+}
+h5{
+   text-align: left;
+   margin-left: 20px;
+}
+.ddd{
+   text-align: left;
+   margin-left: 25px;
+}

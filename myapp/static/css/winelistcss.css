@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+#wineListback {background-color: #fff;}
+@media (min-width: 576px){.minilist{flex: 0 0 auto;width: 25%;}}
+@media (min-width: 576px){.maxlist {flex: 0 0 auto;flex-grow: 0;flex-shrink: 0;flex-basis: auto;width: 75%;}}  
+#wineListgrape { width: 90%; height : 150px;}
+#winelistgrapebox {margin: 20px 0px;}
+li {list-style: none;}
+#wineListBox_ul {padding-left: 0;display: flex;width: 100%;justify-content: space-between;flex-wrap: wrap;}
+#wineListBox_li {background-color: #fff;width: 19%;flex-direction: column;margin: 40px 10px 0px 0px;text-decoration: none;color: black;}
+#listwinetest {width: 100%;}
+#winelistimg svg {display: none}
+#wineListBox_div:hover {filter: brightness(75%);}
+#winelistimg {box-shadow: 0 0 1em white;width: 100%}
+#wineListBoxInf {padding-left: 0;margin-top: 10px;}
+#wineListBoxInf li {display: flex;justify-content: flex-start;margin-left: 10px;text-decoration: none;font-size: 0.9rem;}
+#winenameKo, #winenameEn {font-size: 1.1rem;width: 90%;overflow: scroll;-ms-overflow-style: none;white-space: nowrap;}
+#winenameKo::-webkit-scrollbar, #winenameEn::-webkit-scrollbar {display: none;}
+#listfilterBox {background-color: white;margin-top: 40px; margin-right:20px; width: 95%;display: flex;justify-content: center;}
+#wineType {margin-left: 5px;}
+#listfiltertypes {width: 100%;}
+#listfiltertypes div{display: flex;width: 100%;justify-content: space-between;}
+#listfiltertypebutton input {margin-top: 10px;width: 32%;border-radius: 20px;}
+#listfilterpriceheaderno {display: flex;width: 100%;}
+#waa1239, #listfilterpriceheaderno {display: flex;justify-content: start;margin: 30px 0px 0px 0px;font-weight: 800;}
+#waa1239{margin-bottom: 20px;}
+.redlabel,
+.whitelabel,
+.sparklinglabel,
+.roselabel,
+.fortlabel,
+.exceptionlabel{border: 1px solid #9f9f9f ;border-radius: 20px;display: flex;align-items: center;justify-content: center;margin-top: 10px;padding: 3px;}
+
+.redlabel,
+.whitelabel,
+.sparklinglabel,
+.roselabel,
+.fortlabel,
+.exceptionlabel{width: 30%;flex-direction: column;display: fl}
+
+.francelabel,
+.italylabel,
+.spainlabel,
+.Portugallabel,
+.usalabel,
+.argentinalabel,
+.NewZealandlabel,
+.Germanylabel,
+.australialabel,
+.Chilelabel,
+.RepublicofSouthAfricalabel,
+.otherCountrieslabel{padding: 3px 14px;}
+#searchBtn{background-color: #7E181A;border: 1px solid #7E181A;border-radius: 10px;color: white;font-size: 1.2rem;margin-top: 30px;width: 100%;padding: 4px 0px;}
+.minilist{display: flex;}
+input[type="checkbox"]:checked + label {border-color: #7E181A;background-color: #7E181A;color:white;align-items: center;justify-content: center;}
+input[type="checkbox"]{display: none;}
+#winepricecheckNO{accent-color: #7E181A;}
+/* 페이지 링크 */
+.page-link{background-color: #fff;border : none;color : black;}
+#page-form{background-color: #fff;border : none;color : black;}
+.pagination{--bs-pagination-disabled-bg : #fff;margin : 70px 0px;}
+#lnkj21{width: 1px;background-color: #000;opacity: 0.4;height: 100%;justify-content: center;}
+/* nav css */
+#mainLogo_img {width: 200px;margin-left: 20px;color: black;}
+.page-link{background-color:white;}
+.active>.page-link{background-color:white;border:1px solid #9f9f9f;border-radius:5px;color:black;}
+#mainbox {width: 100%;display: flex;justify-content: center;}
+#main_backcolor {height: 100%;margin: 20px;background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);}
+#mainPage_img {max-width: 70%;}
+.anhsdjw123 {float: right;margin-bottom: 50;}
+#slidebtn {background-color: #fff;border-color: #fff;color: black;font-weight: 700;}
+#slidebtn.hover {background-color: #fff;border-color: #fff;color: black;font-weight: 700;}
+#navIconColor {color: black;}
+#loginlogo {width: 200px;}
+.loginImgBox {display: flex;justify-content: center;margin: 50px 0px;}
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,#signupBtna, #loginMainForm {border-radius: 5px;border: solid 3px #7E181A;box-shadow: none;}
+.btn-close:focus {box-shadow: none;}
+.form-control {height: 45px;font-size: 16px;}
+#signupBtn, #signupBtna {width: 100%;height: 50px;background-color: #7E181A;color: white;font-size: 16px;}
+#slidebtn{margin-right: 19px;}
+#mainSignForgot, #mainSignForgotProfile {text-decoration: none;color: black;}
+#mainSignForgotProfile {display: flex;justify-content: end;width: 100%;}
+#mainLink {display: flex;justify-content: space-between;opacity: 0.6;width: 100%;}
+.offcanvas {border-top-left-radius: 15px;}
+#proflieImg {width: 150px;margin: 100px 0px;} 
+.proflieImgBox {display: flex;justify-content: center;width: 100%;}
+#listBtn{background-color: #fff;border-color: #fff;color: black;font-weight: 700;float: right;margin-bottom: 50;}
+#nav3{margin-top : 20px;margin-bottom: 60px;}
+#winelistmainalllist h3{display: flex;justify-content: flex-start;margin-top: 20px;}
+#winelistmainalllist{display: flex;justify-content: space-between;border-bottom: 0.5px solid;}
+.wineprice{width: 100%;background: #7E181A;accent-color: #7E181A;margin-top: 15px;}
+#listfilterpriceheaderno{display: flex;justify-content: space-between;}
+#listfilterpriceheaderno div{display: flex;}
+#listfilterpriceheaderno div a{margin-bottom: 0;margin-top: px;margin: 5px 0px 0px 3px;}
+.winepricetext{width: 100%;display: flex;justify-content: space-between;}
+.winepricetext label{margin-top: 5px;color:#252525;}
+.text-center{margin: 0px 100px;}
+#wineSearch{margin-top: 20px}
+#wineSearch:focus {outline: none;}
+.listfilterfoods label,.listfiltervarietyd label,.listfiltercountry label{padding: 3px 14px;border-radius: 15px;border: 1px solid #9f9f9f;margin: 10px 5px;}
+#listfilterfoodsbox,#listfiltervarietydbox,#listfiltercountrybox{flex-direction: column;}
+#gradeaverage{color: black; opacity: 0.6;}
+#gradeexpectation{color: #7E181A}

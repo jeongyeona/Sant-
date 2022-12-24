@@ -1,0 +1,301 @@
+@charset "UTF-8";
+
+#mainLogo_img {
+	width: 200px;
+}
+
+#addinfoback {
+	height: 100%;
+	margin: 20px;
+	background-color: #F8F8F8;
+}
+
+.addinfocss-111 {
+	background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);;
+	width: 100%;
+	height: 250px;
+	border-radius: 10px;
+	margin-top: 80px;
+}
+
+#addinfobacklogo {
+	width: 200px;
+	margin: 10px 0px 5px 10px;
+}
+
+#addinfobacklogotext {
+	color: white;
+	margin: 0px 0px 0px 15px;
+	font-weight: 700;
+}
+
+#addinfobackpro {
+	width: 40px;
+	margin-left: 10px;
+}
+
+.jkhn2314 {
+	display: flex;
+	flex-direction: column;
+}
+
+.njo12 {
+	display: flex;
+	margin-top: 130px;
+}
+
+#addinfobackprotext {
+	font-size: 1.3rem;
+	margin-bottom: 0;
+}
+
+.addinfocss222{
+	margin-top:20px;
+	height: 400px;
+	width:100%;
+	background-color: white;
+	border-radius: 10px;
+	border: 0.5px solid #939393; 
+}
+.addinfocss222 h3{
+	margin: 10px 0px 0px 15px;
+}
+
+/* nav css */
+
+#mainLogo_img {
+	width: 200px;
+}
+
+#mainbox {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#main_backcolor {
+	height: 100%;
+	margin: 20px;
+	background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);
+}
+
+#mainPage_img {
+	max-width: 70%;
+}
+
+.anhsdjw123 {
+	float: right;
+	margin-bottom: 50;
+}
+
+#slidebtn {
+	background-color: #F9F1DF;
+	border-color: #F9F1DF;
+	color: black;
+	font-weight: 700;
+}
+
+#slidebtn.hover {
+	background-color: #F9F1DF;
+	border-color: #F9F1DF;
+	color: black;
+	font-weight: 700;
+}
+
+#navIconColor {
+	color: black;
+}
+
+#loginlogo {
+	width: 200px;
+}
+
+.loginImgBox {
+	display: flex;
+	justify-content: center;
+	margin: 50px 0px;
+}
+
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
+	#signupBtna, #loginMainForm {
+	border-radius: 5px;
+	border: solid 3px #F8F8F8;
+	box-shadow: none;
+}
+
+.btn-close:focus {
+	box-shadow: none;
+}
+
+.form-control {
+	height: 45px;
+	font-size: 16px;
+}
+
+#signupBtn, #signupBtna {
+	width: 100%;
+	height: 50px;
+	background-color: #F8F8F8;
+	color: white;
+	font-size: 16px;
+}
+
+#mainSignForgot, #mainSignForgotProfile {
+	text-decoration: none;
+	color: black;
+}
+
+#mainSignForgotProfile {
+	display: flex;
+	justify-content: end;
+	width: 100%;
+}
+
+#mainLink {
+	display: flex;
+	justify-content: space-between;
+	opacity: 0.6;
+	width: 100%;
+}
+
+.offcanvas {
+	border-top-left-radius: 15px;
+}
+
+#proflieImg {
+	width: 150px;
+	margin: 100px 0px;
+}
+
+.proflieImgBox {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+#listBtn{
+	background-color: #F8F8F8;
+	border-color: #fff;
+	color: black;
+	font-weight: 700;
+	float: right;
+	margin-bottom: 50;
+}
+
+/* nav css */
+#mainLogo_img {
+	width: 200px;
+}
+
+#mainbox {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#main_backcolor {
+	height: 100%;
+	margin: 20px;
+	background: linear-gradient(90deg, #7E181A 50%, #F9F1DF 50%);
+}
+
+#mainPage_img {
+	max-width: 70%;
+}
+
+.anhsdjw123 {
+	float: right;
+	margin-bottom: 50;
+}
+
+#slidebtn {
+	background-color: #F8F8F8;
+	border-color: #fff;
+	color: black;
+	font-weight: 700;
+}
+
+#slidebtn.hover {
+	background-color: #F8F8F8;
+	border-color: #F8F8F8;
+	color: black;
+	font-weight: 700;
+}
+
+#navIconColor {
+	color: black;
+}
+
+#loginlogo {
+	width: 200px;
+}
+
+.loginImgBox {
+	display: flex;
+	justify-content: center;
+	margin: 50px 0px;
+}
+
+#Userid, #Username, #Userpwd, #Userpwdok, #Useremail, #signupBtn,
+	#signupBtna, #loginMainForm {
+	border-radius: 5px;
+	border: solid 3px #F8F8F8;
+	box-shadow: none;
+}
+
+.btn-close:focus {
+	box-shadow: none;
+}
+
+.form-control {
+	height: 45px;
+	font-size: 16px;
+}
+
+#signupBtn, #signupBtna {
+	width: 100%;
+	height: 50px;
+	background-color: #F8F8F8;
+	color: white;
+	font-size: 16px;
+}
+
+#mainSignForgot, #mainSignForgotProfile {
+	text-decoration: none;
+	color: black;
+}
+
+#mainSignForgotProfile {
+	display: flex;
+	justify-content: end;
+	width: 100%;
+}
+
+#mainLink {
+	display: flex;
+	justify-content: space-between;
+	opacity: 0.6;
+	width: 100%;
+}
+
+.offcanvas {
+	border-top-left-radius: 15px;
+}
+
+#proflieImg {
+	width: 150px;
+	margin: 100px 0px;
+}
+
+.proflieImgBox {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+#listBtn{
+	background-color: #F8F8F8;
+	border-color: #F8F8F8;
+	color: black;
+	font-weight: 700;
+	float: right;
+	margin-bottom: 50;
+}

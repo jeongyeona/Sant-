@@ -1,0 +1,137 @@
+<nav id="nav3">
+         <a href="/"> <img src="static/images/bysante.png" alt="logoimg"
+            id="mainLogo_img">
+         </a> {% if request.session.WineUser %}
+         <!-- 프로필 폼 -->
+
+         <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button"
+               data-bs-toggle="offcanvas" data-bs-target="#userprofile"
+               aria-controls="offcanvasRight">PROFILE</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="userprofile"
+               aria-labelledby="offcanvasRightLabel">
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/profilelogo.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
+               <div class="proflieImgBox">
+                  <img src="static/images/proflieimg.png" alt="proflieimg"
+                     id="proflieImg">
+               </div>
+
+               <div class="offcanvas-body">
+                  <div id="mainLink" class="mt-3">
+                     <a href="addinfo" id="mainSignForgotProfile">ADD INFORMATION</a>
+                  </div>
+                  <form action="logout" method="post" autocomplete="off">
+                     {% csrf_token %}
+                     <!-- 로그 아웃시 연결 views 연결 만들기 -->
+                     <br /> <input type="submit" id="signupBtna" value="LOG OUT" />
+                  </form>
+               </div>
+            </div>
+         </div>
+         {% else %}
+         <!-- 로그인 폼 -->
+         <div class=anhsdjw123>
+            <button id="slidebtn" class="btn btn-primary" type="button"
+               data-bs-toggle="offcanvas" data-bs-target="#logintarget"
+               aria-controls="offcanvasRight">LOGIN</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="logintarget"
+               aria-labelledby="offcanvasRightLabel">
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/loginimg.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
+
+               <div class="offcanvas-body">
+                  <form action="loginok" method="post" autocomplete="off"
+                     id="loginform">
+                     {% csrf_token %}
+                     <div class="mb-1">
+                        <input class="form-control " type="text" placeholder="ID"
+                           name="lo_id" id="loginMainForm" />
+                     </div>
+                     <br />
+                     <div class="mb-1">
+                        <input class="form-control " type="password"
+                           placeholder="PASSWORD" name="lo_pwd" id="loginpasswordForm" />
+                     </div>
+                     <br /> <input type="submit" id="signupBtna" value="SIGN IN" />
+                  </form>
+                  <div id="mainLink" class="mt-3">
+                     <a id="mainSignForgot" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#newuserlogin">SIGN UP</a> <a href="pwdok"
+                        id="mainSignForgot">FORGOT PASSWORD </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endif %}
+
+         <button id="listBtn" type="button" class="btn btn-primary"
+            onClick="location.href='winelist'">LIST</button>
+
+         <!-- 회원가입 폼  -->
+         <div class=anhsdjw123>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="newuserlogin"
+               aria-labelledby="offcanvasRightLabel">
+
+               <div class="offcanvas-header">
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="loginImgBox">
+                  <img src="static/images/loginimg.png" alt="loginlogo"
+                     id="loginlogo">
+               </div>
+
+               <div class="offcanvas-body">
+                  <form action="signupok" method="post" id="signupForm"
+                     autocomplete="off">
+                     {% csrf_token %}
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="NICKNAME"
+                           name="User_name" id="Username" />
+                        <div class="invalid-feedback">닉네임은 한글, 영문, 숫자만 가능하며 2-10자리
+                           가능합니다.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="ID"
+                           name="User_id" id="Userid" />
+                        <div class="invalid-feedback">사용할 수 없는 아이디 입니다.()</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="password"
+                           placeholder="PASSWORD" name="User_pwd" id="Userpwd" />
+                        <div class="invalid-feedback">최소 하나의 영문자,숫자,특수문자가 들어가고
+                           8글자~13글자 이내로 입력해주세요.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="password"
+                           placeholder="RE PASSWORD" name="User_pwdok" id="Userpwdok" />
+                        <div class="invalid-feedback">비밀 번호가 일치하지 않습니다.</div>
+                     </div>
+                     <br />
+                     <div class="mb-2">
+                        <input class="form-control " type="text" placeholder="E_MAIL"
+                           name="User_email" id="Useremail" />
+                        <div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
+                     </div>
+                     <br> <input type="submit" id="signupBtn" value="SIGN UP" />
+                  </form>
+               </div>
+            </div>
+         </div>
+      </nav>

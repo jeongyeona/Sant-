@@ -9,78 +9,13 @@
 	rel="stylesheet"
 	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
 	crossorigin="anonymous">
-
+<link rel="stylesheet" type="text/css" href="/static/css/addinfocss.css" />
 </head>
-<style>
-#mainLogo_img {
-	width: 200px;
-}
-
-#addinfoback {
-	height: 100%;
-	margin: 20px;
-	background-color: #F8F8F8;
-}
-
-.addinfocss-111 {
-	background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);;
-	width: 100%;
-	height: 250px;
-	border-radius: 10px;
-	margin-top: 80px;
-}
-
-#addinfobacklogo {
-	width: 200px;
-	margin: 10px 0px 5px 10px;
-}
-
-#addinfobacklogotext {
-	color: white;
-	margin: 0px 0px 0px 15px;
-	font-weight: 700;
-}
-
-#addinfobackpro {
-	width: 40px;
-	margin-left: 10px;
-}
-
-.jkhn2314 {
-	display: flex;
-	flex-direction: column;
-}
-
-.njo12 {
-	display: flex;
-	margin-top: 130px;
-}
-
-#addinfobackprotext {
-	font-size: 1.3rem;
-	margin-bottom: 0;
-}
-
-.addinfocss222{
-	margin-top:20px;
-	height: 400px;
-	width:100%;
-	background-color: white;
-	border-radius: 10px;
-	border: 0.5px solid #939393; 
-}
-.addinfocss222 h3{
-	margin: 10px 0px 0px 15px;
-}
-</style>
 <body id="addinfoback">
 	<div>
 		<header>
-			<nav class='naver'>
-				<a href="/"> <img src="static/images/bysante.png" alt="logoimg"
-					id="mainLogo_img">'
-				</a>
-			</nav>
+			<!-- nav include -->
+   			{% include "nav.html" %}
 		</header>
 		<div class="container">
 			<!-- 1번째 칸 -->
