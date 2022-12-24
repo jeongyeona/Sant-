@@ -100,3 +100,18 @@
     }else{
        tainnin.innerHTML=fiveicon;
     }
+    
+   const winetype=document.querySelector("#WineDetailInftype")
+   if(winetype.textContent == "레드"){
+      winetype.classList.add("redbutton")
+   }else if(winetype.textContent == "화이트"){
+      winetype.classList.add("whitebutton")
+   }else if(winetype.textContent == "스파클링"){
+      winetype.classList.add("sparklingbutton")
+   }else if(winetype.textContent == "로제"){
+      winetype.classList.add("rosebutton")
+   }else if(winetype.textContent == "주정강화"){
+      winetype.classList.add("fortifiedbutton")
+   }else if(winetype.textContent == "기타"){
+      winetype.classList.add("etcbutton")
+   };
