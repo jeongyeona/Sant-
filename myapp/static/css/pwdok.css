@@ -9,6 +9,14 @@
 #listBtn, #slidebtn {border-radius: 5px;border: solid 1px #fff;box-shadow: none;}
 
 @font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E
+}
+
+@font-face {
   font-family: 'Unno';
   font-style: italic;
   font-weight: 400;

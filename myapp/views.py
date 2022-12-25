@@ -281,16 +281,16 @@ def addinfo(request):
     
     gdf = pd.DataFrame(gradedata, columns = ['wid', 'mygrade'])
     gdf = gdf.reset_index(drop=True)
-    print(gdf.head(3))
+    # print(gdf.head(3))
     
     winedata = sql()
     wdf = winedata.copy()
     postdata=postpro(wdf)
-    print(postdata.head(3))
+    # print(postdata.head(3))
     
     # 선호 국가
     df = pd.concat([wdf, gdf], axis=1)
-    df.info()
+    # df.info()
     df = df.dropna(axis='index', how='any')
     # pd.set_option('display.max_columns', 20)
     # print(df)
@@ -298,15 +298,46 @@ def addinfo(request):
     # print('여기')
     nationcount = count.reset_index().rename(columns={'index':'nation', 'nation':'count'})
     # print(nationcount)
+    nationcount = nationcount[0:3]
     nationcount = nationcount.to_dict('records')
     # print(nationcount)
     
     # 품종
     varieties = df['varieties'].value_counts()
-    print(varieties)
-    # varieties = varieties.to_dict('records')
+    varieties = pd.DataFrame(varieties)
+    varieties = varieties.reset_index().rename(columns={'index':'varieties', 'varieties':'count'})
+    # print(varieties)
+    varieties = varieties[0:3]
+    varieties = varieties.to_dict('records')
     
-    return render(request, 'addinfo.html', {'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
+    # 내 별점 평균
+    # print(df['mygrade'])
+    mygrade = pd.DataFrame(df['mygrade'])
+    mygrade = round(mygrade.mean(), 2)
+    mygrade = pd.DataFrame(mygrade)
+    mygrade = mygrade.rename(columns={'0':'mygrade'})
+    mygrade = mygrade.to_dict('records')
+    # print('여기')
+    # print(mygrade)
+    
+    # 내 별점 개수
+    gradecount = pd.DataFrame(df['mygrade'])
+    # print(gradecount)
+    gradecount = gradecount.count()
+    # print(gradecount)
+    
+    # 많이 준 별점
+    maxgrade = pd.DataFrame(df['mygrade']) 
+    starcount = maxgrade['mygrade'].value_counts()
+    starcount = starcount.reset_index().rename(columns={'index':'star', 'grade':'count'})
+    maxgrade = starcount.to_dict('records')
+    
+    # print(starcount)
+    # maxgrade = starcount.to_dict('records')
+    # print(maxgrade)
+    
+    
+    return render(request, 'addinfo.html', {'maxgrade':maxgrade[0], 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
 
 def winedetail(request):
     if request.method == "GET":
