@@ -22,6 +22,10 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers.core import Dense
 import matplotlib.pyplot as plt
 import tensorflow as tf
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 current_path = os.path.abspath(__file__) # 경로를 객체화
 parent_dir = os.path.dirname(current_path)
@@ -93,7 +97,6 @@ def winelist(request):
     df = data.copy()
     postdata=postpro(df)
 
-    
     if request.session.get('WinePid'):
         pid=request.session.get('WinePid')
         predstardf=deep(postdata)
@@ -105,12 +108,13 @@ def winelist(request):
         
         # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
         ddata=distance(postdata, pid)
-        print('시작')
-        data = pd.concat([data, ddata], axis=1)
-        data = data.sort_values('distance', ascending=True)
-        print('거리순 정렬')
-        print(data[['id','distance']].head(6))        
-        data=data[1:11]
+        if len(ddata) != 0:
+            print('시작')
+            data = pd.concat([data, ddata], axis=1)
+            data = data.sort_values('distance', ascending=True)
+            print('거리순 정렬')
+            print(data[['id','distance']].head(6))        
+            data=data[1:11]
 
     sk =''
     cb =''
@@ -292,6 +296,7 @@ def addinfo(request):
     df = pd.concat([wdf, gdf], axis=1)
     # df.info()
     df = df.dropna(axis='index', how='any')
+    df['mygrade']=df['mygrade'].astype(int)
     # pd.set_option('display.max_columns', 20)
     # print(df)
     count = df['nation'].value_counts()
@@ -313,6 +318,8 @@ def addinfo(request):
     # 내 별점 평균
     # print(df['mygrade'])
     mygrade = pd.DataFrame(df['mygrade'])
+    print('여기')
+    print(mygrade)
     mygrade = round(mygrade.mean(), 2)
     mygrade = pd.DataFrame(mygrade)
     mygrade = mygrade.rename(columns={'0':'mygrade'})
@@ -327,17 +334,23 @@ def addinfo(request):
     # print(gradecount)
     
     # 많이 준 별점
-    maxgrade = pd.DataFrame(df['mygrade']) 
+    maxgrade = pd.DataFrame(df['mygrade'])
+    maxgrade = maxgrade.astype(str)
+    print(maxgrade.info())
+    fig = px.histogram(maxgrade, x='mygrade', labels={'mygrade':'내 별점'}, category_orders=dict(mygrade=['1','2','3','4','5']))
     starcount = maxgrade['mygrade'].value_counts()
+    
+    print(starcount)
     starcount = starcount.reset_index().rename(columns={'index':'star', 'grade':'count'})
     maxgrade = starcount.to_dict('records')
-    
     # print(starcount)
     # maxgrade = starcount.to_dict('records')
     # print(maxgrade)
+
+    # fig = px.bar(starcount, x='star', y="mygrade", facet_col_spacing=1)
     
     
-    return render(request, 'addinfo.html', {'maxgrade':maxgrade[0], 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
+    return render(request, 'addinfo.html', {'graph':fig.to_json, 'maxgrade':maxgrade[0], 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
 
 def winedetail(request):
     if request.method == "GET":
@@ -352,7 +365,6 @@ def winedetail(request):
             data = re.sub(r"[^0-9]", "", str(data))
                         
     return render(request, 'winedetail.html', {'data':data, 'wineid':wineid,"winedataid":winedataid})
-
 
 def pwderr(request):
     return render(request, 'pwderr.html')
@@ -441,66 +453,49 @@ def distance(df, userid):
     finally:
         cursor.close()
         conn.close()
-
-    # for i, row in enumerate(df):
-        # 국가 바꾸기
-        # if df['nation'][i] not in nation:
-        #     df['nation'][i]='기타국가'
+    
+    try:
+        # 필요 없는 칼럼 지움
+        feature = df.iloc[:,4:15]
+        feature.drop(columns=['food','degree'], inplace=True)
         
-        # 품종 바꾸기
-        # items = re.findall('\(([^)]+)', df['varieties'][i])   #  첫번째 괄호 안에 있는 문자 추출
-        # df['varieties'][i]=items[0]
-        # if df['varieties'][i] not in varieties:
-        #     df['varieties'][i]='etc'
+        choice = random.choice(targetno)
+        choice = choice[0]
+        target = df.index[(df['id']==choice)]
+    
+        pd.set_option('display.max_columns', 21)
+        pd.set_option('display.max_seq_items', 100)
+    
+        print('feature 요약')
+        print(feature.head())
         
-        # type 바꾸기
-        # if df['type'][i] not in type:
-        #     df['type'][i]='기타'
-           
-        # 온도 바꾸기
-        # if df['abv'][i][0] != '0':
-        #     df['abv']=df['abv'].str.replace(pat=r'[^\w]', repl=r'', regex=True)
-        # try:
-        #     df['abv'][i] = df['abv'][i][0] + (df['abv'][i][1])
-        # except:
-        #     pass
+        transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
+        transform.fit(feature)
+        x_feature = transform.transform(feature)
         
-    # 필요 없는 칼럼 지움
-    feature = df.iloc[:,4:15]
-    feature.drop(columns=['food','degree'], inplace=True)
+        # df['feature'] = np.array(x_feature) # (20635, 41)
+        # df['target'] = df['target'].fillna(x_feature[target])  # (0, 41)
+     
+        def dist(x, y):
+            a = (np.array(x)-np.array(y))**2
+            return np.sqrt(a.sum(axis=1))
+        
+        xf = pd.DataFrame(x_feature.toarray())
+        xft = pd.DataFrame(x_feature[target].toarray())
+        distdf = dist(xf,xft)
+        # print('길이')
+        # print(len(c))
     
-    choice = random.choice(targetno)
-    choice = choice[0]
-    target = df.index[(df['id']==choice)]
-
-    pd.set_option('display.max_columns', 21)
-    pd.set_option('display.max_seq_items', 100)
-
-    print('feature 요약')
-    print(feature.head())
+        # print(df['distance'])
+        distance=pd.DataFrame({'distance':distdf})
+        print(distance)
+        # print(feature[10:15])
+        
+        return distance
     
-    transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
-    transform.fit(feature)
-    x_feature = transform.transform(feature)
+    except:
+        return 0
     
-    # df['feature'] = np.array(x_feature) # (20635, 41)
-    # df['target'] = df['target'].fillna(x_feature[target])  # (0, 41)
- 
-    def dist(x, y):
-        a = (np.array(x)-np.array(y))**2
-        return np.sqrt(a.sum(axis=1))
-    
-    xf = pd.DataFrame(x_feature.toarray())
-    xft = pd.DataFrame(x_feature[target].toarray())
-    distdf = dist(xf,xft)
-    # print('길이')
-    # print(len(c))
-
-    # print(df['distance'])
-    distance=pd.DataFrame({'distance':distdf})
-    print(distance)
-    # print(feature[10:15])
-    return distance
 
 def postpro(rawdf):
     nation = ['프랑스','이탈리아','미국','칠레','스페인','호주','아르헨티나','독일','뉴질랜드','남아프리카','포르투갈','오스트리아']
@@ -554,31 +549,7 @@ def postpro(rawdf):
     # 기타           57
     
     # 총 43개
-    
-    # for i, row in itterows(df):
-        # 국가 바꾸기
-        # if df['nation'][i] not in nation:
-        #     df['nation'][i]='기타국가'
-        
-        # 품종 바꾸기
-        # items = re.findall('\(([^)]+)', df['varieties'][i])   #  첫번째 괄호 안에 있는 문자 추출
-        # df['varieties'][i]=items[0]
-        # if df['varieties'][i] not in varieties:
-        #     df['varieties'][i]='etc'
-        
-        # type 바꾸기
-        # if df['type'][i] not in type:
-        #     df['type'][i]='기타'
-           
-        # 온도 바꾸기
-        # if df['abv'][i][0] != '0':
-        #     df['abv']=df['abv'].str.replace(pat=r'[^\w]', repl=r'', regex=True)
-        # try:
-        #     df['abv'][i] = df['abv'][i][0] + (df['abv'][i][1])
-        # except:
-        #     pass
-        #
-            
+                
     def postnation(values):
         if values not in nation:
             return '기타국가'
@@ -627,6 +598,7 @@ def postpro(rawdf):
     rawdf['price'] = rawdf['price'].apply(postprice)
     
     return rawdf
+
 # 딥러닝 예상별점 코드
 def deep(postdata):
           
