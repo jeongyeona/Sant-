@@ -18,7 +18,11 @@ from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
 import random
 import math
-
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers.core import Dense
+import matplotlib.pyplot as plt
+import tensorflow as tf
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 current_path = os.path.abspath(__file__) # 경로를 객체화
 parent_dir = os.path.dirname(current_path)
 
@@ -87,20 +91,27 @@ def logout(request):
 def winelist(request):
     data = sql()
     df = data.copy()
-    df2 = data.copy()
-    
-    print(data)
     postdata=postpro(df)
-    # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
+
+    
     if request.session.get('WinePid'):
-        ddata=distance(postdata, request.session.get('WinePid'))
+        pid=request.session.get('WinePid')
+        predstardf=deep(postdata)
+        
+        # 예상 별점 테이블을 로그인시 나오는 data에 붙여야함
+        data = pd.concat([data, predstardf], axis=1)
+        df2 = data.copy()
+        print(data.head())
+        
+        # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
+        ddata=distance(postdata, pid)
         print('시작')
         data = pd.concat([data, ddata], axis=1)
         data = data.sort_values('distance', ascending=True)
         print('거리순 정렬')
-        print(data[['id','distance']].head(6))
+        print(data[['id','distance']].head(6))        
         data=data[1:11]
-            
+
     sk =''
     cb =''
     cf =''
@@ -113,7 +124,6 @@ def winelist(request):
     list_check3 = ''
     list_check4 = ''
     m_range2 = ''
-    
     if request.method == "GET":
         if request.GET.get('priceRange'):
             data = df2
@@ -129,6 +139,7 @@ def winelist(request):
             # max_range = request.GET.get('priceRange')
             data=data[data['price'] <= m_range ] # 재활용
             data=data[data['price'] != 0 ] # 0인거 빼기
+        
         if request.GET.get('search_key'):
             search_key = request.GET.get('search_key')
             data = data[data['name_kr'].str.contains(search_key)]
@@ -149,7 +160,6 @@ def winelist(request):
             list_check4 = request.GET.get('filterBtn4')
             data = data[data['varieties'].str.contains(list_check4)]
             vt = '&filterBtn4='
-                    
         count = len(data)
         page=request.GET.get("page", 1) # 페이지
         paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
@@ -179,14 +189,12 @@ def grade(request):
             count = cursor.execute(sql)
             print(count)
             conn.commit()
-            
-            winedata = Wine.objects.all()
+
             winedataid = Wine.objects.get(id=wine)
             winedataid.nation = winedataid.nation.split(sep='(')[0]
             
             diw = request.session['WinePid']
 
-            
             data = mysql(diw, wine)
             
             if data:
@@ -198,8 +206,7 @@ def grade(request):
             count = cursor.execute(sql)
             # print(count)
             conn.commit()
-            
-            winedata = Wine.objects.all()
+
             winedataid = Wine.objects.get(id=wine)
             winedataid.nation = winedataid.nation.split(sep='(')[0]
             
@@ -274,16 +281,16 @@ def addinfo(request):
     
     gdf = pd.DataFrame(gradedata, columns = ['wid', 'mygrade'])
     gdf = gdf.reset_index(drop=True)
-    # print(gdf.head(3))
+    print(gdf.head(3))
     
     winedata = sql()
     wdf = winedata.copy()
     postdata=postpro(wdf)
-    # print(postdata.head(3))
+    print(postdata.head(3))
     
     # 선호 국가
     df = pd.concat([wdf, gdf], axis=1)
-    # df.info()
+    df.info()
     df = df.dropna(axis='index', how='any')
     # pd.set_option('display.max_columns', 20)
     # print(df)
@@ -291,43 +298,15 @@ def addinfo(request):
     # print('여기')
     nationcount = count.reset_index().rename(columns={'index':'nation', 'nation':'count'})
     # print(nationcount)
-    nationcount = nationcount[0:3]
     nationcount = nationcount.to_dict('records')
     # print(nationcount)
     
     # 품종
     varieties = df['varieties'].value_counts()
-    varieties = pd.DataFrame(varieties)
-    varieties = varieties.reset_index().rename(columns={'index':'varieties', 'varieties':'count'})
-    # print(varieties)
-    varieties = varieties[0:3]
-    varieties = varieties.to_dict('records')
+    print(varieties)
+    # varieties = varieties.to_dict('records')
     
-    # 내 별점 평균
-    # print(df['mygrade'])
-    mygrade = pd.DataFrame(df['mygrade'])
-    mygrade = round(mygrade.mean(), 2)
-    mygrade = pd.DataFrame(mygrade)
-    mygrade = mygrade.rename(columns={'0':'mygrade'})
-    mygrade = mygrade.to_dict('records')
-    # print('여기')
-    # print(mygrade)
-    
-    # 내 별점 개수
-    gradecount = pd.DataFrame(df['mygrade'])
-    # print(gradecount)
-    gradecount = gradecount.count()
-    # print(gradecount)
-    
-    # 많이 준 별점
-    maxgrade = pd.DataFrame(df['mygrade'])
-    maxgrade = maxgrade.sort_values(ascending = False,by = 'mygrade')
-    maxgrade = maxgrade.to_dict('records')
-    maxgrade = maxgrade[:1]
-    # print(maxgrade)
-    
-    
-    return render(request, 'addinfo.html', {'maxgrade':maxgrade, 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
+    return render(request, 'addinfo.html', {'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
 
 def winedetail(request):
     if request.method == "GET":
@@ -403,7 +382,7 @@ def mystarcount(userid):
         conn = MySQLdb.connect(**config)
         cursor = conn.cursor()
         sql = "select wineid, grade from wine_grade where userid = {}".format(userid)
-        count = cursor.execute(sql)
+        cursor.execute(sql)
         result = cursor.fetchall()
 
     except Exception as e:
@@ -617,3 +596,21 @@ def postpro(rawdf):
     rawdf['price'] = rawdf['price'].apply(postprice)
     
     return rawdf
+# 딥러닝 예상별점 코드
+def deep(postdata):
+          
+    df=postdata[['id','nation','varieties','type','abv','sweet','acidity','body','tannin']]
+    star = df.drop(columns=['id'])
+    star = star.fillna('etc')
+    print(star.info())
+    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['nation','varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
+    transform.fit(star)
+    x_feature = transform.transform(star)
+    print(x_feature.shape)
+    model = tf.keras.models.load_model(parent_dir +'\model.h5')
+
+    predstar = model.predict(x_feature)
+    predstardf = pd.DataFrame(predstar, columns=['predstar'])
+    print('예측값 :', predstar.ravel())
+    
+    return predstardf
