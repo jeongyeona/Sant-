@@ -100,6 +100,7 @@ def winelist(request):
     data = sql()
     df = data.copy()
     postdata=postpro(df)
+    df2 = data.copy()
 
     if request.session.get('WinePid'):
         pid=request.session.get('WinePid')
@@ -341,7 +342,7 @@ def addinfo(request):
     maxgrade = pd.DataFrame(df['mygrade'])
     maxgrade = maxgrade.astype(str)
     print(maxgrade.info())
-    fig = px.histogram(maxgrade, x='mygrade', labels={'mygrade':''}, category_orders=dict(mygrade=['1','2','3','4','5']), color_discrete_sequence=['#FF9966'])
+    fig = px.histogram(maxgrade, x='mygrade', labels={'mygrade':''}, category_orders=dict(mygrade=['1','2','3','4','5']), color_discrete_sequence=['#ff0558'])
     fig.update_layout(go.Layout(plot_bgcolor='white'))
     fig.update_layout(yaxis=dict(visible=False))
     starcount = maxgrade['mygrade'].value_counts()
