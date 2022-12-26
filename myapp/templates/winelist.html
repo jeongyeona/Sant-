@@ -197,9 +197,13 @@
                     <div id="winelistgrapebox">
                         <img src="static/images/winelistB.gif" alt="로고이미지입니다." id="wineListgrape">
                     </div>
-                    <!-- 검색 바 -->
+                    <!-- 검색 바 -->              
                     <div id="winelistmainalllist">
+                    	{% if favorite == 0 %}
                         <h3>전체 와인 ({{count}})</h3>
+                        {% else %}
+                        <h3><strong>{{request.session.WineNick}}</strong>님이 좋아하는 &nbsp;<strong>{{favorite}}</strong>과 비슷한 와인</h3>
+                        {% endif%}
                     </div>
                     <!-- 와인 리스트 반복문 -->
                     <ul id="wineListBox_ul">

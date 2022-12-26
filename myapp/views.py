@@ -25,6 +25,7 @@ import tensorflow as tf
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 current_path = os.path.abspath(__file__) # 경로를 객체화
@@ -101,7 +102,7 @@ def winelist(request):
     df = data.copy()
     postdata=postpro(df)
     df2 = data.copy()
-
+    bb = 0
     if request.session.get('WinePid'):
         pid=request.session.get('WinePid')
         predstardf=deep(postdata, pid)
@@ -110,17 +111,22 @@ def winelist(request):
         data = pd.concat([data, predstardf], axis=1)
         df2 = data.copy()
         print(data.head())
-        
-        # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
-        ddata = distance(postdata, pid)
-        if len(ddata) != 0:
-            print('시작')
-            data = pd.concat([data, ddata], axis=1)
-            data = data.sort_values('distance', ascending=True)
-            print('거리순 정렬')
-            print(data[['id','distance']].head(6))        
-            data=data[1:11]
 
+        # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
+        try:
+            ddata = distance(postdata, pid)
+            if len(ddata)!=0:
+                print('시작')
+                data = pd.concat([data, ddata], axis=1)
+                data = data.sort_values('distance', ascending=True)
+                print('거리순 정렬')
+                print(data[['id','distance']].head(6))
+                aa=data.index[data['distance']==0]
+                bb=df['name_kr'][aa].iloc[0]
+                
+                data=data[1:11]
+        except:
+            pass
     sk =''
     cb =''
     cf =''
@@ -147,12 +153,13 @@ def winelist(request):
             # max_range = request.GET.get('priceRange') * 1
             # max_range = request.GET.get('priceRange')
             data=data[data['price'] <= m_range ] # 재활용
-            data=data[data['price'] != 0 ] # 0인거 빼기
-        
+
+            bb = 0
         if request.GET.get('search_key'):
             search_key = request.GET.get('search_key')
             data = data[data['name_kr'].str.contains(search_key)]
             sk = '&search_key='
+            
         if request.GET.get('filterBtn'):
             list_check = request.GET.get('filterBtn')
             data = data[data['type'].str.contains(list_check)]
@@ -174,7 +181,7 @@ def winelist(request):
         paginator=Paginator(data.to_dict(orient='records'), 10) # 페이지당 6개씩 보여주기
         page_obj = paginator.get_page(int(page))
         
-        return render(request, 'winelist.html', {'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cb':cb, 'list_check':list_check, 'cf':cf,'list_check2':list_check2, 'vt':vt, 'wf':wf, 'list_check3':list_check3, 'list_check4':list_check4, 'pr':pr, 'm_range':m_range2,'search_key':search_key})
+        return render(request, 'winelist.html', {'favorite':bb, 'count':count, 'question_list':page_obj, 'sk':sk, 'search_key':search_key, 'cb':cb, 'list_check':list_check, 'cf':cf,'list_check2':list_check2, 'vt':vt, 'wf':wf, 'list_check3':list_check3, 'list_check4':list_check4, 'pr':pr, 'm_range':m_range2,'search_key':search_key})
 
 def grade(request):
     if request.method == "GET":
@@ -350,14 +357,17 @@ def addinfo(request):
     print(starcount)
     starcount = starcount.reset_index().rename(columns={'index':'star', 'grade':'count'})
     maxgrade = starcount.to_dict('records')
+    if maxgrade:
+        maxgrade = maxgrade[0]
+    else:
+        maxgrade = 0
     # print(starcount)
     # maxgrade = starcount.to_dict('records')
     # print(maxgrade)
 
     # fig = px.bar(starcount, x='star', y="mygrade", facet_col_spacing=1)
     
-    
-    return render(request, 'addinfo.html', {'graph':fig.to_json, 'maxgrade':maxgrade[0], 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
+    return render(request, 'addinfo.html', {'graph':fig.to_json, 'maxgrade':maxgrade, 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
 
 def winedetail(request):
     if request.method == "GET":
@@ -476,12 +486,9 @@ def distance(df, userid):
         print('feature 요약')
         print(feature.head())
         
-        transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
+        transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler())
         transform.fit(feature)
         x_feature = transform.transform(feature)
-        
-        # df['feature'] = np.array(x_feature) # (20635, 41)
-        # df['target'] = df['target'].fillna(x_feature[target])  # (0, 41)
      
         def dist(x, y):
             a = (np.array(x)-np.array(y))**2
@@ -609,29 +616,31 @@ def postpro(rawdf):
 # 딥러닝 예상별점 코드
 def deep(postdata, pid):
           
-    df=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
+    df=postdata[['id','varieties','type','nation','abv','sweet','acidity','body','tannin']]
     star = df.drop(columns=['id'])
     star = star.fillna('etc')
     # print(star.info())
-    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
+    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['nation','varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
     transform.fit(star)
     x_feature = transform.transform(star)
     # print(x_feature.shape)
-    model = tf.keras.models.load_model(parent_dir +'\model'+str(pid)+'.h5')
-
-    predstar = model.predict(x_feature)
-    predstardf = pd.DataFrame(predstar, columns=['predstar'])
-    # print('예측값 :', predstar.ravel())
+    try:
+        model = tf.keras.models.load_model(parent_dir +'\model'+str(pid)+'.h5')
     
-    return predstardf
-
+        predstar = model.predict(x_feature)
+        predstardf = pd.DataFrame(predstar, columns=['predstar'])
+        # print('예측값 :', predstar.ravel())
+        
+        return predstardf
+    except:
+        pass
 
 def modeling(pid):
     data = sql()
     postdata = postpro(data)
     mydata =  pd.DataFrame(mystarcount(pid), columns=['wineid', 'grade'])
     
-    postdata=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
+    postdata=postdata[['id','varieties','nation','type','abv','sweet','acidity','body','tannin']]
     postdata = postdata.fillna('etc')
     df_LEFT_JOIN = pd.merge(postdata, mydata, left_on='id', right_on='wineid', how='right')
     star = df_LEFT_JOIN.dropna()
@@ -642,23 +651,26 @@ def modeling(pid):
     feature = star.iloc[:,1:-1]
     # print('모델링feature', feature.info())
     label = star.iloc[:,-1].values
+    try:
+        # 원핫인코딩
+        transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=MinMaxScaler())
+        transform.fit(postdata)
+        x_feature = transform.transform(feature)
+        
+        # print(x_feature.shape)
+        # print('Sequential api 구성')
+        model = Sequential()
+        model.add(Dense(units=48, activation='linear', input_shape=x_feature.shape[1:]))
+        model.add(Dropout(0.2)) # 드롭아웃 추가. 비율은 20%
+        model.add(Dense(units=24, activation='relu'))
+        model.add(Dropout(0.2))
+        model.add(Dense(units=12, activation='relu'))
+        model.add(Dropout(0.2))
+        model.add(Dense(units=1, activation='linear'))
+        
+        model.compile(optimizer='adam', loss='mse', metrics=['mse'])
     
-    # 원핫인코딩
-    transform = make_column_transformer((OneHotEncoder(), ['varieties','type']), remainder=MinMaxScaler())
-    transform.fit(postdata)
-    x_feature = transform.transform(feature)
-    
-    # print(x_feature.shape)
-    # print('Sequential api 구성')
-    model = Sequential()
-    model.add(Dense(units=48, activation='linear', input_shape=x_feature.shape[1:]))
-    model.add(Dropout(0.2)) # 드롭아웃 추가. 비율은 50%
-    model.add(Dense(units=24, activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(units=12, activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(units=1, activation='linear'))
-    
-    model.compile(optimizer='adam', loss='mse', metrics=['mse'])
-    history = model.fit(x=x_feature, y=label, epochs=300, batch_size=9, verbose=2)
-    model.save(parent_dir +'/model'+str(pid)+'.h5')
+        history = model.fit(x=x_feature, y=label, epochs=300, batch_size=1, verbose=2)
+        model.save(parent_dir +'/model'+str(pid)+'.h5')
+    except:
+        pass
