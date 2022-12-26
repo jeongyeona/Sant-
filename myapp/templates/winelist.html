@@ -226,10 +226,10 @@
                                    <li id="winePrice">{{w.price|intcomma}}원</li>
                                 {% endif %}
                                 {% if request.session.WineUser %}
-                                	<li id="gradeexpectation">예상 ★ {{w.predstar|floatformat}}</li>
+                                	<li id="gradeexpectation">예상 ★ {{w.predstar|floatformat:2}}</li>
                                 {% endif %}
                                 {% if w.grade %}
-                                   <li id="gradeaverage">평균 ★ {{w.grade|floatformat}}</li>
+                                   <li id="gradeaverage">평균 ★ {{w.grade|floatformat:2}}</li>
                                 {% endif %}
                             </ul>
                         </a>

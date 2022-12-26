@@ -19,7 +19,7 @@ from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
 import random
 import math
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers.core import Dense
+from tensorflow.python.keras.layers.core import Dense, Dropout
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import plotly.express as px
@@ -33,6 +33,9 @@ parent_dir = os.path.dirname(current_path)
 # Create your views here.
 def main(request):
     user_data = WineUser.objects.all()
+    if request.session.get('WinePid'):
+        pid=request.session.get('WinePid')
+        modeling(pid)
     return render(request, "main.html", {'user':user_data})
 
 def signupok(request):
@@ -99,7 +102,7 @@ def winelist(request):
 
     if request.session.get('WinePid'):
         pid=request.session.get('WinePid')
-        predstardf=deep(postdata)
+        predstardf=deep(postdata, pid)
         
         # 예상 별점 테이블을 로그인시 나오는 data에 붙여야함
         data = pd.concat([data, predstardf], axis=1)
@@ -349,7 +352,6 @@ def addinfo(request):
 
     # fig = px.bar(starcount, x='star', y="mygrade", facet_col_spacing=1)
     
-    
     return render(request, 'addinfo.html', {'graph':fig.to_json, 'maxgrade':maxgrade[0], 'gradecount':gradecount, 'mygrade':mygrade, 'nation':nationcount, 'varieties':varieties, 'df':df, 'wineid':wineid})
 
 def winedetail(request):
@@ -466,8 +468,8 @@ def distance(df, userid):
         pd.set_option('display.max_columns', 21)
         pd.set_option('display.max_seq_items', 100)
     
-        print('feature 요약')
-        print(feature.head())
+        # print('feature 요약')
+        # print(feature.head())
         
         transform = make_column_transformer((OneHotEncoder(), ['nation','varieties','type']), remainder=StandardScaler()) # remainder='passthrough' 원핫 수행 후 다른 모든 칼럼까지 전부 표준화
         transform.fit(feature)
@@ -488,7 +490,7 @@ def distance(df, userid):
     
         # print(df['distance'])
         distance=pd.DataFrame({'distance':distdf})
-        print(distance)
+        # print(distance)
         # print(feature[10:15])
         
         return distance
@@ -496,7 +498,6 @@ def distance(df, userid):
     except:
         return 0
     
-
 def postpro(rawdf):
     nation = ['프랑스','이탈리아','미국','칠레','스페인','호주','아르헨티나','독일','뉴질랜드','남아프리카','포르투갈','오스트리아']
     
@@ -600,20 +601,59 @@ def postpro(rawdf):
     return rawdf
 
 # 딥러닝 예상별점 코드
-def deep(postdata):
+def deep(postdata, pid):
           
-    df=postdata[['id','nation','varieties','type','abv','sweet','acidity','body','tannin']]
+    df=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
     star = df.drop(columns=['id'])
     star = star.fillna('etc')
-    print(star.info())
-    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['nation','varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
+    # print(star.info())
+    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
     transform.fit(star)
     x_feature = transform.transform(star)
-    print(x_feature.shape)
-    model = tf.keras.models.load_model(parent_dir +'\model.h5')
+    # print(x_feature.shape)
+    model = tf.keras.models.load_model(parent_dir +'\model'+str(pid)+'.h5')
 
     predstar = model.predict(x_feature)
     predstardf = pd.DataFrame(predstar, columns=['predstar'])
-    print('예측값 :', predstar.ravel())
+    # print('예측값 :', predstar.ravel())
     
     return predstardf
+
+
+def modeling(pid):
+    data = sql()
+    postdata = postpro(data)
+    mydata =  pd.DataFrame(mystarcount(pid), columns=['wineid', 'grade'])
+    
+    postdata=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
+    postdata = postdata.fillna('etc')
+    df_LEFT_JOIN = pd.merge(postdata, mydata, left_on='id', right_on='wineid', how='right')
+    star = df_LEFT_JOIN.dropna()
+    
+    star = star.drop(columns=['wineid'])
+    postdata = postdata.drop(columns=['id'])
+    
+    feature = star.iloc[:,1:-1]
+    # print('모델링feature', feature.info())
+    label = star.iloc[:,-1].values
+    
+    # 원핫인코딩
+    transform = make_column_transformer((OneHotEncoder(), ['varieties','type']), remainder=MinMaxScaler())
+    transform.fit(postdata)
+    x_feature = transform.transform(feature)
+    
+    # print(x_feature.shape)
+    # print('Sequential api 구성')
+    model = Sequential()
+    model.add(Dense(units=48, activation='linear', input_shape=x_feature.shape[1:]))
+    model.add(Dropout(0.2)) # 드롭아웃 추가. 비율은 50%
+    model.add(Dense(units=24, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=12, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=1, activation='linear'))
+    
+    model.compile(optimizer='adam', loss='mse', metrics=['mse'])
+    history = model.fit(x=x_feature, y=label, epochs=300, batch_size=9, verbose=2)
+    model.save(parent_dir +'/model'+str(pid)+'.h5')
+    
