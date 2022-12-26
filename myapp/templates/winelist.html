@@ -7,11 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<title>Document</title>
+<title>Wine List</title>
 <link rel="stylesheet" type="text/css" href="/static/css/winelistcss.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/font.css" />
 <script src="/static/js/winelistjs.js" async="True"></script>
 <script src="/static/js/mainjs.js" async="True"></script>
+<link rel="shortcut icon" href="/static/images/favicon.ico">
 </head>
 <body id="wineListback">
 	<!-- nav include -->
@@ -226,10 +227,10 @@
                                    <li id="winePrice">{{w.price|intcomma}}원</li>
                                 {% endif %}
                                 {% if request.session.WineUser %}
-                                	<li id="gradeexpectation">예상 ★ {{w.predstar|floatformat}}</li>
+                                	<li id="gradeexpectation">예상 ★ {{w.predstar|floatformat:2}}</li>
                                 {% endif %}
                                 {% if w.grade %}
-                                   <li id="gradeaverage">평균 ★ {{w.grade|floatformat}}</li>
+                                   <li id="gradeaverage">평균 ★ {{w.grade|floatformat:2}}</li>
                                 {% endif %}
                             </ul>
                         </a>

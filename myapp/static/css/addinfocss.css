@@ -11,37 +11,34 @@
 }
 
 .addinfocss-111 {
-	background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);;
-	width: 100%;
-	height: 250px;
-	border-radius: 10px;
-	margin-top: 80px;
-}
-
-#addinfobacklogo {
-	width: 200px;
-	margin: 10px 0px 5px 10px;
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    margin-top: 50px;
+    background-image: url('/static/images/info6.jpg');
+    background-size : cover;
 }
 
 #addinfobacklogotext {
-	color: white;
-	margin: 0px 0px 0px 15px;
-	font-weight: 700;
+    color: white;
+    font-weight: 900;
+    font-size : 30px;
+    position: relative;
+    left: 3%;
+    top: 60%;
+}
+
+.nationresult img{
+	width: 70px;
+}
+
+.Ination p{
+	margin-top: 10px;
 }
 
 #addinfobackpro {
 	width: 40px;
 	margin-left: 10px;
-}
-
-.jkhn2314 {
-	display: flex;
-	flex-direction: column;
-}
-
-.njo12 {
-	display: flex;
-	margin-top: 130px;
 }
 
 #addinfobackprotext {
@@ -51,18 +48,26 @@
 
 .addinfocss222, .addinfocss333{
 	margin-top:20px;
-	height: 400px;
+	height: 300px;
 	width:100%;
 	background-color: white;
 	border-radius: 10px;
 	border: 0.5px solid #939393; 
 }
-
+.addinfocss2221{
+	margin-top:20px;
+	height: 650px;
+	width:100%;
+	background-color: white;
+	border-radius: 10px;
+	border: 0.5px solid #939393; 
+}
 .addinfocss333{
 	margin-bottom: 100px;
 }
 
-.addinfocss222 h3, .addinfocss333 h3{
+
+.addinfocss222 h3, .addinfocss333 h3, .addinfocss2221 h3{
 	margin: 10px 0px 0px 15px;
 }
 
@@ -225,17 +230,5 @@
 }
 
 .nationdiv, .varieties{
-	margin-top: 100px;
+	margin-top: 50px;
 }
-
-@font-face {
-  font-family: 'Unno';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/unna/v21/AYCKpXzofN0NOpo7l0nG.woff2) format('woff2');
-  unicode-range: U+0041-005A, U+0061-007A
-}
-
-*{font-family:'IBMPlexSansKR-Regular', 'Unno'}
-

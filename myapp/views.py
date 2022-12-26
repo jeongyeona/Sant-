@@ -19,7 +19,7 @@ from sklearn.preprocessing import RobustScaler, MinMaxScaler, StandardScaler
 import random
 import math
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers.core import Dense
+from tensorflow.python.keras.layers.core import Dense, Dropout
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import plotly.express as px
@@ -33,6 +33,9 @@ parent_dir = os.path.dirname(current_path)
 # Create your views here.
 def main(request):
     user_data = WineUser.objects.all()
+    if request.session.get('WinePid'):
+        pid=request.session.get('WinePid')
+        modeling(pid)
     return render(request, "main.html", {'user':user_data})
 
 def signupok(request):
@@ -79,6 +82,7 @@ def loginok(request):
             if check_password(login_pwd, wine_user.pwd): # 비번이 일치하면
                 request.session['WineUser'] = wine_user.id
                 request.session['WinePid'] = wine_user.pid
+                request.session['WineNick'] = wine_user.nickname
                 return redirect('/')
             else: # 비번이 일치하지 않으면
                 return render(request, 'pwderr.html')
@@ -99,7 +103,7 @@ def winelist(request):
 
     if request.session.get('WinePid'):
         pid=request.session.get('WinePid')
-        predstardf=deep(postdata)
+        predstardf=deep(postdata, pid)
         
         # 예상 별점 테이블을 로그인시 나오는 data에 붙여야함
         data = pd.concat([data, predstardf], axis=1)
@@ -107,7 +111,7 @@ def winelist(request):
         print(data.head())
         
         # distance 함수는 인코딩할 dataframe과 랜덤한 최고평점 와인의 인덱스를 파라미터로 받음 
-        ddata=distance(postdata, pid)
+        ddata = distance(postdata, pid)
         if len(ddata) != 0:
             print('시작')
             data = pd.concat([data, ddata], axis=1)
@@ -337,7 +341,9 @@ def addinfo(request):
     maxgrade = pd.DataFrame(df['mygrade'])
     maxgrade = maxgrade.astype(str)
     print(maxgrade.info())
-    fig = px.histogram(maxgrade, x='mygrade', labels={'mygrade':'내 별점'}, category_orders=dict(mygrade=['1','2','3','4','5']))
+    fig = px.histogram(maxgrade, x='mygrade', labels={'mygrade':''}, category_orders=dict(mygrade=['1','2','3','4','5']), color_discrete_sequence=['#FF9966'])
+    fig.update_layout(go.Layout(plot_bgcolor='white'))
+    fig.update_layout(yaxis=dict(visible=False))
     starcount = maxgrade['mygrade'].value_counts()
     
     print(starcount)
@@ -600,20 +606,58 @@ def postpro(rawdf):
     return rawdf
 
 # 딥러닝 예상별점 코드
-def deep(postdata):
+def deep(postdata, pid):
           
-    df=postdata[['id','nation','varieties','type','abv','sweet','acidity','body','tannin']]
+    df=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
     star = df.drop(columns=['id'])
     star = star.fillna('etc')
-    print(star.info())
-    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['nation','varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
+    # print(star.info())
+    transform = make_column_transformer((OneHotEncoder(handle_unknown = 'ignore'), ['varieties','type']), remainder=MinMaxScaler()) # remainder='passthrough'는 
     transform.fit(star)
     x_feature = transform.transform(star)
-    print(x_feature.shape)
-    model = tf.keras.models.load_model(parent_dir +'\model.h5')
+    # print(x_feature.shape)
+    model = tf.keras.models.load_model(parent_dir +'\model'+str(pid)+'.h5')
 
     predstar = model.predict(x_feature)
     predstardf = pd.DataFrame(predstar, columns=['predstar'])
-    print('예측값 :', predstar.ravel())
+    # print('예측값 :', predstar.ravel())
     
     return predstardf
+
+
+def modeling(pid):
+    data = sql()
+    postdata = postpro(data)
+    mydata =  pd.DataFrame(mystarcount(pid), columns=['wineid', 'grade'])
+    
+    postdata=postdata[['id','varieties','type','abv','sweet','acidity','body','tannin']]
+    postdata = postdata.fillna('etc')
+    df_LEFT_JOIN = pd.merge(postdata, mydata, left_on='id', right_on='wineid', how='right')
+    star = df_LEFT_JOIN.dropna()
+    
+    star = star.drop(columns=['wineid'])
+    postdata = postdata.drop(columns=['id'])
+    
+    feature = star.iloc[:,1:-1]
+    # print('모델링feature', feature.info())
+    label = star.iloc[:,-1].values
+    
+    # 원핫인코딩
+    transform = make_column_transformer((OneHotEncoder(), ['varieties','type']), remainder=MinMaxScaler())
+    transform.fit(postdata)
+    x_feature = transform.transform(feature)
+    
+    # print(x_feature.shape)
+    # print('Sequential api 구성')
+    model = Sequential()
+    model.add(Dense(units=48, activation='linear', input_shape=x_feature.shape[1:]))
+    model.add(Dropout(0.2)) # 드롭아웃 추가. 비율은 50%
+    model.add(Dense(units=24, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=12, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=1, activation='linear'))
+    
+    model.compile(optimizer='adam', loss='mse', metrics=['mse'])
+    history = model.fit(x=x_feature, y=label, epochs=300, batch_size=9, verbose=2)
+    model.save(parent_dir +'/model'+str(pid)+'.h5')
