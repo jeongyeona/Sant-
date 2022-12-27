@@ -305,14 +305,15 @@ def addinfo(request):
     # print(postdata.head(3))
     
     # 선호 국가
-    df = pd.concat([wdf, gdf], axis=1)
+    df = pd.merge(wdf, gdf, left_on="id", right_on="wid")
     # df.info()
     df = df.dropna(axis='index', how='any')
     df['mygrade']=df['mygrade'].astype(int)
     # pd.set_option('display.max_columns', 20)
-    # print(df)
+    print(df)
     count = df['nation'].value_counts()
     # print('여기')
+    # print(df['nation'])
     nationcount = count.reset_index().rename(columns={'index':'nation', 'nation':'count'})
     # print(nationcount)
     nationcount = nationcount[0:3]
@@ -639,7 +640,8 @@ def modeling(pid):
     data = sql()
     postdata = postpro(data)
     mydata =  pd.DataFrame(mystarcount(pid), columns=['wineid', 'grade'])
-    
+    print('여기야 여기')
+    print(postdata)
     postdata=postdata[['id','varieties','nation','type','abv','sweet','acidity','body','tannin']]
     postdata = postdata.fillna('etc')
     df_LEFT_JOIN = pd.merge(postdata, mydata, left_on='id', right_on='wineid', how='right')
